@@ -1,8 +1,8 @@
 void colorizar_c (
 	unsigned char *src,
 	unsigned char *dst,
-	int m,
-	int n,
+	int h,
+	int w,
 	int src_row_size,
 	int dst_row_size,
 	float alpha
@@ -13,3 +13,10 @@ void colorizar_c (
 	// TODO: Implementar
 
 }
+
+int maximo_R(int fila, int columna, unsigned char *src){}
+int maximo_G(int fila, int columna, unsigned char *src){}
+int maximo_B(int fila, int columna, unsigned char *src){}
+
+int
+
