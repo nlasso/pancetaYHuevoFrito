@@ -14,10 +14,10 @@ void recortar_c (
     int columna = 0;
 	while(fila <= tam){
         while(columna <= tam){
-            (*dst_matrix)[fila][columna] = (*src_matrix)[h - tam + fila][w - tam + columna];
-            (*dst_matrix)[fila][2*tam - columna] = (*src_matrix)[h - tam + fila][tam - columna];
-            (*dst_matrix)[2*tam - fila][columna] = (*src_matrix)[tam - fila][w - tam + columna];
-            (*dst_matrix)[2*tam - fila][2*tam - columna] = (*src_matrix)[tam - fila][tam - columna];
+            dst_matrix[fila][columna] = src_matrix[h - tam + fila][w - tam + columna];
+            dst_matrix[fila][2*tam - columna] = src_matrix[h - tam + fila][tam - columna];
+            dst_matrix[2*tam - fila][columna] = src_matrix[tam - fila][w - tam + columna];
+            dst_matrix[2*tam - fila][2*tam - columna] = src_matrix[tam - fila][tam - columna];
             columna++;
         }
         fila++;
