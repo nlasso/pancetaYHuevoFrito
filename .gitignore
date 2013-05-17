@@ -1,0 +1,8 @@
+# Archivos objeto
+*.o
+
+# Archivos tmp
+*~
+
+# Imagenes
+*.bmp
