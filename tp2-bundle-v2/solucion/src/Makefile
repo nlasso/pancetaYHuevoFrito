@@ -20,7 +20,7 @@ OBJS = tp2.o utils.o \
 .PHONY: all clean
 
 $(BIN): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(OPENCV_LIB)
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(OPENCV_LIB) -lm
 	cp $(BIN) $(BIN_DIR)/$(BIN)
 
 tp2.o: tp2.c
