@@ -1,0 +1,79 @@
+#!/bin/bash
+
+show_usage() {
+	echo "Usage: run_tests [OPTION]..."
+	echo 
+	echo "Options:"
+	echo "	-h, --help		Display this help and exit"
+	echo "	-i, --images		Only generate images"
+  echo "	-m, --memory		Only test memory"
+	echo "	-d, --diff		Only test diff C - ASM"	
+	echo "	-c, --catedra		Only test diff against catedra"
+	echo "	-f, --filter=FILTER	Only test FILTER (default is all filters)"
+	echo "	-e, --executable=EXE	c or asm (default is both)"
+	exit
+}
+
+eval set -- $(getopt -n $0 -o "-himdcf:e:" --longoptions="help images memory diff catedra filter: executable:" -- "$@")
+
+declare h i m d c f e
+while [ $# -gt 0 ] ; do
+  case "$1" in
+  -h) h=1 ; shift ;;
+  --help) h=1 ; shift ;;
+  -i) i=1 ; shift ;;
+  --images) i=1 ; shift ;;
+  -m) m=1 ; shift ;;
+  --memory) m=1 ; shift ;;
+  -d) d=1 ; shift ;;
+  --diff) d=1 ; shift ;;
+  -c) c=1 ; shift ;;
+  --catedra) c=1 ; shift ;;
+  -f) shift ; f="$1" ; shift ;;
+  --filter) shift; f="$1" ; shift ;;
+  -e) shift ; e="$1" ; shift ;;
+  --executable) shift ; e="$1" ; shift ;;
+  --) shift ;;
+  -*) echo "bad option '$1'" ; exit 1 ;;
+  esac
+done
+
+[ ! -z "$h" ] && show_usage
+
+ARGS=""
+if [ ! -z "$f" ] ; then
+  ARGS="-j $f" # j porque la f ya la usaba
+fi
+if [ ! -z "$e" ] ; then
+  ARGS="$ARGS -e $e"
+fi
+
+# Generar imagenes de test
+if [ ! -z "$i" ] ; then
+  ./gen_imgs.sh
+  exit
+fi
+
+# Test de memoria
+if [ ! -z "$m" ] ; then
+  ./test_mem $ARGS
+  exit
+fi
+
+# Test de diferencia entre versiones de C y ASM
+if [ ! -z "$d" ] ; then
+  ./test_diff_c_asm $ARGS
+  exit
+fi
+
+# Test de diferencia con imagenes de la catedra
+if [ ! -z "$c" ] ; then
+  ./test_diff_cat $ARGS
+  exit
+fi
+
+# Default hacemos todo
+./gen_imgs.sh
+./test_mem $ARGS
+./test_diff_c_asm $ARGS
+./test_diff_cat $ARGS

@@ -1,0 +1,165 @@
+#!/bin/bash
+
+eval set -- $(getopt -n $0 -o "-j:e:" -- "$@")
+
+declare j e
+while [ $# -gt 0 ] ; do
+  case "$1" in
+  -j) shift ; j="$1" ; shift ;;
+  -e) shift ; e="$1" ; shift ;;
+  --) shift ;;
+  -*) echo "bad option '$1'" ; exit 1 ;;
+  esac
+done
+
+DIFF=../bin/tp2diff
+DIFFFLAGS="-q"
+TESTINDIR=../data/test-in
+TESTIMGCATEDRA=../../imagenes-ejemplo
+BINFILE=../bin/tp2
+
+OKDIFF=1
+
+echo 'Iniciando test de diferencias con la catedra...'
+
+file=$TESTINDIR/"lena.512x512.bmp"
+
+echo "Procesando archivo: $file"
+
+# recortar
+if [ "$j" == "" ] || [ "$j" == "recortar" ] ; then
+  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+    $BINFILE -v -i c recortar $file 100
+    $DIFF $DIFFFLAGS $file".recortar.tam-100.c.bmp" $TESTIMGCATEDRA/"lena.recortar.catedra.bmp" 0
+    if [ $? != "0" ]; then
+      OKDIFF=0
+      echo "Diferencias en filtro: recortar 100 c"
+    fi
+  fi
+  if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+    $BINFILE -v -i asm recortar $file 100
+    $DIFF $DIFFFLAGS $file".recortar.tam-100.asm.bmp" $TESTIMGCATEDRA/"lena.recortar.catedra.bmp" 0
+    if [ $? != "0" ]; then
+      OKDIFF=0
+      echo "Diferencias en filtro: recortar 100 asm"
+    fi
+  fi
+fi
+
+
+
+# halftone
+if [ "$j" == "" ] || [ "$j" == "halftone" ] ; then
+  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+    $BINFILE -v -i c halftone $file
+    $DIFF $DIFFFLAGS $file".halftone.c.bmp" $TESTIMGCATEDRA/"lena.halftone.catedra.bmp" 0
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: halftone c"
+    fi
+  fi
+  if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+    $BINFILE -v -i asm halftone $file
+    $DIFF $DIFFFLAGS $file".halftone.asm.bmp" $TESTIMGCATEDRA/"lena.halftone.catedra.bmp" 0
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: halftone asm"
+    fi
+  fi
+fi
+
+
+
+# colorizar
+if [ "$j" == "" ] || [ "$j" == "colorizar" ] ; then
+  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+    $BINFILE -v -i c colorizar $file 0.5
+    $DIFF $DIFFFLAGS $file".colorizar.alpha-0.50.c.bmp" $TESTIMGCATEDRA/"lena.colorizar.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: colorizar 0.5 c"
+    fi
+  fi
+  if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+    $BINFILE -v -i asm colorizar $file 0.5
+    $DIFF $DIFFFLAGS $file".colorizar.alpha-0.50.asm.bmp" $TESTIMGCATEDRA/"lena.colorizar.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: colorizar 0.5 asm"
+    fi
+  fi
+fi
+
+
+
+# umbralizar
+if [ "$j" == "" ] || [ "$j" == "umbralizar" ] ; then
+  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+    $BINFILE -v -i c umbralizar $file 64 128 16
+    $DIFF $DIFFFLAGS $file".umbralizar.min-64.max-128.q-16.c.bmp" $TESTIMGCATEDRA/"lena.umbralizar.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: umbralizar 64 128 16 c"
+    fi
+  fi
+  if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+    $BINFILE -v -i asm umbralizar $file 64 128 16
+    $DIFF $DIFFFLAGS $file".umbralizar.min-64.max-128.q-16.asm.bmp" $TESTIMGCATEDRA/"lena.umbralizar.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: umbralizar 61 128 16 asm"
+    fi
+  fi
+fi
+
+
+
+# waves
+if [ "$j" == "" ] || [ "$j" == "waves" ] ; then
+  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+    $BINFILE -v -i c waves $file 8 8 32
+    $DIFF $DIFFFLAGS $file".waves.x_scale-8.00.y_scale-8.00.g_scale-32.00.c.bmp" $TESTIMGCATEDRA/"lena.waves.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: waves 8 8 32 c"
+    fi
+  fi
+  if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+    $BINFILE -v -i asm waves $file 8 8 32
+    $DIFF $DIFFFLAGS $file".waves.x_scale-8.00.y_scale-8.00.g_scale-32.00.asm.bmp" $TESTIMGCATEDRA/"lena.waves.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: waves 8 8 32 asm"
+    fi
+  fi
+fi
+
+
+
+# rotar
+if [ "$j" == "" ] || [ "$j" == "rotar" ] ; then
+  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+    $BINFILE -v -i c rotar $file
+    $DIFF $DIFFFLAGS $file".rotar.c.bmp" $TESTIMGCATEDRA/"lena.rotar.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: rotar c"
+    fi
+  fi
+  if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+    $BINFILE -v -i asm rotar $file
+    $DIFF $DIFFFLAGS $file".rotar.asm.bmp" $TESTIMGCATEDRA/"lena.rotar.catedra.bmp" 5
+    if [ $? != "0" ]; then
+	    OKDIFF=0
+	    echo "Diferencias en filtro: rotar asm"
+    fi
+  fi
+fi
+
+
+
+if [ $OKDIFF != "0" ]; then
+	echo "Tests de diferencias finalizados correctamente."
+else
+	echo "Se encontraron diferencias en alguna de las imágenes."
+fi

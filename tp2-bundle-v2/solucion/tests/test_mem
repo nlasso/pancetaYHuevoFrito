@@ -1,0 +1,179 @@
+#!/bin/bash
+
+eval set -- $(getopt -n $0 -o "-j:e:" -- "$@")
+
+declare j e
+while [ $# -gt 0 ] ; do
+  case "$1" in
+  -j) shift ; j="$1" ; shift ;;
+  -e) shift ; e="$1" ; shift ;;
+  --) shift ;;
+  -*) echo "bad option '$1'" ; exit 1 ;;
+  esac
+done
+
+VALGRIND=valgrind
+VALGRINDFLAGS="" #"--leak-check=yes --error-exitcode=1 -q"
+TESTINFILE=../data/test-in/test.in
+TESTINDIR=../data/test-in
+BINFILE=../bin/tp2
+
+OKVALGRIND=1
+
+echo 'Iniciando test de memoria...'
+
+while read f;
+do
+	file=$TESTINDIR/$f
+
+	echo "Procesando archivo: $file"
+
+	# recortar
+	if [ "$j" == "" ] || [ "$j" == "recortar" ] ; then
+	  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c recortar $file 100
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: recortar 100 c"
+	    fi
+
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c recortar $file 23
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: recortar 23 c"
+	    fi
+	  fi
+    if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm recortar $file 100
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: recortar 100 asm"
+	    fi
+
+
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm recortar $file 23
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: recortar 23 asm"
+	    fi
+	  fi
+	fi
+
+	# halftone
+	if [ "$j" == "" ] || [ "$j" == "halftone" ] ; then
+	  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c halftone $file
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: halftone c"
+	    fi
+    fi
+    if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm halftone $file
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: halftone asm"
+	    fi
+	  fi
+	fi
+
+	# colorizar
+	if [ "$j" == "" ] || [ "$j" == "colorizar" ] ; then
+	  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c colorizar $file 0.5
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: colorizar 0.5 c"
+	    fi
+    fi
+    if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm colorizar $file 0.5
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: colorizar 0.5 asm"
+	    fi
+	  fi
+	fi
+
+	# umbralizar
+	if [ "$j" == "" ] || [ "$j" == "umbralizar" ] ; then
+	  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c umbralizar $file 64 128 16
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: umbralizar 64 128 16 c"
+	    fi
+	    
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c umbralizar $file 71 169 21
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: umbralizar 71 169 21 c"
+	    fi
+    fi
+    if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm umbralizar $file 64 128 16
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: umbralizar 64 128 16 asm"
+	    fi
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm umbralizar $file 71 169 21
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: umbralizar 71 169 21 asm"
+	    fi
+	  fi
+	fi
+
+	# waves
+	if [ "$j" == "" ] || [ "$j" == "waves" ] ; then
+	  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c waves $file 1 1 64
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: waves 1 1 64 c"
+	    fi
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c waves $file 16 8 15
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: waves 16 8 15 c"
+	    fi
+    fi
+    if [ "$e" == "" ] || [ "$e" == "asm" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm waves $file 1 1 64
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: waves 1 1 64 asm"
+	    fi
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm waves $file 16 8 15
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: waves 16 8 15 asm"
+	    fi
+	  fi
+	fi
+
+	# rotar
+	if [ "$j" == "" ] || [ "$j" == "rotar" ] ; then
+	  if [ "$e" == "" ] || [ "$e" == "c" ] ; then
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i c rotar $file
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: rotar c"
+	    fi
+    fi
+    if [ "$e" == "" ] || [ "$e" == "asm" ] ; then	
+	    $VALGRIND $VALGRINDFLAGS $BINFILE -v -i asm rotar $file
+	    if [ $? != "0" ]; then
+		    OKVALGRIND=0
+		    echo "Error/es en el filtro: rotar asm"
+	    fi
+	  fi
+	fi
+done < $TESTINFILE
+
+
+if [ $OKVALGRIND != "0" ]; then
+	echo "Tests de memoria finalizados correctamente."
+else
+	echo "Se encontraron problemas de memoria en alguno de los filtros."
+fi
