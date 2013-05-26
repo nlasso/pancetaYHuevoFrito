@@ -69,11 +69,18 @@ halftone_asm:
   ; Usandolo con PSHUFB pone todos los bytes pares en la mitad menos significativa y 0 en el resto
   
   
-  ; HACK FIXME
+  ; Tomo solo la altura par
   mov rax, r14
   shr rax, 1
-  jnc .vars
+  jnc .anchoPar
   dec r14
+  
+  ; Tomo solo el ancho par
+  .anchoPar:
+  mov rax, r15
+  shr rax, 1
+  jnc .vars
+  dec r15
   
   .vars:
   ; Obtengo el resto de w / 8 (la cantidad de pixels que proceso por vez)
