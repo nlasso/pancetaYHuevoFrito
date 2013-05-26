@@ -31,7 +31,7 @@ void waves_c (
   
   for (i = 0; i < h; i++) {
     for (j = 0; j < w; j++) {
-      prof = (x_scale * sin_taylor(i / 8.0) + y_scale * sin_taylor(j / 8.0)) / 2.0;
+      prof = (x_scale * sin_taylor(j / 8.0) + y_scale * sin_taylor(i / 8.0)) / 2.0;
       tmp = (int) (prof * g_scale + src_matrix[i][j]);
       if (tmp < 0) {
         tmp = 0;
