@@ -15,6 +15,56 @@
 ; 	r8d = src_row_size
 ; 	r9d = dst_row_size
 
+; Aplica el proceso de halftone de a 2 líneas de 8 pixels
+; En los comentarios se muestra %1 como xmm0 y %2 como xmm1 para simular la primera llamada
+; Deja el resultado en la parte menos significativa de cada parámetro y el resto en 0 para unir con POR
+%macro halftone_pixels 2
+  ; Sumo
+  paddw %1, %2 ; Sumo cada pixel verticalmente
+  ; xmm0(W) = l0p0+l1p0 | l0p1+l1p1 | l0p2+l1p2 | l0p3+l1p3 | l0p4+l1p4 | l0p5+l1p5 | l0p6+l1p6 | l0p7+l1p7
+  movaps %2, %1 ; xmm1 = xmm0
+  ; xmm1(W) = l0p0+l1p0 | l0p1+l1p1 | l0p2+l1p2 | l0p3+l1p3 | l0p4+l1p4 | l0p5+l1p5 | l0p6+l1p6 | l0p7+l1p7
+  psrldq %2, 2  ; Shifteo una word a la derecha para alinear
+  ; xmm1(W) = l0p1+l1p1 | l0p2+l1p2 | l0p3+l1p3 | l0p4+l1p4 | l0p5+l1p5 | l0p6+l1p6 | l0p7+l1p7 | 0
+  paddw %1, %2 ; Sumo las sumas de pixeles horizontalmente
+  ; xmm0(W) = l0p0+l1p0+l0p1+l1p1 | l0p1+l1p1+l0p2+l1p2 | l0p2+l1p2+l0p3+l1p3 | l0p3+l1p3+l0p4+l1p4 | l0p4+l1p4+l0p5+l1p5 | l0p5+l1p5+l0p6+l1p6 | l0p6+l1p6+l0p7+l1p7 | l0p7+l1p7+0
+  
+  ; Comparo
+  movaps xmm8, %1 ; xmm8 = xmm0
+  pcmpgtw xmm8, xmm4 ; Máscara si es >= 205
+  
+  movaps xmm9, %1 ; xmm9 = xmm0
+  pcmpgtw xmm9, xmm5 ; Máscara si es >= 410
+  
+  movaps xmm10, %1 ; xmm10 = xmm0
+  pcmpgtw xmm10, xmm6 ; Máscara si es >= 615
+  
+  movaps xmm11, %1 ; xmm11 = xmm0
+  pcmpgtw xmm11, xmm7 ; Máscara si es >= 820
+  
+  ; Unir y Pack
+  ; Línea 0
+  movaps %1, xmm8 ; xmm0 = xmm8
+  pand %1, xmm13 ; Pongo ceros en dónde hay resultados basura
+  
+  movaps %2, xmm11 ; xmm1 = xmm11
+  pand %2, xmm13 ; Pongo ceros en dónde hay resultados basura
+  pslldq %2, 2 ; Shifteo una word a la izquierda para alinear
+  
+  por %1, %2 ; Reemplazo los ceros de xmm0 por los valores de xmm1  
+  pshufb %1, xmm15; Ordeno
+  
+  ; Línea 1
+  movaps %2, xmm10 ; xmm1 = xmm10
+  pand %2, xmm13 ; Pongo ceros en dónde hay resultados basura
+  
+  movaps xmm14, xmm9 ; xmm14 = xmm9
+  pand xmm14, xmm13 ; Pongo ceros en dónde hay resultados basura
+  pslldq xmm14, 2 ; Shifteo una word a la izquierda para alinear
+  
+  por %2, xmm14 ; Reemplazo los ceros de xmm1 por los valores de xmm14  
+  pshufb %2, xmm15; Ordeno
+%endmacro
 
 global halftone_asm
 
@@ -58,8 +108,6 @@ halftone_asm:
   movq xmm7, r10 ; Copio el 819
   shufps xmm7, xmm7, 0 ; Lo extiendo
   ; xmm7(W) = 819 | 0 | 819 | 0 | 819 | 0 | 819 | 0
-  pcmpeqd xmm12, xmm12 ; Todo en 1
-  ; xmm12(W) = 0xFFFF | 0xFFFF | 0xFFFF | 0xFFFF | 0xFFFF | 0xFFFF | 0xFFFF | 0xFFFF
   mov r10, 0xFFFF
   movq xmm13, r10 ; Copio el 0xFFFF
   shufps xmm13, xmm13, 0 ; Lo extiendo
@@ -83,11 +131,11 @@ halftone_asm:
   dec r15
   
   .vars:
-  ; Obtengo el resto de w / 8 (la cantidad de pixels que proceso por vez)
+  ; Obtengo el resto de w / 16 (la cantidad de pixels que proceso por vez)
   mov eax, r15d
   mov edx, eax
   shr edx, 16
-  mov cx, 8
+  mov cx, 16
   idiv cx
   ; El resto queda en DX
   movsx edx, dx
@@ -108,66 +156,36 @@ halftone_asm:
   
 
   ; Traigo los pixels
-  movq xmm0, [rdi] ; 8 pixels línea 0
-  ; xmm0(B) = l0p0 | l0p1 | l0p2 | l0p3 | l0p4 | l0p5 | l0p6 | l0p7 | b | b | b | b | b | b | b | b |
-  movq xmm1, [r10] ; 8 pixels línea 1
-  ; xmm1(B) = l1p0 | l1p1 | l1p2 | l1p3 | l1p4 | l1p5 | l1p6 | l1p7 | b | b | b | b | b | b | b | b |
+  movups xmm0, [rdi] ; 16 pixels línea 0
+  ; xmm0(B) = l0p0 | l0p1 | l0p2 | l0p3 | l0p4 | l0p5 | l0p6 | l0p7 | l0p8 | l0p9 | l0p10 | l0p11 | l0p12 | l0p13 | l0p14 | l0p15
+  movups xmm1, [r10] ; 16 pixels línea 1
+  ; xmm1(B) = l1p0 | l1p1 | l1p2 | l1p3 | l1p4 | l1p5 | l1p6 | l1p7 | l1p8 | l1p9 | l1p10 | l1p11 | l1p12 | l1p13 | l1p14 | l1p15
+  movaps xmm2, xmm0 ; 16 pixels línea 0
+  ; xmm2(B) = l0p0 | l0p1 | l0p2 | l0p3 | l0p4 | l0p5 | l0p6 | l0p7 | l0p8 | l0p9 | l0p10 | l0p11 | l0p12 | l0p13 | l0p14 | l0p15
+  movaps xmm12, xmm1 ; 16 pixels línea 1
+  ; xmm12(B) = l1p0 | l1p1 | l1p2 | l1p3 | l1p4 | l1p5 | l1p6 | l1p7 | l1p8 | l1p9 | l1p10 | l1p11 | l1p12 | l1p13 | l1p14 | l1p15
   
   ; Unpack
   punpcklbw xmm0, xmm3
   ; xmm0(W) = l0p0 | l0p1 | l0p2 | l0p3 | l0p4 | l0p5 | l0p6 | l0p7
   punpcklbw xmm1, xmm3
   ; xmm1(W) = l1p0 | l1p1 | l1p2 | l1p3 | l1p4 | l1p5 | l1p6 | l1p7
+  punpckhbw xmm2, xmm3
+  ; xmm2(W) = l0p8 | l0p9 | l0p10 | l0p11 | l0p12 | l0p13 | l0p14 | l0p15
+  punpckhbw xmm12, xmm3
+  ; xmm12(W) = l1p8 | l1p9 | l1p10 | l1p11 | l1p12 | l1p13 | l1p14 | l1p15
   
-  ; Sumo
-  paddw xmm0, xmm1 ; Sumo cada pixel verticalmente
-  ; xmm0(W) = l0p0+l1p0 | l0p1+l1p1 | l0p2+l1p2 | l0p3+l1p3 | l0p4+l1p4 | l0p5+l1p5 | l0p6+l1p6 | l0p7+l1p7
-  movaps xmm1, xmm0 ; xmm1 = xmm0
-  ; xmm1(W) = l0p0+l1p0 | l0p1+l1p1 | l0p2+l1p2 | l0p3+l1p3 | l0p4+l1p4 | l0p5+l1p5 | l0p6+l1p6 | l0p7+l1p7
-  psrldq xmm1, 2  ; Shifteo una word a la derecha para alinear
-  ; xmm1(W) = l0p1+l1p1 | l0p2+l1p2 | l0p3+l1p3 | l0p4+l1p4 | l0p5+l1p5 | l0p6+l1p6 | l0p7+l1p7 | 0
-  paddw xmm0, xmm1 ; Sumo las sumas de pixeles horizontalmente
-  ; xmm0(W) = l0p0+l1p0+l0p1+l1p1 | l0p1+l1p1+l0p2+l1p2 | l0p2+l1p2+l0p3+l1p3 | l0p3+l1p3+l0p4+l1p4 | l0p4+l1p4+l0p5+l1p5 | l0p5+l1p5+l0p6+l1p6 | l0p6+l1p6+l0p7+l1p7 | l0p7+l1p7+0
+  halftone_pixels xmm0, xmm1
+  halftone_pixels xmm2, xmm12
+  pslldq xmm2, 8 ; Shifteo 4 words a la izquierda para acomodar
+  pslldq xmm12, 8 ; Shifteo 4 words a la izquierda para acomodar
+  por xmm0, xmm2
+  por xmm1, xmm12
   
-  ; Comparo
-  movaps xmm8, xmm0 ; xmm8 = xmm0
-  pcmpgtw xmm8, xmm4 ; Máscara si es >= 205
-  
-  movaps xmm9, xmm0 ; xmm9 = xmm0
-  pcmpgtw xmm9, xmm5 ; Máscara si es >= 410
-  
-  movaps xmm10, xmm0 ; xmm10 = xmm0
-  pcmpgtw xmm10, xmm6 ; Máscara si es >= 615
-  
-  movaps xmm11, xmm0 ; xmm11 = xmm0
-  pcmpgtw xmm11, xmm7 ; Máscara si es >= 820
-  
-  ; Unir y Pack
-  ; Línea 0
-  movaps xmm0, xmm8 ; xmm0 = xmm8
-  pand xmm0, xmm13 ; Pongo ceros en dónde hay resultados basura
-  
-  movaps xmm1, xmm11 ; xmm1 = xmm11
-  pand xmm1, xmm13 ; Pongo ceros en dónde hay resultados basura
-  pslldq xmm1, 2 ; Shifteo una word a la izquierda para alinear
-  
-  por xmm0, xmm1 ; Reemplazo los ceros de xmm0 por los valores de xmm1  
-  pshufb xmm0, xmm15; Ordeno
-  
-  ; Línea 1
-  movaps xmm1, xmm10 ; xmm1 = xmm10
-  pand xmm1, xmm13 ; Pongo ceros en dónde hay resultados basura
-  
-  movaps xmm14, xmm9 ; xmm14 = xmm9
-  pand xmm14, xmm13 ; Pongo ceros en dónde hay resultados basura
-  pslldq xmm14, 2 ; Shifteo una word a la izquierda para alinear
-  
-  por xmm1, xmm14 ; Reemplazo los ceros de xmm1 por los valores de xmm14  
-  pshufb xmm1, xmm15; Ordeno
   
   ; Pongo los pixeles
-  movq [rsi], xmm0 ; 8 pixels línea 0
-  movq [r11], xmm1 ; 8 pixels línea 1
+  movups [rsi], xmm0 ; 16 pixels línea 0
+  movups [r11], xmm1 ; 16 pixels línea 1
   
   ; Checkeo si hay que alinear
   cmp rcx, 0
@@ -179,9 +197,9 @@ halftone_asm:
   jmp .loop
   
   .noAlinear:
-  add rdi, 8 ; Avanzo 8 pixels
-  add rsi, 8
-  add r13, 8
+  add rdi, 16 ; Avanzo 16 pixels
+  add rsi, 16
+  add r13, 16
   cmp r13, r15
   jl .loop ; Si no terminé la fila sigo
   
