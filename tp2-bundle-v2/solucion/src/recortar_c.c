@@ -7,20 +7,16 @@ void recortar_c (
 	int dst_row_size,
 	int tam
 ) {
-	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
-	unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
-
-    int fila = 0;
-    int columna = 0;
-	while(fila <= tam){
-        while(columna <= tam){
-            dst_matrix[fila][columna] = src_matrix[h - tam + fila][w - tam + columna];
-            dst_matrix[fila][2*tam - columna] = src_matrix[h - tam + fila][tam - columna];
-            dst_matrix[2*tam - fila][columna] = src_matrix[tam - fila][w - tam + columna];
-            dst_matrix[2*tam - fila][2*tam - columna] = src_matrix[tam - fila][tam - columna];
-            columna++;
-        }
-        fila++;
-	}
-
+  unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
+  unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
+  int i, j;
+  
+  for (i = 0; i < tam; i++) {
+    for (j = 0; j < tam; j++) {
+      dst_matrix[i][j] = src_matrix[h - tam + i][w - tam + j];
+      dst_matrix[i + tam][j + tam] = src_matrix[i][j];
+      dst_matrix[i + tam][j] = src_matrix[i][w - tam + j];
+      dst_matrix[i][j + tam] = src_matrix[h - tam + i][j];
+    }
+  }
 }
