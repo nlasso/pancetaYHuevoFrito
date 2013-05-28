@@ -1,11 +1,12 @@
-int maximo_RGB(int fila, int columna, unsigned char (*src)){
+int maximo_RGB(int fila, int columna, unsigned char *src, int src_row_size){
+	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
     int _fila = fila - 1;
     int _columna = columna - 3;
-    int max = *src[_fila][_columna];
+    int max = src_matrix[_fila][_columna];
     while(_fila <= fila + 1){
         while(_columna <= columna + 3){
-            if(max < *src[_fila][_columna]){
-                max = *src[_fila][_columna];
+            if(max < src_matrix[_fila][_columna]){
+                max = src_matrix[_fila][_columna];
             }
             _columna += 3;
         }
@@ -15,10 +16,11 @@ int maximo_RGB(int fila, int columna, unsigned char (*src)){
     return max;
 }
 
-float phi_R(int fila, int columna, unsigned char (*src), float alpha){
+float phi_R(int fila, int columna, unsigned char *src, int src_row_size, float alpha){
+	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
     int phi = 0;
-    if(maximo_RGB(fila, columna, src) >= maximo_RGB(fila, columna - 1, src)){
-        if(maximo_RGB(fila, columna, src) >= maximo_RGB(fila, columna - 2, src)){
+    if(maximo_RGB(fila, columna, src_matrix[src_row_size], src_row_size) >= maximo_RGB(fila, columna - 1, src_matrix[src_row_size], src_row_size)){
+        if(maximo_RGB(fila, columna, src_matrix[src_row_size], src_row_size) >= maximo_RGB(fila, columna - 2, src_matrix[src_row_size], src_row_size)){
             phi = 1 + alpha;
         }
     }
@@ -28,10 +30,11 @@ float phi_R(int fila, int columna, unsigned char (*src), float alpha){
     return phi;
 }
 
-float phi_G(int fila, int columna, unsigned char (*src), float alpha){
+float phi_G(int fila, int columna, unsigned char *src, int src_row_size, float alpha){
+	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
     int phi = 0;
-    if(maximo_RGB(fila, columna + 1, src) < maximo_RGB(fila, columna, src)){
-        if(maximo_RGB(fila, columna, src) >= maximo_RGB(fila, columna - 1, src)){
+    if(maximo_RGB(fila, columna + 1, src_matrix[src_row_size], src_row_size) < maximo_RGB(fila, columna, src_matrix[src_row_size], src_row_size)){
+        if(maximo_RGB(fila, columna, src_matrix[src_row_size], src_row_size) >= maximo_RGB(fila, columna - 1, src_matrix[src_row_size], src_row_size)){
             phi = 1 + alpha;
         }
     }
@@ -41,10 +44,11 @@ float phi_G(int fila, int columna, unsigned char (*src), float alpha){
     return phi;
 }
 
-float phi_B(int fila, int columna, unsigned char (*src), float alpha){
+float phi_B(int fila, int columna, unsigned char *src, int src_row_size, float alpha){
+	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
     int phi = 0;
-    if(maximo_RGB(fila, columna + 2, src) < maximo_RGB(fila, columna + 1, src)){
-        if(maximo_RGB(fila, columna + 1, src) < maximo_RGB(fila, columna , src)){
+    if(maximo_RGB(fila, columna + 2, src_matrix[src_row_size], src_row_size) < maximo_RGB(fila, columna + 1, src_matrix[src_row_size], src_row_size)){
+        if(maximo_RGB(fila, columna + 1, src_matrix[src_row_size], src_row_size) < maximo_RGB(fila, columna , src_matrix[src_row_size], src_row_size)){
             phi = 1 + alpha;
         }
     }
@@ -54,10 +58,11 @@ float phi_B(int fila, int columna, unsigned char (*src), float alpha){
     return phi;
 }
 
-float min_R(int fila, int columna, unsigned char (*src), float alpha){
+float min_R(int fila, int columna, unsigned char *src, int src_row_size, float alpha){
+	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
     float res = 0;
-    int phi = phi_R(fila, columna, src, alpha);
-    int val = *src[fila][columna];
+    int phi = phi_R(fila, columna, src_matrix[src_row_size], src_row_size, alpha);
+    int val = src_matrix[fila][columna];
     if(255 > (phi * val)){
         res = phi * val;
     }
@@ -67,10 +72,11 @@ float min_R(int fila, int columna, unsigned char (*src), float alpha){
     return res;
 }
 
-float min_G(int fila, int columna, unsigned char (*src), float alpha){
+float min_G(int fila, int columna, unsigned char *src, int src_row_size, float alpha){
+	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
     float res = 0;
-    float phi = phi_G(fila, columna, src, alpha);
-    int val = *src[fila][columna];
+    float phi = phi_G(fila, columna, src_matrix[src_row_size], src_row_size, alpha);
+    int val = src_matrix[fila][columna];
     if(255 > (phi * val)){
         res = phi * val;
     }
@@ -80,10 +86,11 @@ float min_G(int fila, int columna, unsigned char (*src), float alpha){
     return res;
 }
 
-float min_B(int fila, int columna, unsigned char (*src), float alpha){
+float min_B(int fila, int columna, unsigned char *src, int src_row_size, float alpha){
+	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
     float res = 0;
-    float phi = phi_B(fila, columna, src, alpha);
-    int val = *src[fila][columna];
+    float phi = phi_B(fila, columna, src_matrix[src_row_size], src_row_size, alpha);
+    int val = src_matrix[fila][columna];
     if(255 > (phi * val)){
         res = phi * val;
     }
@@ -110,9 +117,9 @@ void colorizar_c (
     int columna = 3;
 	while(fila < h){
         while(columna < w*3 - 3){
-            dst_matrix[fila][columna] = min_B(fila, columna, src_matrix, alpha);
-            dst_matrix[fila][columna + 1] = min_G(fila, columna + 1, src_matrix, alpha);
-            dst_matrix[fila][columna + 2] = min_R(fila, columna + 2, src_matrix, alpha);
+            dst_matrix[fila][columna] = min_B(fila, columna, src_matrix[src_row_size], src_row_size, alpha);
+            dst_matrix[fila][columna + 1] = min_G(fila, columna + 1, src_matrix[src_row_size], src_row_size, alpha);
+            dst_matrix[fila][columna + 2] = min_R(fila, columna + 2, src_matrix[src_row_size], src_row_size, alpha);
             columna += 3;
         }
         fila++;
