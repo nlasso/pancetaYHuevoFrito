@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src
+END
+scanst.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/scanst.c
+END
+makefile.kcc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.kcc
+END
+make-lc.bat
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/make-lc.bat
+END
+scanst.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/scanst.h
+END
+makefile.pcc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.pcc
+END
+make-kcc.mic
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/make-kcc.mic
+END
+makefile.bsd
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.bsd
+END
+makefile.tcc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.tcc
+END
+make-pcc.mic
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/make-pcc.mic
+END
+qsort.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/qsort.c
+END
+make-tcc.bat
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/make-tcc.bat
+END
+makefile.msc
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.msc
+END
+make-msc.bat
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/make-msc.bat
+END
+makefile.lc
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.lc
+END
+makefile.usg
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.usg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/Makefile
+END
+makefile.os2
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.os2
+END
+makeindx.exe
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makeindx.exe
+END
+makefile.vms
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makefile.vms
+END
+LOG
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/LOG
+END
+scanid.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/scanid.c
+END
+mkind.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/mkind.c
+END
+sortid.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/sortid.c
+END
+genind.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/genind.c
+END
+scanid.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/scanid.h
+END
+mkind.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/mkind.h
+END
+NOTES
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/NOTES
+END
+genind.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/genind.h
+END
+makeindx.def
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/makeindx.def
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/README
+END
+make-vms.com
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/matischmit92-metnum/!svn/ver/33/TP/Informe/makeindex/src/make-vms.com
+END

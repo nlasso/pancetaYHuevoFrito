@@ -1,0 +1,41 @@
+\begin{theindex}
+
+  \item Ap\'endices, 21
+    \subitem Ap\'endice A, 21--22
+
+  \indexspace
+
+  \item Conclusiones, 19--20
+    \subitem Cambio de mantisa, 19
+    \subitem Cambio de valor de punto inicial (x0), 19
+    \subitem Cambio en valor de tolerancia de aproximaci\'on a 0, 19
+
+  \indexspace
+
+  \item Desarrollo, 3--5
+    \subitem Implementaci\'on de Bisecci\'on, 4
+    \subitem Implementaci\'on de Newton, 4
+    \subitem Interfaz, 4
+    \subitem Tipos de  Experimentos, 5
+  \item Discusi\'on, 17--18
+    \subitem Consecuencias de variar el valor inicial($x_0$), 17
+    \subitem Consecuencias de variar la mantisa, 17
+    \subitem Consecuencias de variar la tolerancia de aproximaci\'on a $0$, 
+		17
+
+  \indexspace
+
+  \item Introducci\'on Teorica, 2
+    \subitem M\'etodo de Bisecci\'on, 2
+    \subitem M\'etodo de Newton, 2
+
+  \indexspace
+
+  \item Referencias, 23
+  \item Resultado, 6--16
+    \subitem Distintas tolerancias y precisi\'on de resultados, 13
+    \subitem Distintos puntos de inicio, 14
+    \subitem Distintos valores de datos, 6
+    \subitem Distintos valores de mantisa, 11
+
+\end{theindex}

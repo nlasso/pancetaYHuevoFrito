@@ -1,0 +1,29 @@
+\index{Introducci\'on Teorica}
+\section{Introducci\'on Te\'orica}
+
+Con el fin de estimar las ra\'ices de ciertas funciones que luego ser\'ian los par\'ametros de la funci\'on Gamma Generalizada, implementamos los m\'etodos, Newton y Bisecci\'on. Los mismos se explican a continuaci\'on:
+\vskip 1.5 cm
+
+\index{Introducci\'on Teorica!M\'etodo de Newton}
+
+M\'etodo de Newton:  \newline
+A partir de un $p_0$ se calcula la recta tangente de la funci\'on en el punto y el valor en donde la recta se anula, se usa como valor siguiente y as\'i se itera hasta obtener el cero de la funci\'on f.
+Esta sucesi\'on de pasos se puede generalizar con la siguiente f\'ormula: \newline
+
+Iteraci\'on de Newton: $g(X_n) = X_{n+1} = X_n - \frac{f(X_n)}{f^\prime(X_n)}$ \newline
+
+Si nuestra funci\'on f $\in \cee ^2 [a,b]$ y $ \exists p \in [a,b]$ tal que $ f(p) = 0 $, $f^\prime(p) \neq 0 $ entonces existe un entorno alrededor de p tal que la iteraci\'on de Newton converge para cualquier $p_0$ en el entorno.
+Si adem\'as  f $\in \cee ^3 [a,b]$ la velocidad de convergencia es cuadr\'atica.
+\vskip 1.5 cm
+ 
+\index{Introducci\'on Teorica!M\'etodo de Bisecci\'on}
+
+M\'etodo de Bisecci\'on: \newline
+En la b\'usqueda de una ra\'iz de la funci\'on $f(x)$  el Teorema del Valor Medio nos aseguraba que si  $f$ es continua en cierto entorno $[a,b]$ donde $f(a)f(b) < 0 $, o sea uno de los extremos es negativo y el otro positivo, nos aseguraba que  $ \exists c \in (a,b)$ que $ f(c) = 0 $. \newline
+De tal forma que si nosotros partimos del intervalo $[a,b]$, que cumple esas condiciones, y tomamos $c_0 = \frac{a_0 + b_0}{2} $,  dependiendo del valor de $f(c_0)$ tomamos las siguientes decisiones:\newline
+1) si $f(c_0) = 0$ encontramos la ra\'iz en $c_0$. \newline
+2) si $f(a_0)f(c_0) < 0 $ puedo crear el intervalo $[a_1,b_1]$ = $[a_0,c_0]$. \newline
+3) si $f(c_0)f(b_0) < 0 $ tomo el intervalo $[a_1,b_1]$ = $[c_0,b_0]$. \newline
+
+De forma tal que puedo hacer cada vez mas chico el intervalo, hasta encontrar la ra\'iz, aplicando iterativamente esos pasos, al tomar siempre la mitad del intervalo la convergencia es lineal.
+

@@ -1,0 +1,7 @@
+Gente, El archivo Informe.tex es el main de todo el tp. cuando quieran compilar y ver el PDF lo van 
+a tener que hacer desde ese archivo. desde ese llamo a todos los otros. 
+
+NO BORRAR LOS ARCHIVOS .sty ya que son las macro.
+BORRAR LOS .AUX CUANDO HAGAN PUSHEEN AL REPO!!!!
+
+nada mas. Saludos!
