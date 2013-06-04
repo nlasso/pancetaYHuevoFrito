@@ -297,7 +297,6 @@ colorizar_asm:
     ; Checkeo si hay que alinear
     cmp r13, 0
     je .noAlinear
-    ;jmp .fin ; AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     mov r13, 0 ; Marco para no alinear de nuevo
     cmp r12, 3 ; Si el resto == 3 bytes (1 pixel)
     jne .restoIgual2
@@ -333,7 +332,7 @@ colorizar_asm:
     cmp r14, r11
     jl .loopFilas ; Si quedan filas sigo
     
-  .fin:
+
   pop r15
   pop r14
   pop r13
