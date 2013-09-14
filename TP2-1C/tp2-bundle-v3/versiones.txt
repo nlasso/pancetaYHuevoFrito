@@ -1,0 +1,22 @@
+Versión 1.0
+	* Versión inicial
+
+Versión 2.0
+	* Enunciado: mejora en las descripciones de la funciones a implementar.
+    * Tests: Fix de los test para el filtro colorizar.
+    * Bundle: Inclusión de la carpeta imágenes ejemplo.
+    * Misc: Fixes menores.
+
+Versión 3.0:
+	* Imágenes de ejemplo: corrección de errores en:
+		* Rotar
+		* Halftone
+
+	* Enunciado:
+		* Se corrigió la fórmula de phi_b del filtro colorizar donde decía:
+
+		(1 + alpha) si maxR (i, j) < maxG (i, j) y maxG (i, j) < maxB (i, j)
+
+		ahora dice:
+
+		(1 + alpha) si maxR (i, j) < maxB (i, j) y maxG (i, j) < maxB (i, j)

@@ -1,0 +1,76 @@
+\index{Discusi\'on|(}
+\section{Discusi\'on}
+\subsection{Consecuencias de variar la mantisa}
+\index{Discusi\'on!Consecuencias de variar la mantisa}
+M\'etodo de Newton:
+
+\begin{itemize}
+\item La mantisa empieza a estabilizarse y a obtener valores de buena aproximaci\'on para $\beta$ a partir de tener una cierta cantidad de bits de precisi\'on arriba de 34.
+Con valores menores a 34 y mayores a 5, comienza a alternar tomando valores muy malos y entre ellos se presentan casos de iteraciones c\'iclicas y casos con muchas iteraciones sin encontrar ninguna ra\'iz.\newline
+Con mantisa 25 casualmente se encuentra una ra\'iz, siendo caso \'unico al tener una mantisa con tan poca precisi\'on.\newline
+Con mantisa 10 al hacer varias iteraciones el valor converge a 0.\newline
+Con mantisa menor a 5 diverge.
+\end{itemize}
+
+M\'etodo de Bisecci\'on:
+
+\begin{itemize}
+\item La mantisa de 15 bits para abajo no encuentra ra\'iz en el intervalo.
+Al aumentar los bits de mantisa a una cantidad mayor a 15 el m\'etodo comienza a encontrar ra\'ices, obteni\'endose valores m\'as cercanos a los reales cada vez que tengamos mayor cantidad de bits.\newline
+Hay casos especiales en donde al tener mantisa con 35 o 16 bits queda iterando entre dos valores muy parecidos sin llegar a hallar la ra\'iz.
+
+\end{itemize}
+
+\subsection{Consecuencias de variar la tolerancia de aproximaci\'on a $0$}
+\index{Discusi\'on!Consecuencias de variar la tolerancia de aproximaci\'on a $0$}
+M\'etodo de Newton:
+
+\begin{itemize}
+\item Cuando pedimos una tolerancia mas grande, lo que nos daria una menor precisi\'on en el resultado, podemos notar que todos los par\'ametros pierden precisi\'on e incide gr\'aficamente. Esto se nota de manera dr\'astica al tener un valor mayor a $e^{-5}$.
+Si tomamos valores menores a $e^{-5}$ sin variar demasiado el exponente notaremos que no hay diferencias considerables en los par\'ametros para apreciar.
+Tomando un valor menor a $e^{-15}$ el m\'etodo permanece iterando sin hallar la ra\'iz.
+\end{itemize}
+
+
+M\'etodo de Bisecci\'on:
+
+\begin{itemize}
+\item Aqu\'i es similar al m\'etodo de Newton, con valores mayores a $e^{-5}$ empieza a notarse la perdida de precisi\'on a tal punto que evaluando $e^{-2}$ nos toma como raiz el valor 1, siendo una aproximaci\'on demasiado distanciada del valor real.
+Con valor menor a $e^{-15}$ tambien este m\'etodo permanece iterando sin hallar la ra\'iz.
+\end{itemize}
+
+
+\subsection{Consecuencias de variar el valor inicial ($x_0$)}
+\index{Discusi\'on!Consecuencias de variar el valor inicial($x_0$)}
+M\'etodo de Newton:
+
+\begin{itemize}
+\item Tomando $x_0$ menores a 1 las iteraciones convergen a 0.\newline
+Tomando valores de $x_0$ mayores a 105 podemos observar que el m\'etodo diverge llegando a valores NaN.\newline
+Dentro del intervalo que nos falta analizar podemos observar que vamos a encontrar ra\'iz y que la cantidad de iteraciones y el tiempo que toma para hallar la ra\'iz no es directamente proporcional al valor $x_0$ ya que pudimos observar que tomando $x_0 = 70$ realiza menos iteraciones y tarda menos tiempo que tomando $x_0 = 30$ entre otros.
+\end{itemize}
+
+
+M\'etodo de Bisecci\'on:
+
+\begin{itemize}
+\item En este m\'etodo a diferencia del de Newton podemos observar que al tomar intervalos m\'as grandes s\'i aumentan proporcionalmente las iteraciones y el tiempo.\newline
+Tambien podemos observar que en este m\'etodo no hay impedimentos al tomar dimensiones grandes o chicas, siempre va a encontrar la raiz.
+\end{itemize}
+
+
+Al variar demasiado el valor de la mantisa, y la precisi\'on de corte de la ra\'iz, usando pocos bits para representarla y aceptando valores ya demasiado alejados a cero, el error de propagaci\'on que se genera es tan grande que se puede llegar a encontrar casos que sean ra\'iz de la ecuaci\'on, pero que a la hora de compararlos con los valores que quer\'iamos estimar, sean completamente distintos por un amplio margen, esto se ve muy bien en el gr\'afico, donde el ajuste es enormemente err\'atico.
+A continuaci\'on mostramos un caso obtenido, en el cual esto ocurre:\newline
+A partir de los datos en X7.txt, usando 3 bits de mantisa, tomando como punto $x_0$ = 150, y aceptando una tolerancia de error de  $10{^-2}$ se logra encontrar una ra\'iz, y las estimaciones dan 
+
+
+
+\Sigma = 0.9375. \newline
+\Beta = 1280.	\newline
+\Lambda = 0.9375. \newline
+Y a la hora de ver como se ajusta al histograma de datos el gr\'afico que se obtiene es:
+\begin{center}
+   \includegraphics[scale=0.5]{sequemotodo.eps}
+\end{center}
+
+\index{Discusi\'on|)}
