@@ -3,7 +3,7 @@
 
 int distancia (int rc, int gc, int bc, int r, int g, int b, int threshold){
 	int res = sqrt(pow((r - rc),2) + pow((g - gc),2) + pow((b - bc),2));
-	if(res > threshold){
+	if(res > sqrt(threshold)){
 		return 1;
 	}
 	return 0;
