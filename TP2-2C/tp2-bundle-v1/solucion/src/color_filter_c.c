@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 
-int distancia (int rc, int gc, int bc, int r, int g, int b, int threshold){
+int distancia (unsigned char rc, unsigned char gc, unsigned char bc, int r, int g, int b, int threshold){
 	int res = sqrt(pow((r - rc),2) + pow((g - gc),2) + pow((b - bc),2));
 	if(res > sqrt(threshold)){
 		return 1;
@@ -12,9 +12,9 @@ int distancia (int rc, int gc, int bc, int r, int g, int b, int threshold){
 
 void color_filter_c(unsigned char *src, 
 					unsigned char *dst, 
-					int rc, 
-					int gc, 
-					int bc, 
+					unsigned char rc, 
+					unsigned char gc, 
+					unsigned char bc, 
 					int threshold, 
 					int width, 
 					int height)
@@ -41,7 +41,7 @@ void color_filter_c(unsigned char *src,
 			}
 			_column = _column + 3;			
 		}
-		_column = 3;
+		_column = 0;
 		_row++;
 	}
 }
