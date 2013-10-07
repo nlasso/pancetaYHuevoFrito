@@ -23,8 +23,8 @@ void color_filter_c(unsigned char *src,
 	unsigned char (*dst_matrix)[width * 3] = (unsigned char (*)[width * 3]) dst;
 	int _row = 0;
 	int _column = 0;
-	while(_row < height - 1 ){
-		while(_column < width * 3 - 3){
+	while(_row <= height ){
+		while(_column <= width * 3){
 			int b = src_matrix[_row][_column];
 			int g = src_matrix[_row][_column + 1];
 			int r = src_matrix[_row][_column + 2];
