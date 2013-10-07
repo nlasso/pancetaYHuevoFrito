@@ -159,7 +159,7 @@ colorizar_asm:
 	push rbp
 	mov rbp, rsp
 	push r12
-	push r13
+	push r13h
 	push r14
 	push r15
 	
