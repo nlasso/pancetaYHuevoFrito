@@ -1,7 +1,20 @@
 global color_filter_asm
 
 section .data
+mask_b: DB 	0x00 0x00 0x00 0x00
+			0x00 0x00 0x00 0x00
+			0x00 0x00 0x0f 0x0c
+			0x09 0x06 0x03 0x00
 
+mask_g: DB 	0x00 0x00 0x00 0x00
+			0x00 0x00 0x00 0x00
+			0x00 0x00 0x00 0x0D
+			0x0a 0x07 0x04 0x01
+
+mask_r: DB 	0x00 0x00 0x00 0x00
+			0x00 0x00 0x00 0x00
+			0x00 0x00 0x00 0x0e
+			0x0b 0x08 0x05 0x02
 
 section .text
 ;void color_filter_asm(unsigned char *src,
@@ -47,9 +60,20 @@ color_filter_asm:
 		JGE .finFila
 		MOVUPS xmm0, [rdi + anchoPixels * contadorFilas + contadorColumnas]
 		PXOR xmm10, xmm10 					;|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|
-		MOVUPS xmm1, xmm0
-		PUNPCKLBW xmm0, xmm10				;|0|a7|0|a6|0|a5|0|a4|0|a3|0|a2|0|a1|0|a0|
-		PUNPCKHBW xmm1, xmm10				;|0|a15|0|a14|0|a13|0|a12|0|a11|0|a10|0|a9|0|a8|
+		MOVUPS xmm1, xmm0 			 					
+		MOVUPS xmm2, xmm0
+		MOVUPS xmm3, xmm0
+
+		PSHUFB xmm1, [mask_b]				;|.|.|.|.|.|.|.|.|.|.|b|b|b|b|b|b|
+		PSHUFB xmm2, [mask_g]				;|.|.|.|.|.|.|.|.|.|.|.|g|g|g|g|g|
+		PSHUFB xmm3, [mask_r]				;|.|.|.|.|.|.|.|.|.|.|.|r|r|r|r|r|
+
+
+
+
+
+		;PUNPCKLBW xmm0, xmm10				;|0|a7|0|a6|0|a5|0|a4|0|a3|0|a2|0|a1|0|a0|
+		;PUNPCKHBW xmm1, xmm10				;|0|a15|0|a14|0|a13|0|a12|0|a11|0|a10|0|a9|0|a8|
 		
 
 	.finFila
