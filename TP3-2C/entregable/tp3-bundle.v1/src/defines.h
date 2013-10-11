@@ -30,7 +30,8 @@
 #define GDT_IDX_CODE_0				18
 #define GDT_IDX_CODE_3				19
 #define GDT_IDX_DATA_0				20
-#define GDT_IDX_CODE_3				21
+#define GDT_IDX_DATA_3				21
+#define GDT_IDX_VIDEO				22
 
 /* Direcciones de memoria */
 /* -------------------------------------------------------------------------- */

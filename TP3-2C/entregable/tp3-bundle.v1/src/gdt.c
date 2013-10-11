@@ -1,4 +1,5 @@
 /* ** por compatibilidad se omiten tildes **
+
 ================================================================================
  TRABAJO PRACTICO 3 - System Programming - ORGANIZACION DE COMPUTADOR II - FCEN
 ================================================================================
@@ -25,65 +26,80 @@ gdt_entry gdt[GDT_COUNT] = {
         (unsigned char)     0x00,           /* g            */
         (unsigned char)     0x00,           /* base[31:24]  */
     },
-        [GDT_IDX_CODE_0] = (gdt_entry) {
-        (unsigned short)    0x0080,         /* limit[0:15]  */
-        (unsigned short)    0x0000,         /* base[0:15]   */
-        (unsigned char)     0x00,           /* base[23:16]  */
-        (unsigned char)     0x08,           /* type         */
-        (unsigned char)     0x00,           /* s            */
-        (unsigned char)     0x00,           /* dpl          */
-        (unsigned char)     0x01,           /* p            */
-        (unsigned char)     0x03,           /* limit[16:19] */
-        (unsigned char)     0x00,           /* avl          */
-        (unsigned char)     0x00,           /* l            */
-        (unsigned char)     0x01,           /* db           */
-        (unsigned char)     0x01,           /* g            */
-        (unsigned char)     0x00,           /* base[31:24]  */
+    [GDT_IDX_CODE_0] = (gdt_entry) {
+        .limit_0_15 = 0xffff,
+        .base_0_15 = 0x0000,
+        .base_23_16 = 0x00,
+        .type = 0x08,           
+        .s = 0x01,           
+        .dpl = 0x00,           
+        .p = 0x01,           
+        .limit_16_19 = 0x06,           
+        .avl = 0x00,        
+        .l = 0x00,        
+        .db = 0x01,        
+        .g = 0x01,           
+        .base_31_24 = 0x00,           
     },
         [GDT_IDX_CODE_3] = (gdt_entry) {
-        (unsigned short)    0x0080,         /* limit[0:15]  */
-        (unsigned short)    0x0000,         /* base[0:15]   */
-        (unsigned char)     0x00,           /* base[23:16]  */
-        (unsigned char)     0x0a,           /* type         */
-        (unsigned char)     0x01,           /* s            */
-        (unsigned char)     0x03,           /* dpl          */
-        (unsigned char)     0x01,           /* p            */
-        (unsigned char)     0x03,           /* limit[16:19] */
-        (unsigned char)     0x00,           /* avl          */
-        (unsigned char)     0x00,           /* l            */
-        (unsigned char)     0x01,           /* db           */
-        (unsigned char)     0x01,           /* g            */
-        (unsigned char)     0x00,           /* base[31:24]  */
+        .limit_0_15 = 0xffff,
+        .base_0_15 = 0x0000,
+        .base_23_16 = 0x00,
+        .type = 0x08,           
+        .s = 0x01,           
+        .dpl = 0x03,           
+        .p = 0x01,           
+        .limit_16_19 = 0x06,           
+        .avl = 0x00,        
+        .l = 0x00,        
+        .db = 0x01,        
+        .g = 0x01,           
+        .base_31_24 = 0x00,
     },
         [GDT_IDX_DATA_0] = (gdt_entry) {
-        (unsigned short)    0x0080,         /* limit[0:15]  */
-        (unsigned short)    0x0000,         /* base[0:15]   */
-        (unsigned char)     0x00,           /* base[23:16]  */
-        (unsigned char)     0x02,           /* type         */
-        (unsigned char)     0x00,           /* s            */
-        (unsigned char)     0x00,           /* dpl          */
-        (unsigned char)     0x01,           /* p            */
-        (unsigned char)     0x03,           /* limit[16:19] */
-        (unsigned char)     0x00,           /* avl          */
-        (unsigned char)     0x00,           /* l            */
-        (unsigned char)     0x01,           /* db           */
-        (unsigned char)     0x01,           /* g            */
-        (unsigned char)     0x00,           /* base[31:24]  */
+        .limit_0_15 = 0xffff,
+        .base_0_15 = 0x0000,
+        .base_23_16 = 0x00,
+        .type = 0x02,           
+        .s = 0x01,           
+        .dpl = 0x00,           
+        .p = 0x01,           
+        .limit_16_19 = 0x06,           
+        .avl = 0x00,        
+        .l = 0x00,        
+        .db = 0x01,        
+        .g = 0x01,           
+        .base_31_24 = 0x00,
     },
         [GDT_IDX_DATA_3] = (gdt_entry) {
-        (unsigned short)    0x0080,         /* limit[0:15]  */
-        (unsigned short)    0x0000,         /* base[0:15]   */
-        (unsigned char)     0x00,           /* base[23:16]  */
-        (unsigned char)     0x02,           /* type         */
-        (unsigned char)     0x00,           /* s            */
-        (unsigned char)     0x03,           /* dpl          */
-        (unsigned char)     0x01,           /* p            */
-        (unsigned char)     0x03,           /* limit[16:19] */
-        (unsigned char)     0x00,           /* avl          */
-        (unsigned char)     0x00,           /* l            */
-        (unsigned char)     0x01,           /* db           */
-        (unsigned char)     0x01,           /* g            */
-        (unsigned char)     0x00,           /* base[31:24]  */
+        .limit_0_15 = 0xffff,
+        .base_0_15 = 0x0000,
+        .base_23_16 = 0x00,
+        .type = 0x02,           
+        .s = 0x01,           
+        .dpl = 0x03,           
+        .p = 0x01,           
+        .limit_16_19 = 0x06,           
+        .avl = 0x00,        
+        .l = 0x00,        
+        .db = 0x01,        
+        .g = 0x01,           
+        .base_31_24 = 0x00,
+    },
+        [GDT_IDX_VIDEO] = (gdt_entry) {
+        .limit_0_15 = 0xffff,
+        .base_0_15 = 0x8000,
+        .base_23_16 = 0x0B,
+        .type = 0x02,           
+        .s = 0x01,           
+        .dpl = 0x03,           
+        .p = 0x00,           
+        .limit_16_19 = 0x07,           
+        .avl = 0x00,        
+        .l = 0x00,        
+        .db = 0x01,        
+        .g = 0x00,           
+        .base_31_24 = 0x00,
     },
 };
 
