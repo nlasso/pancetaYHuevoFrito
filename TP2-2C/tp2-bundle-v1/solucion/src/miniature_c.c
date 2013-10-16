@@ -1,14 +1,13 @@
-float get_miniature_color(unsigned char *src, int row_size, int row, int col) {
+int get_miniature_color(unsigned char *src, int row_size, int row, int col) {
     unsigned char (*src_matrix)[row_size] = (unsigned char (*)[row_size]) src;
-    float sum = 0;
-    float gauss[5][5] = {  
-        {0.01, 0.05, 0.18, 0.05, 0.01},
-        {0.05, 0.32, 0.64, 0.32, 0.05},
-        {0.18, 0.64, 1, 0.64, 0.18},
-        {0.05, 0.32, 0.64, 0.32, 0.05},
-        {0.01, 0.05, 0.18, 0.05, 0.01}
+    int gauss[5][5] = {  
+        {1, 5, 18, 5, 1},
+        {5, 32, 64, 32, 5},
+        {18, 64, 100, 64, 18},
+        {5, 32, 64, 32, 5},
+        {1, 5, 18, 5, 1}
     };
-    int i, j, r = row - 2, c = col - 6;
+    int i, j, sum = 0, r = row - 2, c = col - 6;
 
     for (i = 0; i < 5; i++) {
         c = col - 6;
@@ -19,7 +18,7 @@ float get_miniature_color(unsigned char *src, int row_size, int row, int col) {
         r ++;
     }
 
-    return sum/6;
+    return sum/600;
 }
 
 /*  topPlane:
@@ -58,9 +57,9 @@ void miniature_c(
         row = 2;
         while (row <= rowsToProcess) {
             while (col <= newWidth) {
-                b = (int) get_miniature_color(src, width * 3, row, col);
-                g = (int) get_miniature_color(src, width * 3, row, col + 1);
-                r = (int) get_miniature_color(src, width * 3, row, col + 2);
+                b = get_miniature_color(src, width * 3, row, col);
+                g = get_miniature_color(src, width * 3, row, col + 1);
+                r = get_miniature_color(src, width * 3, row, col + 2);
                 dst_matrix[row][col] = b;
                 dst_matrix[row][col + 1] = g;
                 dst_matrix[row][col + 2] = r;
@@ -96,9 +95,9 @@ void miniature_c(
         col = 6;
         while (row < height) {
             while (col <= newWidth) {
-                b = (int) get_miniature_color(src, width * 3, row, col);
-                g = (int) get_miniature_color(src, width * 3, row, col + 1);
-                r = (int) get_miniature_color(src, width * 3, row, col + 2);
+                b = get_miniature_color(src, width * 3, row, col);
+                g = get_miniature_color(src, width * 3, row, col + 1);
+                r = get_miniature_color(src, width * 3, row, col + 2);
                 dst_matrix[row][col] = b;
                 dst_matrix[row][col + 1] = g;
                 dst_matrix[row][col + 2] = r;
