@@ -35,6 +35,7 @@ miniature_asm:
 
 	MOV r15d, edx	;Width
 	MOV r14d, ecx	;Height
+
 	;Muevo Height a un xmm para poder calcular el alto de las bandas.
 	MOVD xmm2, r14d
 	CVTDQ2PS xmm2, xmm2
@@ -45,6 +46,8 @@ miniature_asm:
 	MOV eax, 3
 	MUL r15d
 	MOV r15d, eax		;newWidth
+
+	SUB r14d, 2 		;Le quito 2 filas al alto para no pasarme al final.
 
 	;Ya no uso mas xmm2
 	PXOR xmm2, xmm2
@@ -87,21 +90,25 @@ miniature_asm:
 					ADD rbx, rdi
 					ADD rbx, r12
 					MOVDQU xmm2, [rbx]
-					MOVDQU xmm3, [rbx + r15]
-					MOVDQU xmm4, [rbx + r15]		
-					MOVDQU xmm6, [rbx + r15]				
-					MOVDQU xmm7, [rbx + r15]
-
-					PSHUFB xmm2, [MASK_ORD]
-					PSHUFB xmm3, [MASK_ORD]
-					PSHUFB xmm4, [MASK_ORD1]
-					PSHUFB xmm6, [MASK_ORD]
-					PSHUFB xmm7, [MASK_ORD]
+					ADD rbx, r15
+					MOVDQU xmm3, [rbx]
+					ADD rbx, r15
+					MOVDQU xmm4, [rbx]
+					ADD rbx, r15
+					MOVDQU xmm6, [rbx]
+					ADD rbx, r15
+					MOVDQU xmm7, [rbx]
+;
+					;PSHUFB xmm2, [MASK_ORD]
+					;PSHUFB xmm3, [MASK_ORD]
+					;PSHUFB xmm4, [MASK_ORD1]
+					;PSHUFB xmm6, [MASK_ORD]
+					;PSHUFB xmm7, [MASK_ORD]
 
 					;get_miniature_color xmm2, xmm3, xmm4, xmm6, xmm7
 
-					ADD rbx, r15
-					ADD rbx, r15
+					SUB rbx, r15
+					SUB rbx, r15
 					MOVDQU [rbx], xmm4
 					SUB rbx, rdi
 					ADD rbx, rsi
@@ -127,7 +134,7 @@ miniature_asm:
 	MOVD r10d, xmm2
 	.filasBandaIntermedia:
 	CMP r13d, r10d
-	JGE .iteracionBottom
+	JGE .startBottom
 	.columnasBandaIntermedia:
 		CMP r12d, r15d
 		JG .finColumnasIntermedias
@@ -150,6 +157,9 @@ miniature_asm:
 		XOR r12, r12
 		JMP .filasBandaIntermedia
 
+.startBottom:
+	XOR r10, r10
+
 .iteracionBottom:
 	CMP r10d, r8d			;i (contador) < iters
 	JGE .fin
@@ -157,50 +167,59 @@ miniature_asm:
 	;cambiando como se puede apreciar a continuacion.
 	MOVD xmm3, r8d			;xmm3(D) = iters | 0 | 0 | 0 |
 	MOVD xmm4, r10d			;xmm4(D) = i (contador) | 0 | 0 | 0 |
+	MOVD xmm6, r14d			;xmm6(D) = Height | 0 | 0 | 0 |
+	CVTDQ2PS xmm6, xmm6
+	MOVDQU xmm7, xmm1
+	SUBPS xmm7, xmm6		;xmm7(F) = Height - bottomPlaneInit
 	CVTDQ2PS xmm3, xmm3		;xmm3 -> Float
 	CVTDQ2PS xmm4, xmm4		;xmm4 -> Float
-	MOVDQU xmm5, xmm4
-	MULPS xmm5, xmm1		;xmm5 = topPlaneLimit * i | 0 | 0 | 0 |
-	DIVPS xmm5, xmm3		;xmm5 = topPlaneLimit * i /iters | 0 | 0 | 0 |
-	SUBPS xmm5, xmm1		;xmm5 (topPlaneLimit) = topPlaneLimit - xmm5
-	CVTPS2DQ xmm5, xmm5
+	MULPS xmm4, xmm7		;xmm4 = (Height - bottomPlaneInit) * i | 0 | 0 | 0 |
+	DIVPS xmm4, xmm3		;xmm4 = (Height - bottomPlaneInit) * i /iters | 0 | 0 | 0 |
+	ADDPS xmm4, xmm1		;xmm4 (bottomPlaneInit) = bottomPlaneInit + xmm4
+	CVTPS2DQ xmm4, xmm4
 	XOR r9, r9 			;r9 = 0
-	MOVD r9d, xmm5		;r9 = topPlaneLimit - ((topPlaneLimit * i) / iters)
+	MOVD r9d, xmm4		;r9 = bottomPlaneInit + (((Height - bottomPlaneInit) * i) / iters)
 
 	;limpio todo lo que no uso y seteo en 0 a los contadores que voy a usar proximamente.
 	PXOR xmm3, xmm3
 	PXOR xmm4, xmm4
+	PXOR xmm7, xmm7
+	PXOR xmm6, xmm6
 	XOR r13, r13		;r13 = 0
 	XOR r12, r12		;r12 = 0
 		.filasBandaBaja:
-			CMP r13d, r9d		;mientras fila < topPlaneLimit - ((topPlaneLimit * i) / iters)
+			CMP r9d, r14d		;mientras height > bottomPlaneInit - ((bottomPlaneInit * i) / iters)
 			JG .finBandaBaja
 				.columnasBandaBaja:
 					CMP r12d, r15d
 					JG .finColumnasBaja
 					MOV ebx, r15d	;newWidth
 					ADD ebx, 6		;Le sumo los dos pixels que saqué ya que no los proceso pero los necesito para moverme.
-					MOV rax, r13
+					MOV rax, r9
 					MUL rbx 		; ancho en bytes * contador de filas.
 					MOV rbx, rax
 					ADD rbx, rdi
 					ADD rbx, r12
 					MOVDQU xmm2, [rbx]
-					MOVDQU xmm3, [rbx + r15]
-					MOVDQU xmm4, [rbx + r15]		
-					MOVDQU xmm6, [rbx + r15]				
-					MOVDQU xmm7, [rbx + r15]
+					ADD rbx, r15
+					MOVDQU xmm3, [rbx]
+					ADD rbx, r15
+					MOVDQU xmm4, [rbx]
+					ADD rbx, r15
+					MOVDQU xmm6, [rbx]
+					ADD rbx, r15
+					MOVDQU xmm7, [rbx]
 
-					PSHUFB xmm2, [MASK_ORD]
-					PSHUFB xmm3, [MASK_ORD]
-					PSHUFB xmm4, [MASK_ORD1]
-					PSHUFB xmm6, [MASK_ORD]
-					PSHUFB xmm7, [MASK_ORD]
+					;PSHUFB xmm2, [MASK_ORD]
+					;PSHUFB xmm3, [MASK_ORD]
+					;PSHUFB xmm4, [MASK_ORD1]
+					;PSHUFB xmm6, [MASK_ORD]
+					;PSHUFB xmm7, [MASK_ORD]
 
 					;get_miniature_color xmm2, xmm3, xmm4, xmm6, xmm7
 
-					ADD rbx, r15
-					ADD rbx, r15
+					SUB rbx, r15
+					SUB rbx, r15
 					MOVDQU [rbx], xmm4
 					SUB rbx, rdi
 					ADD rbx, rsi
@@ -209,14 +228,14 @@ miniature_asm:
 					XOR rbx, rbx
 					JMP .columnasBandaBaja
 					.finColumnasBaja:
-					ADD r13d, 1
+					ADD r9d, 1
 					XOR r12, r12
 					JMP .filasBandaBaja
 				.finBandaBaja:
-				XOR r13, r13
+				XOR r9, r9
 				XOR r12, r12
 				ADD r10d, 1
-				JMP .bandaAlta
+				JMP .iteracionBottom
 
 .fin:
 	POP rbx
