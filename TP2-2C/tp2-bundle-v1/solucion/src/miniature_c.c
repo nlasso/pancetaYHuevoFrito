@@ -1,3 +1,8 @@
+/*
+    ./tp2 -t 1000 -f ../data/base/frames/ -i c miniature ../data/base/city.avi 0.3 0.8 5
+    ./tp2diff ../data/base/frames/city.avi.miniature.1.bmp /home/agustin/Descargas/test-miniature-03-08-5-city/city.avi.miniature.1.bmp 6
+*/
+
 int get_miniature_color(unsigned char *src, int row_size, int row, int col) {
     unsigned char (*src_matrix)[row_size] = (unsigned char (*)[row_size]) src;
     int gauss[5][5] = {  
@@ -7,7 +12,8 @@ int get_miniature_color(unsigned char *src, int row_size, int row, int col) {
         {5, 32, 64, 32, 5},
         {1, 5, 18, 5, 1}
     };
-    int i, j, sum = 0, r = row - 2, c = col - 6;
+    int sum = 0;
+    int i, j, r = row - 2, c = col - 6;
 
     for (i = 0; i < 5; i++) {
         c = col - 6;
@@ -15,7 +21,7 @@ int get_miniature_color(unsigned char *src, int row_size, int row, int col) {
             sum += src_matrix[r][c] * gauss[i][j];
             c += 3;
         }
-        r ++;
+        r++;
     }
 
     return sum/600;
@@ -48,11 +54,14 @@ void miniature_c(
     int newWidth = (width - 2) * 3; //recorro hasta 2 pixels antes de terminar la matriz
     int row = 2; // filas empiezan en el 2do pixel
     int col = 6; // columnas empiezan en el 2do pixel
-    int i, b, g, r, rowsToProcess;
+    int i, rowsToProcess;
+    int b, g, r;
 
-    /* Banda superior */
+    /* Loop iteraciones */
     for (i = 0; i < iters; i++) {
-        rowsToProcess = (int) i * topPlaneLimit / iters;
+
+        /* Banda superior */
+        rowsToProcess = i * topPlaneLimit / iters;
         rowsToProcess = topPlaneLimit - rowsToProcess;
         row = 2;
         while (row <= rowsToProcess) {
@@ -73,27 +82,12 @@ void miniature_c(
             col = 6;
             row++;
         }
-    }
 
-    /* La banda media queda igual */
-    col = 6;
-    while (row < bottomPlaneInit) {
-        while (col <= newWidth) {
-            dst_matrix[row][col] = src_matrix[row][col];
-            dst_matrix[row][col + 1] = src_matrix[row][col + 1];
-            dst_matrix[row][col + 2] = src_matrix[row][col + 2];
-            col += 3;
-        }
-        col = 6;
-        row++;
-    }
-
-    /* Banda inferior */
-    for (i = 0; i < iters; i++) {
-        rowsToProcess = (int) i * (height - bottomPlaneInit) / iters;
+        /* Banda inferior */
+        rowsToProcess = i * (height - bottomPlaneInit) / iters;
         row = bottomPlaneInit + rowsToProcess;
         col = 6;
-        while (row < height) {
+        while (row <= height-2) {
             while (col <= newWidth) {
                 b = get_miniature_color(src, width * 3, row, col);
                 g = get_miniature_color(src, width * 3, row, col + 1);
@@ -110,5 +104,19 @@ void miniature_c(
             col = 6;
             row++;
         }
+    }
+
+    /* La banda media queda igual */
+    row = topPlaneLimit + 1;
+    col = 6;
+    while (row < bottomPlaneInit) {
+        while (col <= newWidth) {
+            dst_matrix[row][col] = src_matrix[row][col];
+            dst_matrix[row][col + 1] = src_matrix[row][col + 1];
+            dst_matrix[row][col + 2] = src_matrix[row][col + 2];
+            col += 3;
+        }
+        col = 6;
+        row++;
     }
 }
