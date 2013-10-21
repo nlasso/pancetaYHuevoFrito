@@ -1,0 +1,362 @@
+\index{Ap\'endices}
+\section{Ap\'endices}
+
+\subsection{Ap\'endice A:}
+
+\input{tp1.tex}\newpage
+
+\subsection{Ap\'endice B:}
+
+{\Large Main.cpp}
+\belowcaptionskip=-10pt
+\lstset{framesep=10pt}
+\begin{lstlisting}
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <time.h>
+#include "TFloat.h"
+#include "Newton.h"
+#include "Biseccion.h"
+#include "Funciones.h"
+
+using namespace std;
+vector<TFloat> leer_datos(const char* filename){
+        ifstream texto(filename);
+        double cant;
+        double v;
+        texto >> cant;
+        cout << "cantidad elem. del vector:" << cant << endl;
+        vector<TFloat> res(cant);
+        for (int i=1;i<=cant;i++){
+            texto >> v;
+            res[i-1] = TFloat(v,52);
+        }
+        return res;
+}
+
+int main(){
+    TP1::Funciones func = TP1::Funciones();
+    TP1::Newton newt = TP1::Newton();
+    TP1::Biseccion bisec = TP1::Biseccion();
+    char a[100];
+    double t;
+    int j;
+    cout << "Ingresar nombre del archivo a leer" << endl;
+    cin >> a;
+    cout << "Ingresar precision t de la mantisa a utilizar" << endl;
+    cin >> t;
+    vector<TFloat> data = leer_datos(a);
+    TFloat w(0,t);
+    cout << "Elegir metodo a utilizar: Biseccion (1) o Newton (0)" << endl;
+    cin >> j;
+    if (j==1){
+        bisec.MainBiseccion(data,t,w);
+    }
+    else {
+        newt.MainNewton(data,t,w);
+    }
+    cout << "El resultado de evaluar en el ultimo punto obtenido es:"
+     << (func.EcuacionBeta5(w,data,t)).dbl() << endl;
+    cout << "Beta = " << w.dbl() << endl;
+    cout << "Landa = " << (func.funcionLanda(w,data,t)).dbl() << endl;
+    TFloat landa = func.funcionLanda(w,data,t);
+    cout << "Sigma = " << (func.funcionSigma(w,landa,data,t)).dbl() << endl;
+    return 0;
+};
+
+
+\end{lstlisting} \newpage
+{\Large Funciones.cpp}
+\begin{lstlisting}
+TFloat TP1::Funciones::funcionLanda(TFloat b,vector<TFloat> data, int t){
+        TFloat n(double(data.size()), t);
+        TFloat sum1 = funcionM(b,data,t) * n;
+        TFloat sum2 = funcionMS(b,data,t) * n;  
+        TFloat sum3 = TFloat(t);
+        for (vector<TFloat>::iterator it = data.begin();it != data.end(); it++){
+            double x = it->dbl();
+            sum3 = sum3 + TFloat(log(x),t);
+            }
+        sum1 = sum2/sum1;
+        sum3 = sum3/(data.size());
+        sum1 = b*(sum1 - sum3);
+        double z = sum1.dbl();
+        return TFloat(1/z,t);
+}
+
+TFloat TP1::Funciones::funcionSigma(TFloat b, TFloat l, vector<TFloat> data, int t){
+        TFloat n(double(data.size()), t);
+        TFloat sum1 = funcionM(b,data,t) *(n);
+        double r = double(data.size())*l.dbl();
+        double s = 1/b.dbl();
+        r = (sum1.dbl())/r;
+        return TFloat(pow(r,s),t);
+}
+
+TFloat TP1::Funciones::funcionM(TFloat s,vector<TFloat> data, int t){
+        TFloat sum = TFloat(t);
+        double y = s.dbl();
+        for (vector<TFloat>::iterator it = data.begin();it != data.end(); it++){
+            double x = it->dbl();
+            sum = sum + TFloat(pow(x,y),t);  //Funcion  pow(x,y) = x^y
+            }
+        return sum/(data.size());
+}
+
+TFloat TP1::Funciones::funcionMS(TFloat s,vector<TFloat> data, int t){
+        TFloat sum = TFloat(t);
+        double y = s.dbl();
+        for (vector<TFloat>::iterator it = data.begin();it != data.end(); it++){
+            double x = it->dbl();
+            sum = sum + (TFloat(pow(x,y),t) * log(x)) ;
+            }
+        return sum/(data.size());
+}
+
+TFloat TP1::Funciones::DerivadaMS(TFloat b,vector<TFloat> data, int t){
+    TFloat sum = TFloat(t);
+    double y = b.dbl();
+    for (vector<TFloat>::iterator it = data.begin();it != data.end(); it++){
+           double x = it->dbl();
+           sum = sum + ((TFloat(pow(x,y),t)) * pow(log(x),2)) ; 
+    }
+    return (sum/data.size());
+}
+
+TFloat TP1::Funciones::funcionR(TFloat s,vector<TFloat> data, int t){
+    TFloat num = funcionMS(s,data,t);
+    TFloat den = funcionM(s,data,t);
+    return num/den ;
+
+}
+
+TFloat TP1::Funciones::DerivadaR(TFloat s,vector<TFloat> data, int t){
+    TFloat a = DerivadaMS(s,data,t);
+    TFloat c = funcionMS(s,data,t);
+    TFloat d = funcionM(s,data,t);
+    TFloat num = (a * d) - (c * c);
+    TFloat den = d * d;
+    return num/den ;
+
+}
+
+TFloat TP1::Funciones::EcuacionBeta4(TFloat b,vector<TFloat> data, int t){
+     TFloat x = funcionM(b*(2),data,t);      //M(2b)
+     double h = x.dbl();
+     double q = log(h);                   	 // log(M(2b))
+     x = TFloat(q,t);                        // x = log(M(2b))
+     double j = (funcionM(b,data,t)).dbl();  // M(b)
+     j = 2* (log(j));                   	 // 2* log(M(b))
+     TFloat y = TFloat(j,t);            	 // y = 2* log(M(b))
+     TFloat z = funcionR(0,data,t);     	 // R(0)
+     TFloat z2 = funcionR(b,data,t);         // R(b)
+     z = (z2 - z) *(b);                  	 // z = ( R(b) - R(0) ) * b
+     z = z +(1);                     		 // z = ( R(b) - R(0) ) * b + 1
+     z = log(z.dbl());           			 // z = log10( ( R(b) - R(0) ) * b + 1)
+     return b;
+}
+
+TFloat TP1::Funciones::DerivadaEc4(TFloat a,vector<TFloat> data, int t){
+    TFloat num1 = funcionMS(a*(2),data,t)*(2);
+    TFloat den1 = funcionM(a*(2),data,t);
+    TFloat num2 = funcionMS(a,data,t)*(2);
+    TFloat den2 = funcionM(a,data,t);
+    TFloat num3 = funcionR(a,data,t) - funcionR(TFloat(t),data,t);
+    TFloat den3 = a*(funcionR(a,data,t) - funcionR(0,data,t)) + 1;
+    TFloat num4 = a*(DerivadaR(a,data,t));
+    TFloat den4 = a*(funcionR(a,data,t) - funcionR(0,data,t)) + 1;
+    return (num1/den1) - (num2/den2) - (num3/den3) - (num4/den4);
+}
+
+TFloat TP1::Funciones::EcuacionBeta5(TFloat b,vector<TFloat> data, int t){
+     TFloat x = funcionM((b*2),data,t);      			 // x= M(2b)
+     TFloat y = funcionM(b,data,t);         			 // M(b)
+     y = y*y;                               			 // y = M^2(b)
+     TFloat z = funcionR(b,data,t) - funcionR(0,data,t); // R(b) - R(0)
+     z = z *(b);
+     z = z + 1;                             			 // z = 1 + b*(R(B) - R(0))
+     return (x/y) - z;
+}
+
+TFloat TP1::Funciones::DerivadaEc5(TFloat a,vector<TFloat> data, int t){
+    TFloat num = funcionMS(a*(2),data,t)*(2) * ((funcionM(a,data,t))*(funcionM(a,data,t))) - ((funcionM(a*(2),data,t) * (funcionMS(a,data,t))) * (2) * (funcionM(a,data,t)));
+    TFloat den = TFloat(pow((funcionM(a,data,t)).dbl(),4), t);
+    TFloat x = num/den ;                                         // M(2b)/M^2(b)  derivado
+    TFloat y = funcionR(a,data,t) - funcionR(0,data,t);          // R(b) - R(0)
+    TFloat z = DerivadaR(a,data,t) * (a);                        // R'(b) * b
+    return x - (y + z);
+}
+\end{lstlisting}
+
+{\Large Newton.cpp}
+\begin{lstlisting}
+TFloat TP1::Newton::EcuacionNewton(TFloat a,vector<TFloat> data, int t,double e){
+        //Xn+1  = Xn - (F(Xn) / F'(Xn)
+    Funciones func = Funciones();
+    TFloat x = func.EcuacionBeta5(a,data,t);
+    TFloat y = func.DerivadaEc5(a,data,t);
+    double ee = -1*(e);
+    if(-ee < y.dbl() && y.dbl() <= e){
+        cout << "Error la derivada se anula en cero" << endl;
+        return 0; 
+    }
+    else{
+        return (a - (x/y));
+    }
+}
+
+
+void TP1::Newton::MainNewton(vector<TFloat> datos, int t,TFloat& res){
+    Funciones func = Funciones();
+    double x0 = 0;
+    double n = 1000;
+    double e = 0;
+    char p;
+    cout << "Ingresar valor x0: ";
+    cin >> x0;
+    cout << "¿Desea usar una cantidad de iteraciones como criterio de parada?[S/n]: ";
+    cin >> p;
+    if(p == 'S' || p == 's'){
+        cout << "Ingresar cantidad iteraciones a usar como criterio de parada: ";
+        cin >> n;
+    }
+    cout << "Indicar rango de tolerancia a usar para encontrar raiz: ";
+    cin >> e;
+    clock_t clk1;
+    clock_t clk2;
+    TFloat x = TFloat(x0,t);
+    TFloat landa = TFloat(t);
+    double ee = e*(-1);
+    clk1 = clock();
+    if(ee < func.EcuacionBeta5(x,datos,t).dbl() && func.EcuacionBeta5(x,datos,t).dbl() < e){
+        cout << x0 << "es raiz!" << endl;
+        res = x;
+        return;
+    }
+    for (int i=0;i<n;i++){
+
+        if( ee < func.EcuacionBeta5(x,datos,t).dbl() && func.EcuacionBeta5(x,datos,t).dbl() < e){
+            cout << x.dbl() << "es raiz!" << endl;
+            res = x;
+            clk2 = clock();
+            cout << "la funcion tardo en ejecutarse: " << ((float)(clk2 -  clk1))/CLOCKS_PER_SEC << "s" << endl;
+            return;
+        }
+        else{
+            x = EcuacionNewton(x,datos,t,e);
+            landa = func.funcionLanda(x,datos,t);
+            cout << "x = " << x.dbl() << "     f(x) = " << (func.EcuacionBeta5(x,datos,t)).dbl() <<
+            "   Landa = " << (func.funcionLanda(x,datos,t)).dbl() <<
+            "   Sigma = " << (func.funcionSigma(x,landa,datos,t)).dbl() <<  endl;
+        }
+    }
+    cout << "La cantidad de iteraciones no fueron suficientes para encontrar una raiz" << endl;
+    res = x;
+    clk2 = clock();
+    cout << "la funcion tardo en ejecutarse: " << ((float)(clk2 -  clk1))/CLOCKS_PER_SEC << "s" << endl;
+    return;
+}
+\end{lstlisting} \newpage
+{\Large Biseccion.cpp}
+\begin{lstlisting}
+void TP1::Biseccion::MainBiseccion(vector<TFloat> datos, int t, TFloat& res){
+    Funciones func = Funciones();
+    double x0 = 0;
+    double y0 = 0;
+    double n = 1000;
+    double e = 0;
+    char p;
+    //Ingreso los dos extremos
+    cout << "Ingresar valor x0: ";
+    cin >> x0;
+    cout << "Ingresar valor y0: ";
+    cin >> y0;
+    //Ingreso la cantidad de iteraciones que va a ejecutar la biseccion
+    cout << "¿Desea usar una cantidad de iteraciones como criterio de parada?[S/n]: ";
+    cin >> p;
+    if(p == 'S' || p == 's'){
+    cout << "Ingresar cantidad iteraciones a usar como criterio de parada: ";
+    cin >> n;
+    }
+    //Ingreso la tolerancia de error que va a ejecutar la biseccion
+    cout << "Indicar rango de tolerancia a usar para encontrar raiz: ";
+    cin >> e;
+    //Parseo a TFloat los valores X,Y,Z.
+    clock_t clk1;
+    clock_t clk2;
+    TFloat x(x0,t);
+    TFloat y(y0,t);
+    TFloat z(0,t);
+    TFloat landa(0,t);
+    double ee = e*(-1);
+    clk1 = clock();
+    //Verifico tanto para X como para Y si con esos valores no me da 0. Si asi fuese ya tenemos la raíz.
+    if(((func.EcuacionBeta5(x,datos,t).dbl()) > ee) && ((func.EcuacionBeta5(x,datos,t).dbl()) < e)){
+        cout << x.dbl() << "es raiz!" << endl;
+        landa = func.funcionLanda(x,datos,t);
+        cout << "Landa = " << (func.funcionLanda(x,datos,t)).dbl() << endl;
+        cout << "Sigma = " << (func.funcionSigma(x,landa,datos,t)).dbl() << endl;
+        res = x;
+        clk2 = clock();
+        cout << "la funcion tardo en ejecutarse: " << ((float)(clk2 - clk1))/CLOCKS_PER_SEC << "s" << endl;
+        return;
+    }
+    if((ee < (func.EcuacionBeta5(y,datos,t).dbl())) && ((func.EcuacionBeta5(y,datos,t).dbl()) < e)){
+        cout << y.dbl() << "es raiz!" << endl;
+        landa = func.funcionLanda(y,datos,t);
+        cout << "Landa = " << (func.funcionLanda(y,datos,t)).dbl() << endl;
+        cout << "Sigma = " << (func.funcionSigma(y,landa,datos,t)).dbl() << endl;
+        res = y;
+        clk2 = clock();
+        cout << "la funcion tardo en ejecutarse: " << ((float)(clk2 - clk1))/CLOCKS_PER_SEC << "s" << endl;
+        return;
+    }
+    //Verifico que los signos de los extremos sean opuestos. De lo contrario empieza el método.
+    if((func.EcuacionBeta5(x,datos,t).dbl() > e && func.EcuacionBeta5(y,datos,t).dbl() > e)||
+        (func.EcuacionBeta5(x,datos,t).dbl() < ee && func.EcuacionBeta5(y,datos,t).dbl() < ee)){
+            cout << "no hay raiz en este intervalo" << endl;
+            res = z;
+            clk2 = clock();
+            cout << "la funcion tardo en ejecutarse: " << ((float)(clk2 - clk1))/CLOCKS_PER_SEC << "s" << endl;
+            return;
+        }
+    else{
+        for (int i=0;i<n;i++){
+            z = (x+y)/2;
+            if ( ee < func.EcuacionBeta5(z,datos,t).dbl() && func.EcuacionBeta5(z,datos,t).dbl() < e){
+                cout << z.dbl() << "es raiz!" << endl;
+                landa = func.funcionLanda(z,datos,t);
+                cout << "Landa = " << (func.funcionLanda(z,datos,t)).dbl() << endl;
+                cout << "Sigma = " << (func.funcionSigma(z,landa,datos,t)).dbl() << endl;
+                res = z;
+                clk2 = clock();
+                cout << "la funcion tardo en ejecutarse: " << ((float)(clk2 - clk1))/CLOCKS_PER_SEC << "s" << endl;
+                return;
+            }
+            if ((func.EcuacionBeta5(x,datos,t).dbl() > e && func.EcuacionBeta5(z,datos,t).dbl() < ee) ||
+                (func.EcuacionBeta5(x,datos,t).dbl() < ee && func.EcuacionBeta5(z,datos,t).dbl() > e)){
+                    cout << "[" << x.dbl() << "," << z.dbl() << "]" << endl; 
+                    landa = func.funcionLanda(z,datos,t);
+                    cout << "x = " << z.dbl() << "        f(x)=" << (func.EcuacionBeta5(z,datos,t)).dbl() <<
+                    "  Landa=" << (func.funcionLanda(z,datos,t)).dbl() <<
+                    "  Sigma=" << (func.funcionSigma(z,landa,datos,t)).dbl() <<  endl;
+                    y = z;
+                }
+            else {
+                cout << "[" << z.dbl() << "," << y.dbl() << "]" << endl; 
+                landa = func.funcionLanda(z,datos,t);
+                cout << "x = " << z.dbl() << "        f(x)=" << (func.EcuacionBeta5(z,datos,t)).dbl() <<
+                "  Landa=" << (func.funcionLanda(z,datos,t)).dbl() <<
+                "  Sigma=" << (func.funcionSigma(z,landa,datos,t)).dbl() <<  endl;
+                x = z;
+                }
+            }
+        }
+    cout << "La cantidad de iteraciones no fueron suficientes para encontrar una raiz" << endl;
+    res = z;
+    clk2 = clock();
+    cout << "la funcion tardo en ejecutarse: " << ((float)(clk2 - clk1))/CLOCKS_PER_SEC << "s" << endl;
+    return;
+}
+\end{lstlisting}

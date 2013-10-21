@@ -1,0 +1,48 @@
+\index{Conclusiones|(}
+\section{Conclusiones}
+
+\subsection{Cambio de mantisa}
+\index{Conclusiones!Cambio de mantisa}
+
+\begin{itemize}
+\item Cuanto menor es la cantidad de bits de mantisa podemos notar que los resultados se disparan hacia casos fuera de lo esperado como ya mencionamos.
+\item En el m\'etodo de Bisecci\'on:\newline
+Se debe a que la ecuacionBeta5 presenta una divisi\'on del valor $M(s)$ y $M(S)^{2}$ esto produce que al tener poca precisi\'on de mantisa, la divisi\'on obtiene valores muy diferentes, llegando a observar cambios desde 0.5 hasta 1600 en el resultado de esa divisi\'on.
+\item En el m\'etodo de Newton:\newline
+Aca tendremos casos mas raros ya que tenemos la division mencionada en la ecuacionBeta5, pero ademas presentamos una division en la f\'ormula de Newton.\newline
+Variar la mantisa nos sirve para poder determinar que cantidad de bits de mantisa es necesaria para que no nos cambie de manera considerable el resultado final (o sea de errores de precisi\'on muy despreciables), ya que en caso de construir un sistema, colocar menor cantidad de bits para mantisa significar\'a disminuir el costo del mismo.
+\end{itemize}
+
+\subsection{Cambio en valor de tolerancia de aproximaci\'on a 0}
+\index{Conclusiones!Cambio en valor de tolerancia de aproximaci\'on a 0}
+
+\begin{itemize}
+\item Para ambos m\'etodos la precisi\'on sucede que dependiendo el rango de tolerancia que pongamos influir\'a en la cantidad de iteraciones, terminando antes (empeorando la precisi\'on del resultado) o despu\'es (mejorar\'a la precisi\'on del resultado).\newline
+Nosotros al tomar los valores de estimaci\'on lo hicimos a trav\'es de lo que nos devolv\'ia la consola, esto es una muestra que toma entre 7 u 8 valores decimales, por lo tanto teniendo valores mayores a $10^{-5}$ la variacion de los resultados termina siendo bastante considerables de apreciar, mientras que al ser menor el rango de variaci\'on es despreciable.\newline
+Tambien se hab\'ian notado otros problemas al tener valores menores a $10^{-15}$, esto se debe a que necesita llegar a valores muy cercanos a 0, lo que es d\'ificil de conseguir al trabajar con aritm\'etica finita.\newline
+Trabajar con aritm\'etica finita causa problemas, esto se da mas que nada en estos tipos de experimentos cuando debemos acercarnos a un valor en forma de l\'imite hacia un punto, ya que al no tener aritm\'etica infinita no llegar\'a jam\'as a algunos valores por lo que ser\'a imposible terminar de aproximarse hacia el valor deseado, lo que ocasionar\'ia iteraciones infinitas qued\'andose siempre en el mismo valor.
+Como explicamos reci\'en la tolerancia de aproximaci\'on hacia a 0 es muy importante, debemos saber que rango tomar para que podamos decir que ra\'iz consideramos como buena y que adem\'as podamos tener un resultado.
+\end{itemize}
+
+\subsection{Cambio de valor de punto inicial (x0)}
+\index{Conclusiones!Cambio de valor de punto inicial (x0)}
+
+\begin{itemize}
+
+\item M\'etodos Newton:\newline
+Como vimos en la secci\'on de discuci\'ones, aqu\'i se present\'o un problema al aumentar el punto inicial a un valor mayor de 105. Lo que pasa en este caso es que los valores se van r\'apidamente a valores muy altos lo que hace irrepresentables para nuestra aritm\'etica finita. La numeraci\'on NaN se origina en una resta de valores Inf a la q luego se le divide un valor tambien Inf (esto ocurre en la derivada de la ecuacionBeta5).\newline
+Con punto inicial menor a 1 se puede apreciar que converge a 0, lo cual es l\'ogico, ya que el valor 0 representa una ra\'iz.
+Como vimos dentro del intervalo entre 105 y 1, encuentra la raiz correspondiente y como dijimos no es directamente proporcional a las iteraciones ni al tiempo. Esto se d\'a porque Newton se acerca al valor de la ra\'iz por medio de la recta tangente, lo que hace que los grandes cambios pasen por la funci\'on en cuesti\'on y no por los intervalos, tiempo ni valores iniciales del mismo.
+
+\item M\'etodo Bisecci\'on:
+Aqu\'i como dijimos a diferencia de Newton si se aproxima proporcionalmente las iteraciones y el tiempo con respecto al punto inicial, y es l\'ogico, ya que el m\'etodo funciona en mirar un rango e ir iterando con las mitades del mismo sin importar la funcion en cuesti\'on (solo necesitamos que la misma sea continua dentro del intervalo).\newline
+En este m\'etodo como dijimos anteriormente en discuci\'on no presenta problemas al variar el rango.
+
+\vskip 1.7 cm
+\subsection{Diferencia entre los m\'etodos:} \newline
+\index{Conclusiones!Diferencia entre los m\'etodos}
+Elegir el M\'etodo de Newton no iba a garantizarnos una soluci\'on m\'as r\'apida que usando Bisecci\'on. En el problema que hab\'ia que resolver eran tantos los factores determinantes que el m\'etodo a usar no era suficiente para ver cual era m\'as r\'apido, hubo que plantear distintos casos para ver como cada par\'ametro (Datos,mantisa,tolerancia) influ\'ia en ellos, pero se pudo concluir que en la mayor\'ia de los casos, cuando se encuentran en condiciones parecidas, Newton es cuadr\'aticamente mas veloz que usar Bisecci\'on, tanto en tiempo que tarda en ejecutarse como en cantidad de iteraciones que tarda. 
+
+\end{itemize}
+
+\index{Conclusiones|)}
