@@ -1,0 +1,108 @@
+\index{Desarrollo|(}
+\section{Desarrollo}
+
+El problema presentado en el enunciado nos daba las ecuaciones:
+\begin{eqnarray}
+\log(\eme(2\beta)) -2\log(\eme(\beta)) & = & \log(1+\beta(\ere(\beta)-\ere(0))) \label{eqn:sol1}\\
+\frac{\eme(2\beta)}{\eme^2(\beta)} & = & 1+\beta(\ere(\beta)-\ere(0))) \label{eqn:sol2}
+\end{eqnarray}
+
+En las cuales era sencilla la aplicaci\'on de cualquiera de estos m\'etodos despejando a cero cualquiera de ellas, que a su vez difer\'ian solamente en aplicar $\log$ a ambos lados, 
+por lo cual en primera instancia no hab\'ia mucha diferencia en cual de ellas elegir.
+Decidimos despejar como EcuacionBeta4:
+
+\begin{center}
+{\large $\log(\eme(2\beta)) -2\log(\eme(\beta)) - \log(1+\beta(\ere(\beta)-\ere(0))) = 0$}
+\end{center}
+y como EcuacionBeta5:
+
+\begin{center}
+{\Large $\frac{\eme(2\beta)}{\eme^2(\beta)}$ }{\large $-(1+\beta(\ere(\beta)-\ere(0)))) = 0$}
+\end{center}
+
+
+Decidimos usar la EcuacionBeta5 para nuestra implementaci\'on\footnote{Puede verse la implementaci\'on en el Apendice B}, pero de todas formas realizamos los c\'alculos para poder resolver el problema usando la EcuacionBeta4. A la hora de implementar fueron necesarias la $\eme(s)$ , $\emeh(s)$ y $\ere(s)$ para poder resolver estas dos ecuaciones. \newline
+En ambos m\'etodos se utilizan las mismas funciones, exceptuando las derivadas requeridas solamente en Newton, asi que la implementaci\'on m\'as ocurrente fue hacer una clase con las funciones, una con el m\'etodo Newton y otra con Biseccion, estas 2 que usaban la clase de funciones. \newline
+Las funciones no eran complicadas de implementar ya que eran ecuaciones que depend\'ian de pocos par\'ametros. Hubo que cerciorarse de que todas ellas reciban valores del tipo a usar como valor real TFloat y que la cantidad de bits de la mantisa sea param\'etrico y no un valor fijo no asignable.
+Al momento de implementar los n datos reales positivos, la decisi\'on de dise\~{n}o fue usar un vector (de TFloats) de tama\~no n, e iterar para obtener los distintos $X_i$, ya que sus operaciones principales son de orden constante. La implementaci\'on no hubiese sido muy distinta en caso de haber usado otro tipo de dato, como arreglo. \newline
+La ultima parte de la implementaci\'on de las funciones consta de calcular las derivadas de la Ecuacion4 y Ecuacion5 que son necesarias para el uso de Newton. Los resultados obtenidos fueron los siguientes:\newline
+DerivadaEc4: 
+\begin{center}
+{\large $$ \frac{2\eme^\prime(2\beta)}{\eme(2\beta)} - \frac{2\eme^\prime(\beta)}{\eme(\beta)} - \frac{\ere(\beta) - \ere(0) + \beta \ere^\prime(\beta)}{1+\beta(\ere(\beta)-\ere(0)} = 0 $$}
+\end{center}
+DerivadaEc5:
+\begin{center}
+{\large $$\frac{2\eme^\prime(2\beta)\eme^2(\beta) - 2\eme(2\beta)\eme(\beta)\eme^\prime(\beta)}{\eme^4(s)} - ( \ere(\beta) - \ere(0) + \ere^\prime(\beta)\beta) = 0 $$}
+\end{center}
+
+Para lo cual fue necesario calcular las siguientes derivadas:
+
+$$\eme^\prime(s) =  \frac{1}{n}\sum_{i=1}^n{x_i^s \log(x_i)}\,, \qquad \emeh^\prime(s) = \frac{1}{n}\sum_{i=1}^n{x_i^s \log^2(x_i)}\,,  \qquad \ere^\prime(s) = \frac{\emeh^\prime(s)\eme(s) - \emeh^2(s) }{\eme^2(s)}$$ \newline
+
+Una vez obtenidas estas funciones, se pudieron plantear los m\'etodos Newton y Bisecci\'on.\newline
+
+\subsection{Implementaci\'on de Bisecci\'on}
+\index{Desarrollo!Implementaci\'on de Bisecci\'on}
+
+Para la implementaci\'on de Bisecci\'on tenemos una funci\'on MainBiseccion que recibe dos entradas de las cuales ambas son param\'etricas, la primera son los datos ($X_i$) y la segunda es un int que marca la cantidad de bits que se van a usar en la mantisa (precisi\'on).
+En el c\'odigo asignamos como par\'ametros dos valores ($x,y$) que seran el intervalo a testear y tendr\'a otro valor no param\'etrico ($c$) que variar\'a en el transcurso de la implementaci\'on. 
+Luego de esto:\newline 
+1) Evaluar\'a sobre las funciones EcuacionBeta4 o EcuacionBeta5 los valores que colocamos en el intervalo, en caso que alguno d\'e como resultado 0 encontrar\'a la ra\'iz y aqu\'i finalizar\'ia el c\'odigo.\newline
+2) En caso de no encontrarse raiz en los intervalo, mirar\'a si ($x < 0$ e $y > 0$) o ($x < 0$ e $y > 0$) (osea si tienen signos opuestos). En caso negativo, dir\'a que en todo el intervalo no hay una ra\'iz y aqu\'i finalizar\'a el c\'odigo.\newline
+3) En caso afirmativo a lo \'ultimo planteado, $c = (x+y)/2$ y se evaluar\'a sobre la EcuacionBeta4 o EcuacionBeta5 el valor $c$:\newline
+3a) Si el resultado es 0, entonces habremos encontrado ra\'iz.\newline
+3b) Si ($c > 0$ y $x > 0$) o ($c < 0$ y $x < 0$) , entonces $x$ pasar\'a a valer lo que vale $c$, mismo caso si con el que coincide la desigualdad es el valor $y$.\newline
+4) As\'i seguir\'a iterando hasta hallar una ra\'iz.\newline
+En cada iteraci\'on se muestan en pantalla los valores que se van obteniendo, tanto en la funcion EcuacionBeta4 o EcuacionBeta5 como la funci\'on de lambda y sigma.\newline \newline
+
+\subsection{Implementaci\'on de Newton}
+\index{Desarrollo!Implementaci\'on de Newton}
+
+Para la implementaci\'on de Newton tenemos en una parte EcuacionNewton que recibe por par\'ametro el valor $X_i$ y calcula el siguiente valor de la iteraci\'on usando
+
+Ec. Newton = $X_n+1$ = $X_n$ - $\frac{f(x)}{f^\prime(x)}$
+
+Se aclaro el caso en que $f^\prime(x)$ se anule, donde no se puede usar el m\'etodo y es un caso interesante a estudiar si se llegase a anular a partir de alg\'un par\'ametro de entrada( valores $X_1$,..., $X_n$, valor $t$ de la mantisa,etc.) \newline
+
+La implementaci\'on de MainNewton itera sobre un valor $x$, inicialmente el punto $x_0$ del m\'etodo, evaluando si es ra\'iz de la ecuaci\'on, en caso de serlo, ya tenemos la soluci\'on del problema. De lo contrario le asigna el valor de EcuacionNewton, haciendo una iteraci\'on del m\'etodo. \newline
+En ambos casos decidimos mostrar por pantalla tanto en que valor nos encontramos, como cuanto vale la Ecuacion en ese punto, y los valores de sigma y lambda si dicho valor fuera el beta correcto.\newline
+
+\subsection{Interfaz}
+\index{Desarrollo!Interfaz}
+
+Sobre la interfaz del programa, nos pareci\'o que la forma mas sencilla y declarativa fue la que se presenta en el c\'odigo, donde dentro del programa se ingresan los datos a usar, en caso de que realizar los testeos o probar el c\'odigo muchas veces resulte tedioso, se incluye una versi\'on que usa par\'ametros por consola en el archivo parametrosxconsola.tar, que contiene en ayuda.txt indicaciones sobre su uso. De todas formas se recomienda el uso de la versi\'on presentada en el c\'odigo principal, ya que sobre ella se realizaron los experimentos.\footnote{Ambos c\'odigos pueden llegar a tener diferencias sint\'acticas, pero realizan los mismos pasos para obtener resultados.} \newline
+
+\subsection{Tipos de Experimentos}
+\index{Desarrollo!Tipos de  Experimentos}
+
+Los distintos experimentos se realizaron a partir de distintas instancias de:
+\newline
+1)Distintos vectores de datos. \newline
+2)Distinto t de precisi\'on de la mantisa.\newline
+3)Distinta tolerancia al error cercano a cero.\newline
+4)Distinto punto de inicio de los m\'etodos ($x_0$/[$x_0,y_0$]).\newline
+
+
+Antes de empezar a experimentar con los distintos casos algunas de las cosas que se esperaban eran las siguiente:
+\begin{itemize}
+  \item La convergencia de Newton sea (generalmente) dos veces m\'as r\'apida en tiempo y cantidad de iteraciones que Bisecci\'on.
+  \item La cantidad de bits de precisi\'on en la mantisa sea determinante en la precisi\'on de las estimaciones a los par\'ametros, y cuantos menos tenga m\'as alejado de lo estimado estar\'e de los valores esperados.  
+  \item Entre una iteraci\'on del m\'etodo y la siguiente siempre me estar\'e acercando mas a la ra\'iz que en el caso anterior.
+\end{itemize}
+
+\subsubsection{Intentos Fallidos}
+\index{Desarrollo!Tipos de  Experimentos!Intentos Fallidos}
+A pesar de lo esperado se obtuvieron casos que no cumpl\'ian estas condiciones \footnote{Ver seccion Resultados.} y otros en los que no se consigui\'o obtener valores \'utiles a la hora de estimar los par\'ametros, algunos de los casos fallidos encontrados fueron: \newline
+\begin{itemize}
+\item Con los datos de X7.txt, 14 bits de mantisa, $x_0$ = 149 y tolerancia usada de $10^{-002}$ la derivada se anula y no podemos aplicar Newton.
+
+\item Con los datos X1.txt, 5 bits de mantisa,$x_0$ = 5 e $y_0$ = 1 y tolerancia usada de $0.0001$, con el m\'etodo de Bisecci\'on no hay ra\'iz en ese intervalo ya que como la mantisa es un valor muy grande, nunca podemos obtener una presici\'on que estime una ra\'iz para la ecuaci\'on.
+
+\item  Con los datos X1.txt, 5 bits de mantisa, $x_0$ = 5 y tolerancia de 0.0001, con el m\'etodo de Newton el programa entra en un loop infinito de resultados que var\'ian entre los valores 7, 8 y 10. Esto pasa nuevamente porque con una mantisa muy corta y tolerancia muy grande nunca podemos llegar a un valor con una precisi\'on que se acerque a la ra\'iz de la ecuaci\'on.
+
+\item Con los datos X6.txt, 52 bits de mantisa, $x_0$ = 20 e $y_0$ = 1 y tolerancia = $0.0000001$, el m\'etodo de Newton di\'o los siguientes resultados: Lambda: $3.78066e+07$, Beta: $0.001$, Sigma: $0$. Si bien di\'o resultados, lo hizo en el primer intento, y esto sucedi\'o porque al tener una tolerancia muy chica, valores altos ya cumpl\'ian como resultado.
+\end{itemize}
+
+
+
+\index{Desarrollo|)}

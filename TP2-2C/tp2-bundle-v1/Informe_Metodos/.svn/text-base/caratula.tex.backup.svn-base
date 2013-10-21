@@ -1,0 +1,15 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{caratulaMetNum}
+\materia{Laboratorio de Métodos Numéricos}
+\titulo{Trabajo Práctico Número 1}
+\subtitulo{Titulo del TP}
+\grupo{Grupo 12}
+\integrante{Schmit, Matias}{XXX/XX}{mail}
+\integrante{Vega, Leandro}{XXX/XX}{mail}
+\integrante{Lasso, Nicolás}{763/10}{lasso.nico@gmail.com}
+\abstracto{Descripcion del Tp}
+\palabraClave{key1}
+\palabraClave{keyN}
+\begin{document}
+\maketitle 
+\end{document}
