@@ -1,0 +1,39 @@
+\indexentry{Introducci\'on Teorica}{2}
+\indexentry{Introducci\'on Teorica!M\'etodo de Newton}{2}
+\indexentry{Introducci\'on Teorica!M\'etodo de Bisecci\'on}{2}
+\indexentry{Desarrollo|(}{3}
+\indexentry{Desarrollo!Implementaci\'on de Bisecci\'on}{4}
+\indexentry{Desarrollo!Implementaci\'on de Newton}{4}
+\indexentry{Desarrollo!Interfaz}{4}
+\indexentry{Desarrollo!Tipos de  Experimentos}{5}
+\indexentry{Desarrollo!Tipos de  Experimentos!Intentos Fallidos}{5}
+\indexentry{Desarrollo|)}{5}
+\indexentry{Resultado|(}{6}
+\indexentry{Resultado!Distintos valores de datos}{6}
+\indexentry{Resultado!Distintos valores de datos!M\'etodo de Newton}{6}
+\indexentry{Resultado!Distintos valores de datos!M\'etodo de Bisecci\'on}{10}
+\indexentry{Resultado!Distintos valores de mantisa}{11}
+\indexentry{Resultado!Distintos valores de mantisa!M\'etodo de Newton}{11}
+\indexentry{Resultado!Distintos valores de mantisa!M\'etodo de Bisecci\'on}{12}
+\indexentry{Resultado!Distintas tolerancias y precisi\'on de resultados}{13}
+\indexentry{Resultado!Distintas tolerancias y precisi\'on de resultados!M\'etodo de Newton}{13}
+\indexentry{Resultado!Distintas tolerancias y precisi\'on de resultados!M\'etodod e Bisecci\'on}{13}
+\indexentry{Resultado!Distintos puntos de inicio}{15}
+\indexentry{Resultado!Distintos puntos de inicio!M\'etodo de Newton}{15}
+\indexentry{Resultado!Distintos puntos de inicio!M\'etodo de Bisecci\'on}{16}
+\indexentry{Resultado|)}{17}
+\indexentry{Discusi\'on|(}{18}
+\indexentry{Discusi\'on!Consecuencias de variar la mantisa}{18}
+\indexentry{Discusi\'on!Consecuencias de variar la tolerancia de aproximaci\'on a $0$}{18}
+\indexentry{Discusi\'on!Consecuencias de variar el valor inicial($x_0$)}{18}
+\indexentry{Discusi\'on|)}{19}
+\indexentry{Conclusiones|(}{20}
+\indexentry{Conclusiones!Cambio de mantisa}{20}
+\indexentry{Conclusiones!Cambio en valor de tolerancia de aproximaci\'on a 0}{20}
+\indexentry{Conclusiones!Cambio de valor de punto inicial (x0)}{20}
+\indexentry{Conclusiones!Diferencia entre los m\'etodos}{21}
+\indexentry{Conclusiones|)}{21}
+\indexentry{Ap\'endices}{22}
+\indexentry{Ap\'endices!Ap\'endice A|(}{22}
+\indexentry{Ap\'endices!Ap\'endice A|)}{23}
+\indexentry{Referencias}{30}
