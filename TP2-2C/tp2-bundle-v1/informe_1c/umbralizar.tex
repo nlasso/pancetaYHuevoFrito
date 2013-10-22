@@ -1,0 +1,48 @@
+Umbralizar es un filtro que debe modificar los píxeles de una imagen en blanco y negro de acuerdo a una fórmula que utiliza ciertos parámetros para calcular el nuevo valor del pixel. El valor inicial del pixel ($I_{pixel}$) y tres enteros (min, max, q), son utilizados para calcular el valor final del pixel (En realidad el valor del nuevo pixel) dada la fórmula siguiente: 0 si $I_{pixel}$ $\textless$  min, 255 si $I_{pixel}$ $\textgreater$ max, $\lfloor$ $I_{pixel}$/q $\rfloor$*q si min $\leq$ $I_{pixel}$ $\leq$ max.
+
+\subsubsection{Implementación en C}
+
+Utilizando dos ciclos anidados que iteren sobre la cantidad de píxeles de alto y de ancho de la imágen, leyendo en cada iteración un pixel, al que se lo procesa según la fórmula ya explicitada.
+Una vez procesado, el nuevo valor del pixel es almacenado en la imagen destino.
+Cada pixel que se lee implica un acceso a memoria, al igual que cada vez que se guarda el pixel en el destino.
+
+\subsubsection{Implementación en Assembler}
+
+La implementación en ASM sigue la misma lógica que la implementación en C, pero esta vez con la ventaja de poder leer y escribir en una sola iteración 16 pixeles simultaneamente. Eso quiere decir, que por cada acceso a memoria que hacemos en ASM, conseguimos 16 pixeles. Eso mismo en C nos costaría 16 accesos a memoria. Al momento de la escritura sucede lo mismo.
+
+
+Lo primero que hacemos en ASM es guardar el parámetro q en un registro y expandirlo 4 veces en el mismo (Las instrucciones de las que disponemos nos permiten procesar de a 4 pixeles por vez). También obtenemos otros resultados que utilizaremos para avanzar correctamente por los pixeles que debemos procesar.
+Luego de obtener los 16 pixeles a procesar en esta iteracón, se los desempaqueta hasta quedar en grupos de a 4 pixeles por registro. Generamos dos máscaras, una para los menores a min y otra para los mayores a max y luego asignamos el valor 0 a los pixeles menores a min.
+
+
+Para procesar correctamente los pixeles, deben ser convertidos a float antes de la división, y  reconvertilos a int para asegurar que sólo contengan la parte entera de la división antes de multiplicar. De nuevo hay que convertirlos a float y finalmente multiplicar por Q. Una vez hecha la multiplicacion, utilizamos una de las máscaras obtenidas anteriormente para que en los píxeles mayores a max tengan un 1 en cada bit.
+
+
+Este proceso debe ser repetido 4 veces por ciclo ya que si bien se puede leer 16 píxeles en cada iteración, las instrucciones solo me permiten procesar de a 4. Por este motivo debemos luego volver a empaquetar los píxeles hasta que nos quede en un registro, los 16 píxeles procesados. Debemos tener en cuenta al empaquetar, que la instrucción PACKUSWB, que usamos para empaquetar dos registros con 8 int cada uno en un registro con 16 int, asume que los valores que contienen los registros son signed int. Esto quiere decir que al empaquetar, va a transformar a 0 los píxeles cuyo bit más significativo es un 1 (Por ejemplo los píxeles que eran mayores a max). Para solucionar esto, antes de realizar el empaquetado, transformamos el bit más significativo en 0 para cada píxel.
+
+
+Los últimos dos pasos son escribir en la imágen destino los nuevos 16 píxeles con un solo acceso a memoria y avanzar a los próximos píxeles a procesar si correspondiera o terminar la ejecución si ya fueron procesados todos los píxeles.
+
+\subsubsection{Resultados}
+
+En la implementación C podemos leer de a un píxel por cada acceso a memoria, a diferencia de la implementación ASM que permite leer 16 píxeles en cada iteración. Por este motivo podríamos a priori suponer que el código asm debería ser 16 veces más rápido que el correspondiente código en C.
+
+Ejecutamos ambos filtros 1000 veces cada uno y estos son los resultados obtenidos:
+
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+         & Implementación C & Implementación en asm  \\
+        \hline
+        Duración promedio (en ciclos de clock) & 6 252 872        & 1 001 096 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Como se puede observar, la implentación en asm es apenas $\sim$6 veces más rápida.
+ 
+ 
+La razón de la diferencia entre la hipótesis y el resultado obtenido la podemos ver en lás operaciones realizadas para procesar los píxeles. Si bien corremos con la ventaja de que el código ASM hace un llamado a memoria por cada 16 que realiza el código C, no podemos procesar los 16 píxeles simultaneamente sino que podemos hacerlo de a 4. Además existe el costo de desempaquetar y empaquetar reiteradas veces a lo largo de cada iteración del ciclo, con lo cual la ventaja sobre el código C se ve reducida. La generación de las máscaras y su aplicación, también colaboran para nivelar la diferencia entre ambos códigos.
+
+
+A favor de la implementación en ASM, podemos ver que no sólo accedemos menos veces a memoria a la hora de leer píxeles, sino que también podemos, antes de entrar a los ciclos, guardar en registros algunos valores que el código C buscaría en cada iteración dentro de la memoria, como por ejemplo $max$ o $Q$.

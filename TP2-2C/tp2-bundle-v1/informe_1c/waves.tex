@@ -1,0 +1,95 @@
+La función waves consiste en generar unas ondas sobre la imagen destino, aplicando a cada pixel de la imagen fuente, la siguiente función:
+
+$prof_{i,j}$ =
+$(x_{scale} * sin\_taylor(i / 8.0) + y_{scale} * sin\_taylor(j / 8.0)) / 2$
+
+$I_{dest}$(i, j) = $prof_{i,j}$ * $g_{scale}$ + $I_{src}$(i, j)
+
+Además $I_{dest}$(i, j) debe guardarse como 0 ó 255, si este sobrepasa el intervalo [0, 255].
+
+\subsubsection{Implementación en C}
+
+Se crea una función particular para calcular el sin\_taylor.
+Con 2 ciclos anidados se recorren todos los píxeles de la imagen fuente, se calculan los sin\_taylor y se multiplican por las scale correspondientes. Luego se suma al valor del pixel fuente, se coloca dentro del intervalo [0, 255] y se guarda en la imagen destino.
+
+\subsubsection{Implementación en Assembler}
+
+El sin\_taylor se calcula con una macro, para evitar definir nuevas funciones y sus cargas en accesos a memoria, pero manteniendo el código en un solo lugar. Este mismo concepto está aprovechado por muchos compiladores y se conoce como function inlining (se copia el código de la función en todos los lugares dónde es llamada).
+Esta macro además hace la división por 8 y multiplica por el scale correspondiente, como puede verse en este pseudo-código:
+
+\begin{pseudocodigo}
+	\STATE $Prerequisito: xmm0 = \{i, i, i, i\}$ \COMMENT{con i el parámetro a aplicar sin\_taylor()}
+	\STATE scale\_sin\_taylor\_div\_8(scale) \{
+    		\INDSTATE[2] xmm0 = xmm0 / 8
+    		\INDSTATE[2] xmm1 = xmm0 \COMMENT{xmm1 = xmm0 = $\{i/8, i/8, i/8, i/8\}$}
+    		\INDSTATE[2] xmm0 = $\lfloor$xmm0 / 2 $\pi\rfloor$ * 2 $\pi$
+    		\INDSTATE[2] xmm0 = xmm1 - xmm0 - $\{\pi, \pi, \pi, \pi\}$
+    		\INDSTATE[2] xmm0 = xmm0 - xmm0$^{3}$ / 6 + xmm0$^{5}$ / 120 - xmm0$^{7}$ / 5040
+    		\INDSTATE[2] xmmo = xmm0 * $\{scale, scale, scale, scale\}$
+    \STATE \}
+\end{pseudocodigo}
+
+El filtro en sí se realiza con dos ciclos anidados trayendo de a 16 píxeles por vez.
+El sin\_taylor de la altura se calcula una sola vez por iteración en las filas y se guarda para evitar repetir cálculos.
+El ciclo trae 16 píxeles, pero procesa de a 4 y los va uniendo al final como indica el siguiente pseudo-código:
+
+\begin{pseudocodigo}
+	\STATE i = j = 0
+	\STATE checkearResto = resto = width \% 16
+	\WHILE{i $\textless$ height}
+		\STATE xmm0 = $\{i, i, i, i\}$
+		\STATE xmm5 = scale\_sin\_taylor\_div\_8(y\_scale)
+		
+		\WHILE{j $\textless$ width}
+			\STATE xmm12 = *(pointerSrc + i * src\_row\_size + j) \COMMENT{16 píxeles}
+			\STATE tmp = j
+			
+			\FOR{k in [1..4]}
+				\STATE xmm4 = unpackLower(unpackLower(xmm12)) \COMMENT{xmm4 = $\{p0, p1, p2, p3\}$}
+				\STATE xmm0 = $prof_{i,j}$(tmp, xmm5)
+				\STATE xmm0 = (int) (xmm0 + xmm4)
+				\STATE xmm0 = packSaturando(packSaturando(xmm0)) \COMMENT{xmm0 = $\{dst_{p0}, dst_{p1}, dst_{p2}, dst_{p3}\}$}
+				\STATE xmm12 = xmm0[0..3] + xmm12[4..15]
+				\STATE rotar(xmm12, 4) \COMMENT{Roto para en la siguiente iteración trabajar con otros píxeles y que al final quede ordenado de nuevo}
+				\STATE tmp += 4
+			\ENDFOR
+			
+			\STATE *(pointerDst + i * src\_row\_size + j) = xmm12 \COMMENT{16 píxeles}
+			\IF{checkearResto}
+				\STATE j += resto
+				\STATE checkearResto = false
+			\ELSE
+				\STATE j += 16
+			\ENDIF
+		\ENDWHILE
+		\STATE i++
+		\STATE checkearResto = true
+	\ENDWHILE
+	
+	\STATE $prof_{i, j}$(i, sin\_taylor\_j) \{
+		\INDSTATE[2] xmm0 = (float) $\{i, i+1, i+2, i+3\}$
+		\INDSTATE[2] xmm0 = scale\_sin\_taylor\_div\_8(x\_scale)
+		\INDSTATE[2] xmm0 = g\_scale * (sin\_taylor\_j + xmm0) / 2
+	\STATE \}
+\end{pseudocodigo}
+
+En el caso que ancho de la imagen no sea múltiplo de 16, antes de entrar al ciclo se calcula el resto (width \% 16) y en la primera iteración de cada fila se suma este resto en lugar de los 16 que se suman normalmente. 
+
+\subsubsection{Resultados}
+
+En la implementación en C, para procesar un bloque de 1 pixel se requieren 2 accesos a memoria para la lectura y escritura, pero además hace 2 llamadas a una función que, a su vez, hace 4 llamadas más, al menos 10 accesos a memoria más.
+En cambio en la implementación en ASM, se procesa un bloque de 16 píxeles con tan sólo 2 accesos a memoria. La implementación en ASM debería ser aproximadamente 96 veces más rápida.
+
+Ejecutamos ambos filtros 100 veces cada uno y estos son los resultados obtenidos:
+
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+         & Implementación C & Implementación en asm  \\
+        \hline
+        Duración promedio (en ciclos de clock) & 557 984 064        & 5 525 040 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Como se puede observar, la implentación en asm es $\sim$101 veces más rápida, lo que corrobora la hipótesis y muestra la gran diferencia que genera acceder a funciones dentro de cada iteración del ciclo.
