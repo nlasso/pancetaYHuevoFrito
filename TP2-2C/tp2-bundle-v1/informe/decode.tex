@@ -12,7 +12,7 @@ continuar con el siguiente grupo de bytes.
 El ciclo del algoritmo obtiene en primer lugar 16 bytes de la fuente. Luego, con una m\'ascara obtengo los bits 2 y 3 de cada byte en un registro. Luego 
 con otras m\'ascaras, se obtienen los bytes a los que se les debe sumar 1 en un registro y a los que se debe restar 1 en otro. El pr\'oximo paso, niega 
 los bits de los bytes cuyo c\'odigo de opraci\'on es 3. A ese resultado, se le suma 1 al registro usando la m\'ascara obtenida anteriormente, y lo mismo 
-se hace para restar 1 usando la otra m\'ascara. Despu\'es de eso, se borran todos los bits que no interesan, dejando solo los bits 0 y 1 de cada byte.
+se hace para restar 1 usando la otra m\'ascara. Despu\'es de eso, se borran todos los bits que no interesan, dejando solo los bits 0 y 1 de cada byte.\newline
 Para juntarlos y armar los bytes decodificados, en diferentes registros, se dejan solo los pares de bits que van en las posiciones 0 y 1, 2 y 3, 4 y 5 , 
 6 y 7. Luego, con pshufb y las m\'ascaras correspondientes, llevo esos bits manteniendo sus posiciones, pero a los primeros 3 bytes del registro. Y 
 finalmente con la instrucci\'on POR se guardan en un solo registro todos los bits en su posici\'on correspondiente. Finalmente se guarda ese registro en 

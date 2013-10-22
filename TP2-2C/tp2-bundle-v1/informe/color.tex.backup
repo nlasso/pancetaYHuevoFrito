@@ -15,7 +15,7 @@ Al levantar los 16 bytes, lo primero que realizo es copiar estos 16 bytes en otr
 de Shuffle para que queden de la siguiente forma:
 
 \begin{center}
-\includegraphics{imagenes/ImagenReorden.png}  
+%Poner imagen de los tres alineados. 
 \end{center}
 
 Luego le restamos a cada uno de los datos dentro de nuestros registros, un valor rc, bc o gc que es pasado por par\'matro, seg\'un se explica al
@@ -26,7 +26,7 @@ dentro del registro y el mas chico y se separan ambos en dos registros distintos
 como quer\'iamos. A modo de ejemplo dejamos la siguiente imagen:
 
 \begin{center}
-\includegraphics[width=16cm]{imagenes/resta.png} 
+ %poner imagen de la resta.
 \end{center}
 
 Una vez hecha la resta, se procede a convertir a float ya que las siguientes operaciones son multiplicaci\'on, suma y raiz cuadrada para la cual necesitamos
@@ -40,7 +40,8 @@ Al final de toda la operaci\'on dejamos en 2 registros los 5 floats con cada una
 entendimiento:
 
 \begin{center}
-\includegraphics{imagenes/FinOperacion.png} 
+ %Meter |cuenta | cuenta | cuenta | cuenta |
+ % | cuenta | 0 | 0 | 0| 
 \end{center}
  Un vez qu tenemos estos valores y luego de convertirlos a INT de tamaño Double word. Mediante el uso de la instrucci\'on PCMPGTD, comparamos que datos son
 mayores y cuales son menores o iguales al valor pasado por parametro \emph{threshold} generando una mascara con valores 0xffffffff si el resultado de la 
@@ -54,7 +55,6 @@ Para terminar, procesamos los datos que debemos realizar la siguiente cuenta en 
  $\frac{b + g + r}{3}$
 \end{center}
 
-Por \'ultimo solo le agregamos los resultados de los bits procesados al registro que tiene los datos originales y lo guardamos en la matriz de destino.
 
 
 \subsubsection{Resultados}
