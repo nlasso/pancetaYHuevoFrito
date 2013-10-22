@@ -203,10 +203,12 @@ miniature_asm:
 	MULPS xmm0, xmm2	;topPlaneLimit
 	MULPS xmm1, xmm2	;bottomPlaneInit
 	;(Width - 2) * 3
-	SUB r15d, 6
+	;SUB r15d, 6
 	MOV eax, 3
 	MUL r15d
+	SUB eax, 16
 	MOV r15d, eax		;newWidth
+
 
 	SUB r14d, 5 		;Le quito 2 filas al alto para no pasarme al final.
 
@@ -247,23 +249,23 @@ miniature_asm:
 					CMP r12d, r15d
 					JG .finColumnasAlta
 					MOV ebx, r15d	;newWidth
-					ADD ebx, 18		;Le sumo los dos pixels que saqué ya que no los proceso pero los necesito para moverme.
+					ADD ebx, 16		;Le sumo los dos pixels que saqué ya que no los proceso pero los necesito para moverme.
 					MOV rax, r13
 					MUL rbx 		; ancho en bytes * contador de filas.
 					MOV rbx, rax
 					ADD rbx, r12
 					MOVDQU xmm2, [rdi + rbx]
 					ADD rbx, r15
-					add rbx, 18
+					add rbx, 16
 					MOVDQU xmm3, [rdi + rbx]
 					ADD rbx, r15
-					add rbx, 18
+					add rbx, 16
 					MOVDQU xmm4, [rdi + rbx]
 					ADD rbx, r15
-					add rbx, 18
+					add rbx, 16
 					MOVDQU xmm6, [rdi + rbx]
 					ADD rbx, r15
-					add rbx, 18
+					add rbx, 16
 					MOVDQU xmm7, [rdi + rbx]
 
 					PSHUFB xmm2, [MASK_ORD]
@@ -274,9 +276,9 @@ miniature_asm:
 					get_miniature_color xmm2, xmm3, xmm4, xmm6, xmm7
 
 					SUB rbx, r15
-					SUB rbx, 18
+					SUB rbx, 16
 					SUB rbx, r15
-					SUB rbx, 18
+					SUB rbx, 16
 					MOVDQU [rdi + rbx], xmm4
 					MOVDQU [rsi + rbx], xmm4
 					ADD r12d, 3
@@ -287,8 +289,40 @@ miniature_asm:
 					XOR r12, r12
 					JMP .filasBandaAlta
 				.finBandaAlta:
-				XOR r13, r13
+					XOR r13, r13
+					XOR r12, r12
+					;ADD r15, 2
+					;MOVDQU xmm6, xmm0
+					;CVTPS2DQ xmm6, xmm6
+					;MOVD r13d, xmm6
+					;ADD r12, 2
+					;.copyFila:
+						;CMP r12, r13
+						;JG .finCopyFila
+						;XOR rbx, rbx
+						;.copyColumna:
+							;CMP ebx, r15d
+							;JG .finCopyColumna
+							;XOR r9, r9
+							;MOV r9, r15
+							;ADD r9, 16
+							;MOV rax, r12
+							;MUL r9
+							;MOV r9, rax
+							;ADD r9, rbx
+							;MOVDQU xmm4, [rsi + r9]
+							;MOVDQU [rdi + r9], xmm4
+							;ADD ebx, 16
+							;JMP .copyColumna
+						;.finCopyColumna:
+						;ADD r12, 1
+						;JMP .copyFila
+				;.finCopyFila:
+				;SUB r15, 2
 				XOR r12, r12
+				XOR r13, r13
+				XOR rbx, rbx
+				XOR r9, r9
 				ADD r10d, 1
 				JMP .bandaAlta
 
@@ -304,7 +338,7 @@ miniature_asm:
 	ADDPS xmm2, xmm0
 	CVTPS2DQ xmm2, xmm2
 	MOVD r13d, xmm2
-	ADD r15, 2
+	;ADD r15, 2
 	.filasBandaIntermedia:
 	CMP r13d, r10d
 	JGE .startBottom
@@ -332,7 +366,7 @@ miniature_asm:
 
 .startBottom:
 	XOR r10, r10
-	SUB r15, 2
+	;SUB r15, 2
 .iteracionBottom:
 	CMP r10d, r8d			;i (contador) < iters
 	JGE .fin
@@ -369,23 +403,23 @@ miniature_asm:
 					CMP r12d, r15d
 					JG .finColumnasBaja
 					MOV ebx, r15d	;newWidth
-					ADD ebx, 18		;Le sumo los dos pixels que saqué ya que no los proceso pero los necesito para moverme.
+					ADD ebx, 16		;Le sumo los dos pixels que saqué ya que no los proceso pero los necesito para moverme.
 					MOV eax, r9d
 					MUL rbx 		; ancho en bytes * contador de filas.
 					MOV rbx, rax
 					ADD rbx, r12
 					MOVDQU xmm2, [rdi + rbx]
 					ADD rbx, r15
-					ADD rbx, 18
+					ADD rbx, 16
 					MOVDQU xmm3, [rdi + rbx]
 					ADD rbx, r15
-					ADD rbx, 18
+					ADD rbx, 16
 					MOVDQU xmm4, [rdi + rbx]
 					ADD rbx, r15
-					ADD rbx, 18
+					ADD rbx, 16
 					MOVDQU xmm6, [rdi + rbx]
 					ADD rbx, r15
-					ADD rbx, 18
+					ADD rbx, 16
 					MOVDQU xmm7, [rdi + rbx]
 
 					PSHUFB xmm2, [MASK_ORD]
@@ -397,9 +431,9 @@ miniature_asm:
 					get_miniature_color xmm2, xmm3, xmm4, xmm6, xmm7
 
 					SUB rbx, r15
-					SUB rbx, 18
+					SUB rbx, 16
 					SUB rbx, r15
-					SUB rbx, 18
+					SUB rbx, 16
 					MOVDQU [rdi + rbx], xmm4
 					MOVDQU [rsi + rbx], xmm4
 					ADD r12d, 3
