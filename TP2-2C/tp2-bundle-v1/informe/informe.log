@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.7.18)  22 OCT 2013 13:00
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.7.18)  22 OCT 2013 16:25
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -801,39 +801,66 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2] (./color.tex
-<imagenes/ImagenReorden.png, id=21, 429.10312pt x 225.84375pt>
+[2] [3] (./color.tex
+<imagenes/ImagenReorden.png, id=24, 429.10312pt x 225.84375pt>
 File: imagenes/ImagenReorden.png Graphic file (type png)
 
-<use imagenes/ImagenReorden.png> [3 <./imagenes/ImagenReorden.png (PNG copy)>]
-<imagenes/resta.png, id=27, 675.27281pt x 37.64063pt>
+<use imagenes/ImagenReorden.png>
+<imagenes/resta.png, id=25, 675.27281pt x 37.64063pt>
 File: imagenes/resta.png Graphic file (type png)
  <use imagenes/resta.png>
-Overfull \hbox (2.27618pt too wide) in paragraph at lines 29--30
+Overfull \hbox (2.27618pt too wide) in paragraph at lines 30--31
  [] 
  []
 
-<imagenes/FinOperacion.png, id=28, 376.40625pt x 97.86563pt>
+[4 <./imagenes/ImagenReorden.png (PNG copy)> <./imagenes/resta.png (PNG copy)>]
+<imagenes/FinOperacion.png, id=31, 376.40625pt x 97.86563pt>
 File: imagenes/FinOperacion.png Graphic file (type png)
 
-<use imagenes/FinOperacion.png>) (./miniature.tex) (./decode.tex [4 <./imagenes
-/resta.png (PNG copy)> <./imagenes/FinOperacion.png (PNG copy)>]) [5]
-AED: lastpage setting LastPage
+<use imagenes/FinOperacion.png>
+Underfull \hbox (badness 10000) in paragraph at lines 62--67
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.07225pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
+ []
 
-[6] (./informe.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--74
+
+ []
+
+<imagenes/optimizacionC.jpg, id=32, 578.16pt x 433.62pt>
+File: imagenes/optimizacionC.jpg Graphic file (type jpg)
+
+<use imagenes/optimizacionC.jpg> [5 <./imagenes/FinOperacion.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 81--87
+
+ []
+
+) [6 <./imagenes/optimizacionC.jpg>] (./miniature.tex
+Underfull \hbox (badness 10000) in paragraph at lines 16--19
+
+ []
+
+<imagenes/mover1.png, id=45, 602.25pt x 150.5625pt>
+File: imagenes/mover1.png Graphic file (type png)
+ <use imagenes/mover1.png>
+Underfull \hbox (badness 10000) in paragraph at lines 27--30
+
+ []
+
+<imagenes/mover2.png, id=46, 526.96875pt x 150.5625pt>
+File: imagenes/mover2.png Graphic file (type png)
+
+<use imagenes/mover2.png>) [7 <./imagenes/mover1.png (PNG copy)> <./imagenes/mo
+ver2.png (PNG copy)>] (./decode.tex) [8] AED: lastpage setting LastPage
+[9] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 12051 strings out of 495061
- 219229 string characters out of 1182621
+ 12084 strings out of 495061
+ 219758 string characters out of 1182621
  268617 words of memory out of 3000000
- 14954 multiletter control sequences out of 15000+50000
- 7855 words of font info for 30 fonts, out of 3000000 for 9000
+ 14977 multiletter control sequences out of 15000+50000
+ 10955 words of font info for 42 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 56i,12n,57p,642b,424s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,12n,57p,419b,493s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
 mbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
 /usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/
@@ -841,13 +868,15 @@ texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texli
 ve/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/typ
 e1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/am
 sfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-r17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on informe.pdf (6 pages, 934129 bytes).
+r17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-
+texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmti10.pfb>
+Output written on informe.pdf (9 pages, 1021204 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
+ 101 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

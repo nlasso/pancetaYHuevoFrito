@@ -9,8 +9,9 @@ procesando quedan sus 3 colores iguales, logrando una escala de grises. Si el co
 resaltado.
 
 \subsubsection{Implementación en Assembler}
-Haciendo uso de los registros \emph{XMM} por cada acceso a memoria se pueden traer 16 bytes lo cual la cantidad de accesos a memoria decrementa 
-considerablemente. Esto podr\'a apreciarse en la secc\'on de resultados.\newline
+Haciendo uso de los registros \emph{XMM} por cada acceso a memoria se pueden traer 16 bytes con lo cual la cantidad de accesos a memoria decrementa 
+considerablemente, haciendo que en comparaci\'on con el co\'odigo en C este sea mas optimo ya que el acceso a memoria es de las operaciones que mas 
+consumen en cantidad de ciclos haciendo que disminuya la performance. Esto podr\'a apreciarse en la secc\'on de resultados.\newline
 Al levantar los 16 bytes, lo primero que realizo es copiar estos 16 bytes en otros 2 registros \emph{XMM} para luego ordernarlos mediante la instrucc\'on
 de Shuffle para que queden de la siguiente forma:
 
@@ -56,5 +57,33 @@ Para terminar, procesamos los datos que debemos realizar la siguiente cuenta en 
 
 Por \'ultimo solo le agregamos los resultados de los bits procesados al registro que tiene los datos originales y lo guardamos en la matriz de destino.
 
+\subsubsection{Consideraci\'ones seg\'un optimizaciones}
+\begin{itemize}
+ \item Usando la herramienta \emph{objdump} desensamblamos el archivo .o de c\'odigo del filtro de Color. Al observar este c\'odigo, lo primero que notamos es
+ que el compilador no us\'o instrucci\'ones de SIMD a pesar de que el procesador tenga esa caracteristica. Esto se debe a que al escribir en lenguaje C
+no se puede hacer uso de estas operaciones a menos que usemos una librer\'ia aparte que haga uso de estas como puede ser \emph{libSIMDx86}.\newline
+En cuanto a como se manipulas las variables locales, Se respetan las convenciones de pushear registros como r15 - r12 y rbx. Pero en casi todo el c\'odigo
+se hace uso de las variables por parametros y se usa mucho la pila moviendo el registro rbp para recorrerla.\newline
+\item Existen algunas optimizaciones que se pueden realizar a la hora de compilar el c\'odigo en C. Estas son -O1, -O2 o -O3, las cuales, siendo agregadas
+como flags a la hora de compilar, mi c\'odigo ensamblado queda mucho m\'as \'optimo. En particular el flag -O1 hace que el tamaño del c\'odigo ensamblado
+sea mucho menor que el c\'odigo ensablado sin optimizaci\'on. En particular al mirar el objdump de c\'odigo con -O1 se pudo apreciar que el c\'odigo era
+mucho menor en cantidad de lineas y que la cantidad de registros pusheados a la pila fue mayor.\newline
+El flag -O2 hace todas las optimizaciones que pueda en el c\'odigo que no est\'en involucradas con optimizaciones de espacio-tiempo. Y por \'ultimo el flags
+-O3 abre todas las opmitizaciones de -O2 mas algunas extras con el fin de hacer aun m\'as optimo el c\'odigo.\footnote{Para mas informaci\'on revisar el
+http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html}\newline
+\item Haciendo uso de las optimizaciones mencionadas anteriormente, se realizaron experimentos de performance usando el c\'odigo en ASM, en C y en C 
+compilado con optimizacion -O1, -O2 y -O3. El siguiente gr\'afico muestra como el c\'odigo en C optimizado y el ASM son casi id\'enticos.
 
-\subsubsection{Resultados}
+\begin{center}
+ \includegraphics[scale=0.5]{imagenes/optimizacionC.jpg}
+\end{center}
+
+Esta medici\'on fue realizada cambiando la cantidad de iteraciones y midiendo cuantos ticks de procesador consume procesar el video completo. El 
+problema de realizar las mediciones de esta manera es que el procesador switchea entre distintos procesos todo el tiempo haciendo que mi contador aumente
+ al ejecutar procesos que no pertenecen a mi funci\'on y se cuenta en intervalos muy grandes provocando que la probabilidad de contar ticks de procesos
+ exteriores sea mayor. Es por esta raz\'on que nuestra medici\'on no es lo suficientemente precisa. Una forma de hacerla mas precisa ser\'ia evaluando un
+promedio de la cantidad de Ticks que consume por cada frame de cada iteraci\'on. Pero al trabajar en ordenes tan grandes deber\'iamos procesar demasiada
+ informaci\'on que no viene al caso de lo que se queire mostrar.\newline
+
+\end{itemize}
+

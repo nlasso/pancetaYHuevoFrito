@@ -30,8 +30,7 @@ de esta manera estamos aprovechando los HIT de la cache en lugar de un MISS por 
 \begin{center}
  \includegraphics[scale=0.7]{imagenes/mover2.png}
 \end{center}
-Finalmente se opto por la segunda opci\'on por cuestiones de performance. El resto de las cuestiones estructurales como ciclos y operaciones son muy
-similares al C.
+
 \end{itemize}
 
 
