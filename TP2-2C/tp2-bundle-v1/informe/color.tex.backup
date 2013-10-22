@@ -1,10 +1,12 @@
-Este filtro consiste b\'asicamente en dados un color y una distancia pasados como par\'ametros, procesa cada pixel de una im\'agen a color evaluando si el color del mismo se ''aleja'' m\'as de la distancia del par\'ametro, y si eso pasa, el p\'ixel se transforma a escala de grises, sino lo mantiene igual. Esto logra el efecto de resaltar un color en una im\'agen.
+Este filtro consiste b\'asicamente en dados un color y una distancia pasados como par\'ametros, procesa cada pixel de una im\'agen a color evaluando si 
+el color del mismo se "aleja" m\'as de la distancia del par\'ametro, y si eso pasa, el pixel se transforma a escala de grises, sino lo mantiene igual. 
+Esto logra el efecto de resaltar un color en una im\'agen
 
 \subsubsection{Implementación en C}
-Mediante dos ciclos anidados, se recorre la im\'agen por cada componente de color de cada pixel. Por cada pixel se levantan sus 3 colores RGB para calcular la distancia a los 3 colores RGB pasados por par\'ametro. Si el color de la im\'agen supera esa distancia, entonces en el p\'ixel que se est\'a procesando quedan sus 3 colores iguales unos con otros, logrando convertirse a blanco y negro. Si el color no supera la distancia, debe mantenerse tal cual, logrando as\'i ser resaltado.\\
-Se define la distancia entre colores c\'omo:\\
-$distancia((r, g, b), (rc, gc, bc)) = \sqrt{(r − rc)^2 + (g − gc)^2 + (b − bc)^2}$\\\\
-Para pasar a blanco y negro el p\'ixel, ponemos en cada canal de color (rgb), el mismo valor: $\frac{r + g + b}{3}$.
+Mediante dos ciclos anidados, se va recorriendo la im\'agen por cada componente de color de cada pixel. Por cada pixel se levantan sus 3 colores RGB para 
+calcular la distancia a los 3 colores RGB pasados por par\'ametro. Si el color de la im\'agen supera esa distancia, entonces en el pixel que se est\'a 
+procesando quedan sus 3 colores iguales, logrando una escala de grises. Si el color no supera la distancia, debe mantenerse tal cual, logrando as\'i ser 
+resaltado.
 
 \subsubsection{Implementación en Assembler}
 Haciendo uso de los registros \emph{XMM} por cada acceso a memoria se pueden traer 16 bytes lo cual la cantidad de accesos a memoria decrementa 
@@ -13,7 +15,7 @@ Al levantar los 16 bytes, lo primero que realizo es copiar estos 16 bytes en otr
 de Shuffle para que queden de la siguiente forma:
 
 \begin{center}
-\includegraphics{imagenes/ImagenReorden.png}  
+%Poner imagen de los tres alineados. 
 \end{center}
 
 Luego le restamos a cada uno de los datos dentro de nuestros registros, un valor rc, bc o gc que es pasado por par\'matro, seg\'un se explica al
@@ -24,7 +26,7 @@ dentro del registro y el mas chico y se separan ambos en dos registros distintos
 como quer\'iamos. A modo de ejemplo dejamos la siguiente imagen:
 
 \begin{center}
-\includegraphics[width=16cm]{imagenes/resta.png} 
+ %poner imagen de la resta.
 \end{center}
 
 Una vez hecha la resta, se procede a convertir a float ya que las siguientes operaciones son multiplicaci\'on, suma y raiz cuadrada para la cual necesitamos
@@ -38,7 +40,8 @@ Al final de toda la operaci\'on dejamos en 2 registros los 5 floats con cada una
 entendimiento:
 
 \begin{center}
-\includegraphics{imagenes/FinOperacion.png} 
+ %Meter |cuenta | cuenta | cuenta | cuenta |
+ % | cuenta | 0 | 0 | 0| 
 \end{center}
  Un vez qu tenemos estos valores y luego de convertirlos a INT de tamaño Double word. Mediante el uso de la instrucci\'on PCMPGTD, comparamos que datos son
 mayores y cuales son menores o iguales al valor pasado por parametro \emph{threshold} generando una mascara con valores 0xffffffff si el resultado de la 
@@ -52,7 +55,6 @@ Para terminar, procesamos los datos que debemos realizar la siguiente cuenta en 
  $\frac{b + g + r}{3}$
 \end{center}
 
-Por \'ultimo solo le agregamos los resultados de los bits procesados al registro que tiene los datos originales y lo guardamos en la matriz de destino.
 
 
 \subsubsection{Resultados}

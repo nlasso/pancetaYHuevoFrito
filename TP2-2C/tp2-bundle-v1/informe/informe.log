@@ -1,24 +1,14 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.10.21)  22 OCT 2013 10:34
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.7.18)  22 OCT 2013 13:00
 entering extended mode
- restricted \write18 enabled.
  %&-line parsing enabled.
 **informe.tex
 (./informe.tex
-LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, et
-hiopic, farsi, arabic, pinyin, croatian, bulgarian, ukrainian, russian, slovak,
- czech, danish, dutch, usenglishmax, ukenglish, finnish, french, basque, ngerma
-n, german, swissgerman, ngerman-x-2012-05-30, german-x-2012-05-30, monogreek, g
-reek, ibycus, ancientgreek, hungarian, bengali, tamil, hindi, telugu, gujarati,
- sanskrit, malayalam, kannada, assamese, marathi, oriya, panjabi, italian, lati
-n, latvian, lithuanian, mongolian, mongolianlmc, nynorsk, bokmal, indonesian, e
-speranto, coptic, welsh, irish, interlingua, serbian, serbianc, slovenian, friu
-lan, romansh, estonian, romanian, armenian, uppersorbian, turkish, afrikaans, i
-celandic, kurmanji, polish, portuguese, galician, catalan, spanish, swedish, th
-ai, loaded.
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+(/usr/share/texmf-texlive/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -33,23 +23,20 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2010/09/12 v5.6 Page Geometry
+(/usr/share/texmf-texlive/tex/latex/geometry/geometry.sty
+Package: geometry 2008/12/21 v4.2 Page Geometry
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
-Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
 Package ifvtex Info: VTeX not detected.
-)
-(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
-Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \Gm@cnth=\count87
 \Gm@cntv=\count88
@@ -58,25 +45,21 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@wd@mp=\dimen104
 \Gm@odd@mp=\dimen105
 \Gm@even@mp=\dimen106
-\Gm@layoutwidth=\dimen107
-\Gm@layoutheight=\dimen108
-\Gm@layouthoffset=\dimen109
-\Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks15
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+(/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
 Package: inputenc 2008/03/30 v1.1d Input encoding file
 \inpenc@prehook=\toks16
 \inpenc@posthook=\toks17
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+(/usr/share/texmf-texlive/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.dfu
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.dfu
 File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -226,7 +209,7 @@ File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ot1enc.dfu
+(/usr/share/texmf-texlive/tex/latex/base/ot1enc.dfu
 File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -257,7 +240,7 @@ File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/omsenc.dfu
+(/usr/share/texmf-texlive/tex/latex/base/omsenc.dfu
 File: omsenc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
@@ -281,27 +264,33 @@ Now handling font encoding U ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
-(/var/lib/texmf/tex/generic/babel/babel.sty
-Package: babel 2008/07/08 v3.8m The Babel package
+(/usr/share/texmf-texlive/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/spanish.ldf
-Language: spanish.ldf 2011/10/06 v5.0k Spanish support from the babel system
+(/usr/share/texmf-texlive/tex/generic/babel/spanish.ldf
+Language: spanish.ldf 2009/01/02 v5.0h Spanish support from the babel system
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
-File: babel.def 2008/07/08 v3.8m Babel common definitions
+(/usr/share/texmf-texlive/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
 \babel@savecnt=\count90
-\U@D=\dimen111
+\U@D=\dimen107
 )
+
+Package babel Warning: No hyphenation patterns were loaded for
+(babel)                the language `Spanish'
+(babel)                I will use the patterns loaded for \language=0 instead.
+
+\l@spanish = a dialect from \language0
 \es@datefmt=\count91
 \es@quottoks=\toks18
 \es@quotdepth=\count92
-Package babel Info: Making " an active character on input line 496.
-Package babel Info: Making . an active character on input line 599.
-))
-(/usr/share/texlive/texmf-dist/tex/latex/setspace/setspace.sty
-Package: setspace 2011/12/19 v6.7a set line spacing
-)
-(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package babel Info: Making " an active character on input line 492.
+Package babel Info: Making . an active character on input line 585.
+)) (/usr/share/texmf-texlive/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+) (/usr/share/texmf-texlive/tex/latex/fancyhdr/fancyhdr.sty
 \fancy@headwidth=\skip43
 \f@ncyO@elh=\skip44
 \f@ncyO@erh=\skip45
@@ -311,28 +300,28 @@ Package: setspace 2011/12/19 v6.7a set line spacing
 \f@ncyO@erf=\skip49
 \f@ncyO@olf=\skip50
 \f@ncyO@orf=\skip51
+) (./lastpage.sty
+Package: lastpage 1994/06/25 v0.1b LaTeX2e package for refs to last page number
+ (JPG)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/lastpage/lastpage.sty
-Package: lastpage 2011/09/01 v1.2k Refers to last page's name (HMM; JPG)
-)
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip52
 
 For additional information on amsmath, use the `?' option.
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks19
-\ex@=\dimen112
+\ex@=\dimen108
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen113
+\pmbraise@=\dimen109
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count93
@@ -347,7 +336,7 @@ LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
 \Mathstrutbox@=\box26
 \strutbox@=\box27
-\big@size=\dimen114
+\big@size=\dimen110
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \macc@depth=\count98
@@ -360,12 +349,12 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \column@=\count103
 \maxfields@=\count104
 \andhelp@=\toks21
-\eqnshift@=\dimen115
-\alignsep@=\dimen116
-\tagshift@=\dimen117
-\tagwidth@=\dimen118
-\totwidth@=\dimen119
-\lineht@=\dimen120
+\eqnshift@=\dimen111
+\alignsep@=\dimen112
+\tagshift@=\dimen113
+\tagwidth@=\dimen114
+\totwidth@=\dimen115
+\lineht@=\dimen116
 \@envbody=\toks22
 \multlinegap=\skip53
 \multlinetaggap=\skip54
@@ -373,67 +362,70 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+(/usr/share/texmf-texlive/tex/latex/tools/verbatim.sty
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks24
 \verbatim@line=\toks25
 \verbatim@in@stream=\read1
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
-File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
-)
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
 \Gread@gobject=\count105
 ))
-\Gin@req@height=\dimen121
-\Gin@req@width=\dimen122
+\Gin@req@height=\dimen117
+\Gin@req@width=\dimen118
 )
-(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+(/usr/share/texmf-texlive/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count106
 \float@exts=\toks26
 \float@box=\box28
 \@float@everytoks=\toks27
 \@floatcapt=\box29
-)
-(/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithmic.sty
-Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+) (./algorithmic.sty
+Package: algorithmic 
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Document Style `algorithmic' - environment
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@ALC@unique=\count107
-\c@ALC@line=\count108
-\c@ALC@rem=\count109
-\c@ALC@depth=\count110
-\ALC@tlm=\skip55
-\algorithmicindent=\skip56
+(/usr/share/texmf-texlive/tex/latex/tools/calc.sty
+Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count107
+\calc@Bcount=\count108
+\calc@Adimen=\dimen119
+\calc@Bdimen=\dimen120
+\calc@Askip=\skip55
+\calc@Bskip=\skip56
+LaTeX Info: Redefining \setlength on input line 76.
+LaTeX Info: Redefining \addtolength on input line 77.
+\calc@Ccount=\count109
+\calc@Cskip=\skip57
+)
+\c@ALC@line=\count110
+\c@ALC@rem=\count111
+\ALC@tlm=\skip58
 )
 (/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/share/texmf/tex/latex/pgf/basiclayer/pgf.sty
@@ -444,7 +436,7 @@ Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 (/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box30
 
-(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty
+(/usr/share/texmf-texlive/tex/latex/ms/everyshi.sty
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 ))
 (/usr/share/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex
@@ -464,20 +456,20 @@ Package: pgfsys 2010/06/30 v2.10 (rcs-revision 1.37)
 (/usr/share/texmf/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
 \pgfkeys@tmptoks=\toks31
 ))
-\pgf@x=\dimen123
-\pgf@y=\dimen124
-\pgf@xa=\dimen125
-\pgf@ya=\dimen126
-\pgf@xb=\dimen127
-\pgf@yb=\dimen128
-\pgf@xc=\dimen129
-\pgf@yc=\dimen130
+\pgf@x=\dimen121
+\pgf@y=\dimen122
+\pgf@xa=\dimen123
+\pgf@ya=\dimen124
+\pgf@xb=\dimen125
+\pgf@yb=\dimen126
+\pgf@xc=\dimen127
+\pgf@yc=\dimen128
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count111
-\c@pgf@countb=\count112
-\c@pgf@countc=\count113
-\c@pgf@countd=\count114
+\c@pgf@counta=\count112
+\c@pgf@countb=\count113
+\c@pgf@countc=\count114
+\c@pgf@countd=\count115
 
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
@@ -492,8 +484,8 @@ File: pgfsys-common-pdf.def 2008/05/19  (rcs-revision 1.10)
 )))
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2008/07/18  (rcs-revision 1.7)
-\pgfsyssoftpath@smallbuffer@items=\count115
-\pgfsyssoftpath@bigbuffer@items=\count116
+\pgfsyssoftpath@smallbuffer@items=\count116
+\pgfsyssoftpath@bigbuffer@items=\count117
 )
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
@@ -501,7 +493,7 @@ File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
 (/usr/share/texmf/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+(/etc/texmf/tex/latex/config/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -522,8 +514,8 @@ Package: pgfcore 2010/04/11 v2.10 (rcs-revision 1.7)
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen131
-\pgfmath@count=\count117
+\pgfmath@dimen=\dimen129
+\pgfmath@count=\count118
 \pgfmath@box=\box31
 \pgfmath@toks=\toks32
 \pgfmath@stack@operand=\toks33
@@ -538,51 +530,51 @@ Package: pgfcore 2010/04/11 v2.10 (rcs-revision 1.7)
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.round.code.tex)
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex)))
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count118
+\c@pgfmathroundto@lastzeros=\count119
 ))
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2010/04/09  (rcs-revision 1.20)
-\pgf@picminx=\dimen132
-\pgf@picmaxx=\dimen133
-\pgf@picminy=\dimen134
-\pgf@picmaxy=\dimen135
-\pgf@pathminx=\dimen136
-\pgf@pathmaxx=\dimen137
-\pgf@pathminy=\dimen138
-\pgf@pathmaxy=\dimen139
-\pgf@xx=\dimen140
-\pgf@xy=\dimen141
-\pgf@yx=\dimen142
-\pgf@yy=\dimen143
-\pgf@zx=\dimen144
-\pgf@zy=\dimen145
+\pgf@picminx=\dimen130
+\pgf@picmaxx=\dimen131
+\pgf@picminy=\dimen132
+\pgf@picmaxy=\dimen133
+\pgf@pathminx=\dimen134
+\pgf@pathmaxx=\dimen135
+\pgf@pathminy=\dimen136
+\pgf@pathmaxy=\dimen137
+\pgf@xx=\dimen138
+\pgf@xy=\dimen139
+\pgf@yx=\dimen140
+\pgf@yy=\dimen141
+\pgf@zx=\dimen142
+\pgf@zy=\dimen143
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2010/08/03  (rcs-revision 1.24)
-\pgf@path@lastx=\dimen146
-\pgf@path@lasty=\dimen147
+\pgf@path@lastx=\dimen144
+\pgf@path@lasty=\dimen145
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2008/04/22  (rcs-revision 1.12)
-\pgf@shorten@end@additional=\dimen148
-\pgf@shorten@start@additional=\dimen149
+\pgf@shorten@end@additional=\dimen146
+\pgf@shorten@start@additional=\dimen147
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2010/09/08  (rcs-revision 1.34)
 \pgfpic=\box32
 \pgf@hbox=\box33
 \pgf@layerbox@main=\box34
-\pgf@picture@serial@count=\count119
+\pgf@picture@serial@count=\count120
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2008/04/22  (rcs-revision 1.9)
-\pgflinewidth=\dimen150
+\pgflinewidth=\dimen148
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2009/06/10  (rcs-revision 1.11)
-\pgf@pt@x=\dimen151
-\pgf@pt@y=\dimen152
-\pgf@pt@temp=\dimen153
+\pgf@pt@x=\dimen149
+\pgf@pt@y=\dimen150
+\pgf@pt@temp=\dimen151
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
@@ -598,8 +590,8 @@ File: pgfcorearrows.code.tex 2008/04/23  (rcs-revision 1.11)
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2008/11/23  (rcs-revision 1.13)
-\pgf@max=\dimen154
-\pgf@sys@shading@range@num=\count120
+\pgf@max=\dimen152
+\pgf@sys@shading@range@num=\count121
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2010/03/25  (rcs-revision 1.16)
@@ -626,8 +618,8 @@ File: pgfmoduleplot.code.tex 2010/10/22  (rcs-revision 1.8)
 )
 (/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2007/07/03 v2.10 (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen155
-\pgf@nodesepend=\dimen156
+\pgf@nodesepstart=\dimen153
+\pgf@nodesepend=\dimen154
 )
 (/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2007/07/23 v2.10 (rcs-revision 1.1)
@@ -637,8 +629,8 @@ Package: pgfcomp-version-1-18 2007/07/23 v2.10 (rcs-revision 1.1)
 (/usr/share/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex))
 (/usr/share/texmf/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2010/03/23 v2.10 (rcs-revision 1.18)
-\pgffor@iter=\dimen157
-\pgffor@skip=\dimen158
+\pgffor@iter=\dimen155
+\pgffor@skip=\dimen156
 \pgffor@stack=\toks35
 \pgffor@toks=\toks36
 ))
@@ -647,35 +639,35 @@ Package: tikz 2010/10/13 v2.10 (rcs-revision 1.76)
 
 (/usr/share/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2010/05/31 v2.10 (rcs-revision 1.15)
-\pgf@plot@mark@count=\count121
-\pgfplotmarksize=\dimen159
+\pgf@plot@mark@count=\count122
+\pgfplotmarksize=\dimen157
 )
-\tikz@lastx=\dimen160
-\tikz@lasty=\dimen161
-\tikz@lastxsaved=\dimen162
-\tikz@lastysaved=\dimen163
-\tikzleveldistance=\dimen164
-\tikzsiblingdistance=\dimen165
+\tikz@lastx=\dimen158
+\tikz@lasty=\dimen159
+\tikz@lastxsaved=\dimen160
+\tikz@lastysaved=\dimen161
+\tikzleveldistance=\dimen162
+\tikzsiblingdistance=\dimen163
 \tikz@figbox=\box37
 \tikz@tempbox=\box38
-\tikztreelevel=\count122
-\tikznumberofchildren=\count123
-\tikznumberofcurrentchild=\count124
-\tikz@fig@count=\count125
+\tikztreelevel=\count123
+\tikznumberofchildren=\count124
+\tikznumberofcurrentchild=\count125
+\tikz@fig@count=\count126
 
 (/usr/share/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2010/08/24  (rcs-revision 1.4)
-\pgfmatrixcurrentrow=\count126
-\pgfmatrixcurrentcolumn=\count127
-\pgf@matrix@numberofcolumns=\count128
+\pgfmatrixcurrentrow=\count127
+\pgfmatrixcurrentcolumn=\count128
+\pgf@matrix@numberofcolumns=\count129
 )
-\tikz@expandcount=\count129
+\tikz@expandcount=\count130
 
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
 hs.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v2.10 (rcs-revision 1.2)
-))) (/usr/share/texlive/texmf-dist/tex/latex/was/gensymb.sty
-Package: gensymb 2003/07/02 v1.0 (WaS)
+))) (./gensymb.sty
+Package: gensymb 2003/02/12 v0.99 (WaS)
 )
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.
 code.tex
@@ -686,22 +678,19 @@ ations.pathreplacing.code.tex
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecor
 ations.code.tex
 (/usr/share/texmf/tex/generic/pgf/modules/pgfmoduledecorations.code.tex
-\pgfdecoratedcompleteddistance=\dimen166
-\pgfdecoratedremainingdistance=\dimen167
-\pgfdecoratedinputsegmentcompleteddistance=\dimen168
-\pgfdecoratedinputsegmentremainingdistance=\dimen169
-\pgf@decorate@distancetomove=\dimen170
-\pgf@decorate@repeatstate=\count130
-\pgfdecorationsegmentamplitude=\dimen171
-\pgfdecorationsegmentlength=\dimen172
+\pgfdecoratedcompleteddistance=\dimen164
+\pgfdecoratedremainingdistance=\dimen165
+\pgfdecoratedinputsegmentcompleteddistance=\dimen166
+\pgfdecoratedinputsegmentremainingdistance=\dimen167
+\pgf@decorate@distancetomove=\dimen168
+\pgf@decorate@repeatstate=\count131
+\pgfdecorationsegmentamplitude=\dimen169
+\pgfdecorationsegmentlength=\dimen170
 )
 \tikz@lib@dec@box=\box39
 )
 (/usr/share/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations.p
-athreplacing.code.tex)) (./informe.aux
-LaTeX Info: Redefining \. on input line 3.
-LaTeX Info: Redefining \% on input line 3.
-)
+athreplacing.code.tex)) (./informe.aux)
 \openout1 = `informe.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 162.
@@ -717,151 +706,94 @@ LaTeX Font Info:    ... okay on input line 162.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 162.
 LaTeX Font Info:    ... okay on input line 162.
 
-*geometry* driver: auto-detecting
-*geometry* detected driver: pdftex
-*geometry* verbose mode - [ preamble ] result:
-* driver: pdftex
-* paper: a4paper
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: twoside 
-* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
-* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=452.9679pt
-* \textheight=700.50687pt
-* \oddsidemargin=0.0pt
-* \evensidemargin=0.0pt
-* \topmargin=-37.0pt
-* \headheight=12.0pt
-* \headsep=25.0pt
-* \topskip=10.0pt
-* \footskip=30.0pt
-* \marginparwidth=111.0pt
-* \marginparsep=11.0pt
-* \columnsep=10.0pt
-* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidetrue
-* \@mparswitchtrue
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-LaTeX Info: Redefining \. on input line 162.
-LaTeX Info: Redefining \% on input line 162.
-Package lastpage Info: Please have a look at the pageslts package at
-(lastpage)             http://www.ctan.org/tex-archive/ 
-(lastpage)             macros/latex/contrib/pageslts/ 
-(lastpage)             or
-(lastpage)             http://www.ctan.org/tex-archive/ 
-(lastpage)             install/macros/latex/contrib/pageslts.tds.zip
-(lastpage)             ! on input line 162.
-(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+*geometry auto-detecting driver*
+*geometry detected driver: pdftex*
+-------------------- Geometry parameters
+paper: a4paper
+landscape: --
+twocolumn: --
+twoside: true
+asymmetric: --
+h-parts: 72.26999pt, 452.9679pt, 72.26999pt
+v-parts: 72.26999pt, 700.50687pt, 72.26999pt
+hmarginratio: --
+vmarginratio: --
+lines: --
+heightrounded: --
+bindingoffset: 0.0pt
+truedimen: --
+includehead: --
+includefoot: --
+includemp: --
+driver: pdftex
+-------------------- Page layout dimensions and switches
+\paperwidth  597.50787pt
+\paperheight 845.04684pt
+\textwidth  452.9679pt
+\textheight 700.50687pt
+\oddsidemargin  0.0pt
+\evensidemargin 0.0pt
+\topmargin  -37.0pt
+\headheight 12.0pt
+\headsep    25.0pt
+\footskip   30.0pt
+\marginparwidth 111.0pt
+\marginparsep   11.0pt
+\columnsep  10.0pt
+\skip\footins  9.0pt plus 4.0pt minus 2.0pt
+\hoffset 0.0pt
+\voffset 0.0pt
+\mag 1000
+\@twosidetrue \@mparswitchtrue 
+(1in=72.27pt, 1cm=28.45pt)
+-----------------------
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count131
-\scratchdimen=\dimen173
+\scratchcounter=\count132
+\scratchdimen=\dimen171
 \scratchbox=\box40
-\nofMPsegments=\count132
-\nofMParguments=\count133
+\nofMPsegments=\count133
+\nofMParguments=\count134
 \everyMPshowfont=\toks37
-\MPscratchCnt=\count134
-\MPscratchDim=\dimen174
-\MPnumerator=\count135
-\makeMPintoPDFobject=\count136
+\MPscratchCnt=\count135
+\MPscratchDim=\dimen172
+\MPnumerator=\count136
 \everyMPtoPDFconversion=\toks38
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-)
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
-
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
-
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
-Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
-))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
-
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
-
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
-)))
-Package grfext Info: Graphics extension search list:
-(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 452.
-
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-ABD: EveryShipout initializing macros
+) ABD: EveryShipout initializing macros
 LaTeX Info: Redefining \celsius on input line 162.
 Package gensymb Info: Faking symbols for \degree and \celsius on input line 162
 .
 
 
-Package gensymb Warning: Not defining \perthousand.
+Package gensymb Warning: \perthousand will not be available.
 
 LaTeX Info: Redefining \ohm on input line 162.
 Package gensymb Info: Using \Omega for \ohm on input line 162.
 
-Package gensymb Warning: Not defining \micro.
+Package gensymb Warning: \micro will not be available.
 
 <DC.png, id=4, 802.9197pt x 287.6346pt>
 File: DC.png Graphic file (type png)
  <use DC.png>
-Package pdftex.def Info: DC.png used on input line 174.
-(pdftex.def)             Requested size: 158.84137pt x 56.9055pt.
-
 <UBA.jpg, id=6, 233.4321pt x 233.9139pt>
 File: UBA.jpg Graphic file (type jpg)
  <use UBA.jpg>
-Package pdftex.def Info: UBA.jpg used on input line 176.
-(pdftex.def)             Requested size: 56.78708pt x 56.9055pt.
 LaTeX Font Info:    Try loading font information for U+msa on input line 206.
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 206.
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./DC.png> <./UBA.jpg>] (./
-informe.toc
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
-)
+informe.toc)
 \tf@toc=\write4
 \openout4 = `informe.toc'.
 
-LaTeX Info: Redefining \. on input line 228.
-LaTeX Info: Redefining \% on input line 228.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -870,78 +802,52 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2] (./color.tex
-! Undefined control sequence.
-l.4 ...istancia, entonces en el pixel que se est\Ã
-                                                  ¡ procesando quedan sus 3 ...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+<imagenes/ImagenReorden.png, id=21, 429.10312pt x 225.84375pt>
+File: imagenes/ImagenReorden.png Graphic file (type png)
 
+<use imagenes/ImagenReorden.png> [3 <./imagenes/ImagenReorden.png (PNG copy)>]
+<imagenes/resta.png, id=27, 675.27281pt x 37.64063pt>
+File: imagenes/resta.png Graphic file (type png)
+ <use imagenes/resta.png>
+Overfull \hbox (2.27618pt too wide) in paragraph at lines 29--30
+ [] 
+ []
 
-! Package inputenc Error: Keyboard character used is undefined
-(inputenc)                in inputencoding `utf8'.
+<imagenes/FinOperacion.png, id=28, 376.40625pt x 97.86563pt>
+File: imagenes/FinOperacion.png Graphic file (type png)
 
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4 ...stancia, entonces en el pixel que se est\Ã¡
-                                                   procesando quedan sus 3 c...
-
-You need to provide a definition with \DeclareInputText 
-or \DeclareInputMath before using this key.
-
-! Undefined control sequence.
-l.4 ...ia, debe mantenerse tal cual, logrando as\Ã
-                                                  ­ ser resaltado.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-! Package inputenc Error: Keyboard character used is undefined
-(inputenc)                in inputencoding `utf8'.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4 ...a, debe mantenerse tal cual, logrando as\Ã­
-                                                   ser resaltado.
-You need to provide a definition with \DeclareInputText 
-or \DeclareInputMath before using this key.
-
-) (./miniature.tex) (./decode.tex) [3] 
+<use imagenes/FinOperacion.png>) (./miniature.tex) (./decode.tex [4 <./imagenes
+/resta.png (PNG copy)> <./imagenes/FinOperacion.png (PNG copy)>]) [5]
 AED: lastpage setting LastPage
-LaTeX Info: Redefining \. on input line 301.
-LaTeX Info: Redefining \% on input line 301.
-[4] (./informe.aux
-LaTeX Info: Redefining \. on input line 3.
-LaTeX Info: Redefining \% on input line 3.
-) ) 
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.07225pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[6] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 12710 strings out of 493485
- 230594 string characters out of 3143525
- 288717 words of memory out of 3000000
- 15710 multiletter control sequences out of 15000+200000
- 7509 words of font info for 29 fonts, out of 3000000 for 9000
- 957 hyphenation exceptions out of 8191
- 56i,13n,57p,642b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsl10.pfb>
-Output written on informe.pdf (4 pages, 862878 bytes).
+ 12051 strings out of 495061
+ 219229 string characters out of 1182621
+ 268617 words of memory out of 3000000
+ 14954 multiletter control sequences out of 15000+50000
+ 7855 words of font info for 30 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 56i,12n,57p,642b,424s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/
+texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/am
+sfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+r17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
+onts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on informe.pdf (6 pages, 934129 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 79 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
