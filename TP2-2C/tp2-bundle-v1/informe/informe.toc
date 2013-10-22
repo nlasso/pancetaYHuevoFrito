@@ -10,7 +10,7 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Implementaci\IeC {\'o}n en Assembler}{3}
 \contentsline {subsubsection}{\numberline {2.2.3}Resultados}{3}
 \contentsline {subsection}{\numberline {2.3}Decodificaci\'on Esteganogr\'afica}{3}
-\contentsline {subsubsection}{\numberline {2.3.1}Implementaci\IeC {\'o}n en C}{3}
-\contentsline {subsubsection}{\numberline {2.3.2}Implementaci\IeC {\'o}n en Assembler}{3}
-\contentsline {subsubsection}{\numberline {2.3.3}Resultados}{3}
-\contentsline {section}{\numberline {3}Conclusi\IeC {\'o}n}{3}
+\contentsline {subsubsection}{\numberline {2.3.1}Implementaci\IeC {\'o}n en C}{4}
+\contentsline {subsubsection}{\numberline {2.3.2}Implementaci\IeC {\'o}n en Assembler}{4}
+\contentsline {subsubsection}{\numberline {2.3.3}Resultados}{4}
+\contentsline {section}{\numberline {3}Conclusi\IeC {\'o}n}{4}

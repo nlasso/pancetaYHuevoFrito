@@ -273,11 +273,11 @@ Las instrucciones SIMD (Single Instruction Multiple Data) proveen al programador
 
 La aplicación del filtros a imágenes era un ejemplo perfecto para probar su eficiencia.
 
-Analizando los resultados de las implementaciones de los 6 filtros, podemos notar:
+Analizando los resultados de las implementaciones de los 3 filtros, podemos notar:
 
 \begin{itemize}
 \item Las operaciones básicas (padd, psub, pmul, pdiv, shifts, etc.) SIMD tienen un costo similar a sus correspondientes operaciones unitarias, pero generalmente requieren algún tipo de preproceso para poder trabajar con los 16 bytes (pack, unpack, shifts) en una sola iteración, por lo tanto, aunque más eficientes, no lo son en una relación directamente proporcional.
-\item En el caso que sí hay una relación directamente proporcional es en el acceso a memoria (como se comprobó en el filtro recortar).
+\item En el caso que sí hay una relación directamente proporcional es en el acceso a memoria.
 \item Además, el acceso a memoria es, por lejos, la operación más costosa de las que implementamos en cada filtro.
 \item Por consecuencia directa del ítem anterior, las llamadas a otras funciones (que a su vez, probablemente contengan variable locales) dentro de una iteración provocan estragos en la efectividad de las implementaciones en C.
 \item Para poder aprovechar las instrucciones SIMD es un prerequisito que los datos estén contiguos en memoria. Como descubrimos con el filtro Rotar, los datos dispersos nos obligan a hacer múltiples lecturas a memoria y perder tiempo reordenándolos dentro de los registros antes de poder procesarlos.
