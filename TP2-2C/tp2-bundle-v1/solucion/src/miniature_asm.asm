@@ -167,6 +167,8 @@ align 16
 	MASK_RECONSTIT: DB 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x04, 0x08, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
 	MASK_RECONSTIT_ORIG: DB 0x00, 0x05, 0x0A, 0x01, 0x06, 0x0B, 0x80, 0x80, 0x80, 0x03, 0x08, 0x0D, 0x04, 0x09, 0x0E, 0x0F
 
+	MASK_INSERT_SRC: DB 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x06, 0x07, 0x08, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
+	MASK_INSERT_DEST: DB 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x80, 0x80, 0x80, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
 section .text
 
 
@@ -215,6 +217,41 @@ miniature_asm:
 	;Ya no uso mas xmm2
 	PXOR xmm2, xmm2
 
+	XOR r10, r10
+	XOR r12, r12
+	MOVDQU xmm2, xmm1
+	CVTPS2DQ xmm2, xmm2
+	MOVD r10d, xmm2
+	PXOR xmm2, xmm2
+	MOVDQU xmm2, [M01]
+	CVTDQ2PS xmm2, xmm2
+	ADDPS xmm2, xmm0
+	CVTPS2DQ xmm2, xmm2
+	MOVD r13d, xmm2
+	.filasBandaIntermedia:
+	CMP r13d, r10d
+	JGE .cicloAlto
+	.columnasBandaIntermedia:
+		CMP r12d, r15d
+		JG .finColumnasIntermedias
+		MOV rbx, r15
+		ADD rbx, 16
+		MOV rax, r13
+		MUL rbx
+		MOV rbx, rax
+		ADD rbx, r12
+		MOVDQU xmm2, [rdi + rbx]
+		MOVDQU [rsi + rbx], xmm2
+		XOR rbx, rbx
+		ADD r12d, 16
+		JMP .columnasBandaIntermedia
+		.finColumnasIntermedias:
+		ADD r13d, 1
+		XOR r12, r12
+		JMP .filasBandaIntermedia
+
+
+.cicloAlto:
 	;Pongo mi contador en 0
 	XOR r10, r10
 .bandaAlta:
@@ -279,7 +316,11 @@ miniature_asm:
 					SUB rbx, 16
 					SUB rbx, r15
 					SUB rbx, 16
-					MOVDQU [rdi + rbx], xmm4
+					PXOR xmm7, xmm7
+					MOVDQU xmm7, [rsi + rbx]
+					PSHUFB xmm7, [MASK_INSERT_DEST]
+					PSHUFB xmm4, [MASK_INSERT_SRC]
+					PADDB xmm4, xmm7
 					MOVDQU [rsi + rbx], xmm4
 					ADD r12d, 3
 					XOR rbx, rbx
@@ -291,34 +332,33 @@ miniature_asm:
 				.finBandaAlta:
 					XOR r13, r13
 					XOR r12, r12
-					;ADD r15, 2
-					;MOVDQU xmm6, xmm0
-					;CVTPS2DQ xmm6, xmm6
-					;MOVD r13d, xmm6
-					;ADD r12, 2
-					;.copyFila:
-						;CMP r12, r13
-						;JG .finCopyFila
-						;XOR rbx, rbx
-						;.copyColumna:
-							;CMP ebx, r15d
-							;JG .finCopyColumna
-							;XOR r9, r9
-							;MOV r9, r15
-							;ADD r9, 16
-							;MOV rax, r12
-							;MUL r9
-							;MOV r9, rax
-							;ADD r9, rbx
-							;MOVDQU xmm4, [rsi + r9]
-							;MOVDQU [rdi + r9], xmm4
-							;ADD ebx, 16
-							;JMP .copyColumna
-						;.finCopyColumna:
-						;ADD r12, 1
-						;JMP .copyFila
-				;.finCopyFila:
-				;SUB r15, 2
+					PXOR xmm6, xmm6
+					MOVDQU xmm6, xmm0
+					CVTPS2DQ xmm6, xmm6
+					MOVD r13d, xmm6
+					ADD r12, 2
+					.copyFila:
+						CMP r12d, r13d
+						JG .finCopyFila
+						XOR rbx, rbx
+						XOR r9, r9
+						MOV r9, r15
+						ADD r9, 16
+						MOV rax, r12
+						MUL r9
+						MOV r9, rax
+						.copyColumna:
+							CMP ebx, r15d
+							JG .finCopyColumna
+							ADD r9, rbx
+							MOVDQU xmm4, [rsi + r9]
+							MOVDQU [rdi + r9], xmm4
+							ADD ebx, 16
+							JMP .copyColumna
+						.finCopyColumna:
+						ADD r12, 1
+						JMP .copyFila
+				.finCopyFila:
 				XOR r12, r12
 				XOR r13, r13
 				XOR rbx, rbx
@@ -327,42 +367,7 @@ miniature_asm:
 				JMP .bandaAlta
 
 .bandaIntermedia:
-	XOR r10, r10
-	XOR r12, r12
-	MOVDQU xmm2, xmm1
-	CVTPS2DQ xmm2, xmm2
-	MOVD r10d, xmm2
-	PXOR xmm2, xmm2
-	MOVDQU xmm2, [M01]
-	CVTDQ2PS xmm2, xmm2
-	ADDPS xmm2, xmm0
-	CVTPS2DQ xmm2, xmm2
-	MOVD r13d, xmm2
-	;ADD r15, 2
-	.filasBandaIntermedia:
-	CMP r13d, r10d
-	JGE .startBottom
-	.columnasBandaIntermedia:
-		CMP r12d, r15d
-		JG .finColumnasIntermedias
 
-		;------------------------TODO: revisar si se puede hacer mas eficiente--------------
-
-		MOV rbx, r15
-		ADD rbx, 16
-		MOV rax, r13
-		MUL rbx
-		MOV rbx, rax
-		ADD rbx, r12
-		MOVDQU xmm2, [rdi + rbx]
-		MOVDQU [rsi + rbx], xmm2
-		XOR rbx, rbx
-		ADD r12d, 16
-		JMP .columnasBandaIntermedia
-		.finColumnasIntermedias:
-		ADD r13d, 1
-		XOR r12, r12
-		JMP .filasBandaIntermedia
 
 .startBottom:
 	XOR r10, r10

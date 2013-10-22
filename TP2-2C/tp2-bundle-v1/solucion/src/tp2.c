@@ -437,6 +437,9 @@ void aplicar_filtro_color (const char *implementacion,
         cvNamedWindow("procesanding", CV_WINDOW_AUTOSIZE);
     }
     unsigned int framenum = 0;
+    unsigned long long int startColor;
+    unsigned long long int endColor;
+    MEDIR_TIEMPO_START(startColor)
     while(1) {
         /* Capturo un frame */
         IplImage *frame = cvQueryFrame(srcVid);
@@ -460,9 +463,13 @@ void aplicar_filtro_color (const char *implementacion,
             proceso = color_filter_asm;
         }
 
+
+        
         proceso((unsigned char *) frame->imageData,
                 (unsigned char *)  dst->imageData, rc, gc, bc, threshold,
                 frame->height, frame->width);
+        
+
 
 
         if (frames) {
@@ -478,6 +485,8 @@ void aplicar_filtro_color (const char *implementacion,
             cvWaitKey(1);
         }
     }
+    MEDIR_TIEMPO_STOP(endColor);
+    imprimir_tiempos_ejecucion(startColor, endColor, 15000);
 
     if (verbose) {
         cvDestroyWindow("procesanding");
@@ -519,7 +528,13 @@ void aplicar_decode   (const char *implementacion,
 		proceso = decode_asm;
 	}
 
+    unsigned long long int start, end;
+    MEDIR_TIEMPO_START(start);
+
     proceso((unsigned char*)src->imageData, (unsigned char*)mensaje_salida, long_texto, src->height, src->width);
+
+    MEDIR_TIEMPO_STOP(end);
+    imprimir_tiempos_ejecucion(start, end, 100);
 
 	// Guardo imagen y libero las imagenes
     char filename[255];

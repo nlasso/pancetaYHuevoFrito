@@ -24,7 +24,7 @@ tp2.o: tp2.c
 	$(CC) $(CFLAGS) -c -o $@ $< $(OPENCV_LIB)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $< -lm
+	$(CC) $(CFLAGS) $(OPTIMIZACION) -c -o $@ $< -lm
 
 %.o: %.asm
 	$(ASM) $(ASMFLAGS) -o $@ $<

@@ -1,7 +1,7 @@
 \documentclass[a4paper,10pt,twoside]{article}
 
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
-\usepackage[utf8]{inputenc}
+\usepackage[utf8x]{inputenc}
 \usepackage[spanish,es-ucroman,es-noquoting]{babel}
 \usepackage{setspace}
 \usepackage{fancyhdr}
@@ -280,14 +280,14 @@ Analizando los resultados de las implementaciones de los 3 filtros, podemos nota
 \item En el caso que sí hay una relación directamente proporcional es en el acceso a memoria.
 \item Además, el acceso a memoria es, por lejos, la operación más costosa de las que implementamos en cada filtro.
 \item Por consecuencia directa del ítem anterior, las llamadas a otras funciones (que a su vez, probablemente contengan variable locales) dentro de una iteración provocan estragos en la efectividad de las implementaciones en C.
-\item Para poder aprovechar las instrucciones SIMD es un prerequisito que los datos estén contiguos en memoria. Como descubrimos con el filtro Rotar, los datos dispersos nos obligan a hacer múltiples lecturas a memoria y perder tiempo reordenándolos dentro de los registros antes de poder procesarlos.
+\item Para poder aprovechar las instrucciones SIMD es un prerequisito que los datos estén contiguos en memoria.
 \end{itemize}
 
 Concluimos que, definitivamente, las instrucciones SIMD, cuando pueden aprovecharse, demuestran una gran eficiencia. Sin embargo, hay que tener algunas consideraciones:
 
 Aunque las imágenes, video y sonido son los primeros candidatos a ser optimizados por paralelización, no todos los procesos pueden ser efectivos y se requiere un análisis profundo de los datos para ver si vale el esfuerzo.
 
-Además, aunque se pueda lograr una gran optimización, no siempre es lo más importante. Ninguno de los filtros implementados demoró más de 1 segundo en ejecutarse completamente. La optimización seguramente es indispensable en transmisiones de video en vivo, pero baja en importancia si tuviese que ser aplicado una sola vez en una aplicación tipo MS Paint.
+Además, aunque se pueda lograr una gran optimización, no siempre es lo más importante. La optimización seguramente es indispensable en transmisiones de video en vivo, pero baja en importancia si tuviese que ser aplicado una sola vez en una aplicación tipo MS Paint.
 
 Las desventajas que podrían opacar a la optimización son:
 
