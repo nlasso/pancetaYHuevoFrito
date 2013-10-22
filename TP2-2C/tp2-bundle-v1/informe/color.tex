@@ -1,7 +1,11 @@
-Este filtro consiste b\'asicamente en dados un color y una distancia pasados como par\'ametros, procesa cada pixel de una im\'agen a color evaluando si el color del mismo se "aleja" m\'as de la distancia del par\'ametro, y si eso pasa, el pixel se transforma a escala de grises, sino lo mantiene igual. Esto logra el efecto de resaltar un color en una im\'agen
+Este filtro consiste b\'asicamente en dados un color y una distancia pasados como par\'ametros, procesa cada pixel de una im\'agen a color evaluando si el color del mismo se ''aleja'' m\'as de la distancia del par\'ametro, y si eso pasa, el p\'ixel se transforma a escala de grises, sino lo mantiene igual. Esto logra el efecto de resaltar un color en una im\'agen.
 
 \subsubsection{Implementación en C}
-Mediante dos ciclos anidados, se va recorriendo la im\'agen por cada componente de color de cada pixel. Por cada pixel se levantan sus 3 colores RGB para calcular la distancia a los 3 colores RGB pasados por par\'ametro. Si el color de la im\'agen supera esa distancia, entonces en el pixel que se est\á procesando quedan sus 3 colores iguales, logrando una escala de grises. Si el color no supera la distancia, debe mantenerse tal cual, logrando as\í ser resaltado.
+Mediante dos ciclos anidados, se recorre la im\'agen por cada componente de color de cada pixel. Por cada pixel se levantan sus 3 colores RGB para calcular la distancia a los 3 colores RGB pasados por par\'ametro. Si el color de la im\'agen supera esa distancia, entonces en el p\'ixel que se est\'a procesando quedan sus 3 colores iguales unos con otros, logrando convertirse a blanco y negro. Si el color no supera la distancia, debe mantenerse tal cual, logrando as\'i ser resaltado.\\
+Se define la distancia entre colores c\'omo:\\
+$distancia((r, g, b), (rc, gc, bc)) = \sqrt{(r − rc)^2 + (g − gc)^2 + (b − bc)^2}$\\\\
+Para pasar a blanco y negro el p\'ixel, ponemos en cada canal de color (rgb), el mismo valor: $\frac{r + g + b}{3}$.
+
 
 \subsubsection{Implementación en Assembler}
 
