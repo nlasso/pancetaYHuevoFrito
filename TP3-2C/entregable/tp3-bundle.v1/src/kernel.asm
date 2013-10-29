@@ -11,6 +11,9 @@ global start
 ;; GDT
 extern GDT_DESC
 
+;;MMU
+extern mmu_inicializar
+
 ;; IDT
 extern IDT_DESC
 extern idt_inicializar
@@ -60,35 +63,50 @@ start:
     OR eax, 1
     MOV cr0, eax
     JMP 0x90:modo_protegido
-    XCHG bx, bx
     ; pasar a modo protegido
 
 BITS 32
 
 modo_protegido:
-    XCHG bx, bx
+
+    ; acomodar los segmentos
+
     XOR eax, eax 
-    MOV ax, 0x14 << 3           ;cargo el selector de segmento de datos level 0: 20
+    MOV ax, 0xA0           ;cargo el selector de segmento de datos level 0: 20|0|00
     MOV ds, ax
     MOV es, ax
     MOV gs, ax
-    MOV ax, 0x16 << 3           ;cargo el selector de VIDEO: 22
+    MOV ss, ax
+    MOV ax, 0xB0         ;cargo el selector de VIDEO: 22|0|00
     MOV fs, ax
-    
-    imprimir_texto_mp iniciando_mp_msg, iniciando_mp_len, 0x07, 2   , 0
-    ; acomodar los segmentos
 
     ; setear la pila
 
+    MOV ebp, 0x27000
+    MOV esp, ebp    
+
+    imprimir_texto_mp iniciando_mp_msg, iniciando_mp_len, 0x07, 2 , 0 
     ; pintar pantalla, todos los colores, que bonito!
-
+        ;TODO
     ; inicializar el manejador de memoria
+    
+    CALL mmu_inicializar
 
-    ; inicializar el directorio de paginas
+    ; inicializar el directorio de paginas    
 
     ; inicializar memoria de tareas
 
     ; habilitar paginacion
+
+    MOV eax, 0x27000
+    MOV cr3, eax
+
+    XCHG bx, bx
+    
+    MOV eax, cr0
+    OR eax, 0x80000000
+    MOV cr0, eax
+
 
     ; inicializar tarea idle
 
@@ -112,3 +130,4 @@ modo_protegido:
 ;; -------------------------------------------------------------------------- ;;
 
 %include "a20.asm"
+
