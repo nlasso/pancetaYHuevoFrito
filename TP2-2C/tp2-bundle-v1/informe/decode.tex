@@ -21,14 +21,14 @@ aumento 12 lugares la posici\'on. Esto se hace as\'i porque cada pixel ocupa 3 b
  a 12 la fuente y de a 3 el destino entonces, es conveniente para avanzar de forma m\'as ordenada y segura.
 
 \subsubsection{Resultados}
-La diferencia principal entre el c\'odigo escrito en lenguaje C y el c\´odigo ASM, es la cantidad de accesos a memoria realizados en cada iteraci\´on. Otra diferencia puede verse en la cantidad de bytes que puden ser procesados simultaneamente durante el mismo ciclo. Mientras que en C leemos y procesamos un byte por vez, el c\´odigo ASM nos permite acceder y procesar 16 bytes en simultaneos. De todas maneras, en este caso trabajamos con 12 bytes que es un numero mas \´util ya que es múltiplo de 3 (cantidad de bytes pos pixel)  y de 4 (cantidad de bytes por cada caracter).
+La diferencia principal entre el c\'odigo escrito en lenguaje C y el c\'odigo ASM, es la cantidad de accesos a memoria realizados en cada iteraci\'on. Otra diferencia puede verse en la cantidad de bytes que puden ser procesados simultaneamente durante el mismo ciclo. Mientras que en C leemos y procesamos un byte por vez, el c\'odigo ASM nos permite acceder y procesar 16 bytes en simultaneos. De todas maneras, en este caso trabajamos con 12 bytes que es un numero mas \'util ya que es múltiplo de 3 (cantidad de bytes pos pixel)  y de 4 (cantidad de bytes por cada caracter).
 \newline
-Pudiendo levantar de a 16 bytes en memoria, podr\´ia esperarse que el c\´odigo asm demorase una diesiseiava parte de la cantidad de ciclos que demora el c\´odigo en C. Pero debemos tener en cuenta que en nuestro caso estamos aprovechando solo 12 de los 16 bytes que leemos en cada iteraci\´on por lo tanto es más acertado evaluar como si solo leyeramos 12 bytes. Adem\´as, hay que tener en cuenta que las instrucciones SSE pueden necesitar más ciclos que las operaciones comunes que usamos en el C, eso disminuye un poco la performance en la comparación. Viendo el promedio de ciclos necesitados por cada c\´odigo en promedio, estamos en la mayor\´ia de los casos en cifras cercanas a 10.35, por lo tanto, concluimos que para la mayoría de los casos, esa es la relaci\´on de performance entre los códigos.
+Pudiendo levantar de a 16 bytes en memoria, podr\'ia esperarse que el c\'odigo asm demorase una diesiseiava parte de la cantidad de ciclos que demora el c\'odigo en C. Pero debemos tener en cuenta que en nuestro caso estamos aprovechando solo 12 de los 16 bytes que leemos en cada iteraci\'on por lo tanto es más acertado evaluar como si solo leyeramos 12 bytes. Adem\'as, hay que tener en cuenta que las instrucciones SSE pueden necesitar más ciclos que las operaciones comunes que usamos en el C, eso disminuye un poco la performance en la comparación. Viendo el promedio de ciclos necesitados por cada c\'odigo en promedio, estamos en la mayor\'ia de los casos en cifras cercanas a 10.35, por lo tanto, concluimos que para la mayoría de los casos, esa es la relaci\'on de performance entre los códigos.
 \newline
 
-\includegraphics{imagenes/octave.jpg}
+\includegraphics[scale=0.7]{imagenes/octave1.jpg}
 
-Probando con im\'agenes de distintos tamaños, una de 1920 X 1080 p\´ixeles y otra de 640 x 480 p\´ixeles, sucedi\´o en ambos casos que hubo un aumento en la diferencia entre los c\´odigos, pero se mantuvo, para las dos im\´agenes y, para distinta cantidad de iteraciones, un promedio de aproximadamente, por lo que no presentan grandes cambios con la imagen original. 
+Probando con im\'agenes de distintos tamaños, una de 1920 X 1080 p\'ixeles y otra de 640 x 480 p\'ixeles, sucedi\'o en ambos casos que hubo un aumento en la diferencia entre los c\'odigos, pero se mantuvo, para las dos im\'agenes y, para distinta cantidad de iteraciones, un promedio de aproximadamente, por lo que no presentan grandes cambios con la imagen original. 
 
-\includegraphics{imagenes/DecodeMayor.jpg}
+\includegraphics[scale=0.7]{imagenes/DecodeMayor.jpg}
 

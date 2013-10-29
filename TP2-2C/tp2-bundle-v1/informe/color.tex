@@ -3,7 +3,11 @@ Este filtro consiste b\'asicamente en dados un color y una distancia pasados com
 \subsubsection{Implementación en C}
 Mediante dos ciclos anidados, se recorre la im\'agen por cada componente de color de cada pixel. Por cada pixel se levantan sus 3 colores RGB para calcular la distancia a los 3 colores RGB pasados por par\'ametro. Si el color de la im\'agen supera esa distancia, entonces en el p\'ixel que se est\'a procesando quedan sus 3 colores iguales unos con otros, logrando convertirse a blanco y negro. Si el color no supera la distancia, debe mantenerse tal cual, logrando as\'i ser resaltado.\\
 Se define la distancia entre colores c\'omo:\\
-$distancia((r, g, b), (rc, gc, bc)) = \sqrt{(r − rc)^2 + (g − gc)^2 + (b − bc)^2}$\\\\
+
+\begin{center}
+$distancia((r, g, b), (rc, gc, bc)) = \sqrt{(r - rc)^2 + (g - gc)^2 + (b - bc)^2}$
+\end{center}
+
 Para pasar a blanco y negro el p\'ixel, ponemos en cada canal de color (rgb), el mismo valor: $\frac{r + g + b}{3}$.
 
 \subsubsection{Implementación en Assembler}
@@ -84,4 +88,35 @@ promedio de la cantidad de Ticks que consume por cada frame de cada iteraci\'on.
  informaci\'on que no viene al caso de lo que se queire mostrar.\newline
 
 \end{itemize}
+
+\subsubsection{Loop unrolling}
+Loop unrolling, o desenrollado de ciclo en español, es una t\'ecnica de optimizaci\'on que consiste en transformar un bucle para mejorar la velocidad de ejecuci\'on de un programa. La transformaci\'on puede llevarse a cabo por el programador o por un compilador de optimizaci\'on.\\
+La t\'ecnica se basa en eliminar las instrucciones que controlan el bucle, por ejemplo, reduciendo la cantidad de iteraciones que tiene que pasar un ciclo, evitando comparar menos veces si se termin\'o de iterar o no.\\
+Por ejemplo:
+
+\begin{center}
+\includegraphics[scale=0.5]{imagenes/loopunrolling_ejemplo.png}
+\end{center}
+
+Como podemos ver, el ciclo desenrollado recorre menos veces, por lo tanto hace menos comparaciones. Pero corre con la gran desventaja de que se genera mucho m\'as c\'odigo.\\
+Una forma de aplicarlo a nuestro filtro de color en C es procesar m\'as cantidad de p\'ixels. En nuestro filtro C com\'un procesamos de a 1 p\'ixel. Probamos procesar de a 2 p\'ixels, donde el procesamiento de columnas, o de ancho de la im\'agen se reduce a la mitad. Sin embargo, midiendo velocidades, no detectamos grandes diferencias, ya que esa optimizaci\'on no es muy significativa o el compilador de C tal vez haga esta optimizaci\'on.\\
+Luego probamos optimizando m\'as, procesando de a 6 p\'ixels en el C y ahorrando ciertos accesos a memoria. Los resultados fueron m\'as notorios:
+
+\begin{center}
+\includegraphics[scale=0.5]{imagenes/loopunrolling_c.jpg}
+\end{center}
+
+El eje x son la cantidad de iteraciones y el eje y es el tiempo que tard\'o para cierta cantidad de iteraciones.\\
+En velocidad vemos la mejora del loop unrolling, pero en c\'odigo incrementa considerablemente.\\\\
+
+En cuanto al c\'odigo ASM resulta m\'as complejo hacer esta optimizaci\'on ya que procesamos de a 5 p\'ixels, lo que entra en un registro XMM.\\
+Lo que probamos fue copiar ese procesamiento de 5 p\'ixels, para procesar id\'enticamente la misma cantidad dentro del ciclo. Es decir que dentro de un mismo bucle procesamos 5 p\'ixels, y luego otros 5, procesando de a 10 en un mismo bucle. De esta manera nos ahorramos que se ejecuten las dos instrucciones de control del ciclo la mitad de las veces:\\
+
+.ciclo:\\
+CMP rcx, 0\\
+JLE .fin\\
+
+Midiendo tiempos de ejecuci\'on nos damos cuenta que no hay grandes diferencias con el ASM implementado sin aplicar esta t\'ecnica. Al parecer ahorrar 2 instrucciones b\'asicas de assembler para el tamaño de im\'agen que probamos (960 x 540), no es significativo.\\
+Vale aclarar que la cantidad de pixels en ancho o en alto debe ser multiplo de 10, sino habr\'ia que tener ciertas consideraciones.
+
 
