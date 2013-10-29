@@ -96,6 +96,12 @@ addps %4, xmm11 ; xmm10 = suma total b | suma total g | suma total r | 0
 ; 	por el resultado de la cuenta
 %macro get_miniature_color 5
 
+PSHUFB %1, [MASK_ORD]
+PSHUFB %2, [MASK_ORD]
+PSHUFB %3, [MASK_ORD1]
+PSHUFB %4, [MASK_ORD]
+PSHUFB %5, [MASK_ORD]
+
 pxor xmm10, xmm10 ; xmm10 = 0, llevara la suma de los productos
 				  ; xmm10 deberia quedar => suma color b | suma color g | suma color r | 0 0 0 0
 
@@ -128,7 +134,7 @@ divps xmm10, xmm8 ; xmm10 = suma color b / 600| suma color g / 600 | suma color 
 
 ; Ahora tengo que empaquetar a byte
 ; convierto de nuevo a int
-cvtps2dq xmm10, xmm10 ; convierto xmm10 a int para empaquetar
+cvttps2dq xmm10, xmm10 ; convierto xmm10 a int para empaquetar
 pxor xmm11, xmm11 ; xmm11 = 0
 
 PSHUFB xmm10, [MASK_RECONSTIT]
@@ -137,6 +143,7 @@ PSHUFB %3, [MASK_RECONSTIT_ORIG]
 PADDB %3, xmm10
 
 %endmacro
+
 section .data 
 align 16
 	MASK_ORD: DB 0x00, 0x03, 0x06, 0x09, 0x0C, 0x01, 0x04, 0x07, 0x0A, 0x0D, 0x02, 0x05, 0x08, 0x0B, 0x0E, 0x80
@@ -161,7 +168,7 @@ align 16
 	MASK_UNPCKL_5G: DB 0x05, 0x80, 0x80, 0x80, 0x06, 0x80, 0x80, 0x80, 0x07, 0x80, 0x80, 0x80, 0x08, 0x80, 0x80, 0x80
 	MASK_UNPCKH_5G: DB 0x09, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
 
-	MASK_UNPCKL_5R: DB 0x0A, 0x80, 0x80, 0x80, 0x0B, 0x80, 0x80, 0x80, 0x0B, 0x80, 0x80, 0x80, 0x0D, 0x80, 0x80, 0x80
+	MASK_UNPCKL_5R: DB 0x0A, 0x80, 0x80, 0x80, 0x0B, 0x80, 0x80, 0x80, 0x0C, 0x80, 0x80, 0x80, 0x0D, 0x80, 0x80, 0x80
 	MASK_UNPCKH_5R: DB 0x0E, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
 
 	MASK_RECONSTIT: DB 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x04, 0x08, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
@@ -169,6 +176,11 @@ align 16
 
 	MASK_INSERT_SRC: DB 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x06, 0x07, 0x08, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
 	MASK_INSERT_DEST: DB 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x80, 0x80, 0x80, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+
+	MASK_INSERT_SRC_LAST: DB 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x06, 0x07, 0x08, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80
+	MASK_INSERT_DEST_LAST: DB 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x80, 0x80, 0x80, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
+
+	MASK_LAST_COLUMN: DB 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x80
 section .text
 
 
@@ -204,49 +216,52 @@ miniature_asm:
 	CVTDQ2PS xmm2, xmm2
 	MULPS xmm0, xmm2	;topPlaneLimit
 	MULPS xmm1, xmm2	;bottomPlaneInit
+	CVTTPS2DQ xmm0, xmm0
+	CVTTPS2DQ xmm1, xmm1
+	CVTDQ2PS xmm0, xmm0
+	CVTDQ2PS xmm1, xmm1
 	;(Width - 2) * 3
-	;SUB r15d, 6
 	MOV eax, 3
 	MUL r15d
 	SUB eax, 16
-	MOV r15d, eax		;newWidth
+	MOV r15d, eax		;newWidth	Le quito los ultimos 16 ya que proceso hasta los ultimos 16 y luego salto de linea.
 
 
-	SUB r14d, 5 		;Le quito 2 filas al alto para no pasarme al final.
+	SUB r14d, 5 		;Le quito las ultimas 5 filas asi cuando levanto las ultimas 5, proceso hasta 2 antes como quiero.
 
 	;Ya no uso mas xmm2
 	PXOR xmm2, xmm2
 
 	XOR r10, r10
 	XOR r12, r12
-	MOVDQU xmm2, xmm1
-	CVTPS2DQ xmm2, xmm2
-	MOVD r10d, xmm2
-	PXOR xmm2, xmm2
-	MOVDQU xmm2, [M01]
-	CVTDQ2PS xmm2, xmm2
-	ADDPS xmm2, xmm0
-	CVTPS2DQ xmm2, xmm2
-	MOVD r13d, xmm2
+	MOVDQU xmm2, xmm1 			;xmm2 = xmm1
+	CVTTPS2DQ xmm2, xmm2 		;xmm2 -> float 	|bottomPlaneInit*Height | 0 | 0 | 0 |
+	MOVD r10d, xmm2 			;r10 = xmm2(F) | 0 | 0 | 0 | Me quedo con los primeros 32 bytes de xmm2.
+	PXOR xmm2, xmm2 			;Limpio xmm2 = 0
+	MOVDQU xmm2, [M01] 			; xmm2(D) = | 1 | 0 | 0 | 0 |
+	CVTDQ2PS xmm2, xmm2 		;xmm2 -> Float
+	ADDPS xmm2, xmm0 			;xmm2(F) = | 1  + topPlane * Height | 0 | 0 | 0 |
+	CVTTPS2DQ xmm2, xmm2 		;xmm2 -> Int
+	MOVD r13d, xmm2 			;r13 = xmm2(D) solo los primeros 32 bits
 	.filasBandaIntermedia:
-	CMP r13d, r10d
+	CMP r13d, r10d 				;while(r13 < bottomPlane * Height)
 	JGE .cicloAlto
 	.columnasBandaIntermedia:
-		CMP r12d, r15d
+		CMP r12d, r15d 					;while(r12 < width*3 - 16)
 		JG .finColumnasIntermedias
-		MOV rbx, r15
+		MOV rbx, r15 					; rbx = width * 3
 		ADD rbx, 16
 		MOV rax, r13
-		MUL rbx
+		MUL rbx 						;rbx = width * 3 * #fila
 		MOV rbx, rax
-		ADD rbx, r12
-		MOVDQU xmm2, [rdi + rbx]
+		ADD rbx, r12 					;rbx = width * 3 * #fila + #columna
+		MOVDQU xmm2, [rdi + rbx] 		;src[rbx] = dst[rbx]
 		MOVDQU [rsi + rbx], xmm2
-		XOR rbx, rbx
-		ADD r12d, 16
+		XOR rbx, rbx 					;rbx = 0
+		ADD r12d, 16 					;columna + 16
 		JMP .columnasBandaIntermedia
 		.finColumnasIntermedias:
-		ADD r13d, 1
+		ADD r13d, 1 					;fila + 1
 		XOR r12, r12
 		JMP .filasBandaIntermedia
 
@@ -255,23 +270,22 @@ miniature_asm:
 	;Pongo mi contador en 0
 	XOR r10, r10
 .bandaAlta:
-	CMP r10d, r8d			;i (contador) < iters
-	JGE .bandaIntermedia
+	CMP r10d, r8d			;while(i (contador) < iters)
+	JGE .fin
 	;Hago todo el procesamiento para calcular el alto de la banda en esta iteracion. Esto se repite por iteracion ya que va
 	;cambiando como se puede apreciar a continuacion.
 	MOVD xmm3, r8d			;xmm3(D) = iters | 0 | 0 | 0 |
 	MOVD xmm4, r10d			;xmm4(D) = i (contador) | 0 | 0 | 0 |
 	CVTDQ2PS xmm3, xmm3		;xmm3 -> Float
 	CVTDQ2PS xmm4, xmm4		;xmm4 -> Float
-	MOVDQU xmm5, xmm4
-	MULPS xmm5, xmm0		;xmm5 = topPlaneLimit * i | 0 | 0 | 0 |
-	DIVPS xmm5, xmm3		;xmm5 = topPlaneLimit * i /iters | 0 | 0 | 0 |
-	MOVDQU xmm6, xmm0
-	SUBPS xmm6, xmm5		;xmm5 (topPlaneLimit) = topPlaneLimit - xmm5
-	CVTPS2DQ xmm6, xmm6
+	MULPS xmm4, xmm0		;xmm4 = topPlaneLimit * i | 0 | 0 | 0 |
+	DIVPS xmm4, xmm3		;xmm4 = topPlaneLimit * i /iters | 0 | 0 | 0 |
+	MOVDQU xmm6, xmm0 		;xmm6 = xmm0 | topPlane * Height | 0 | 0 | 0 |
+	SUBPS xmm6, xmm4		;xmm6 (topPlaneLimit) = topPlaneLimit - xmm4
+	CVTTPS2DQ xmm6, xmm6
 	XOR r9, r9 			;r9 = 0
 	MOVD r9d, xmm6		;r9 = topPlaneLimit - ((topPlaneLimit * i) / iters)
-
+	SUB r9d, 2			;Como proceso de a 5, le resto dos así cuando llega al que tiene que procesar entra bien.
 	;limpio todo lo que no uso y seteo en 0 a los contadores que voy a usar proximamente.
 	PXOR xmm3, xmm3
 	PXOR xmm4, xmm4
@@ -280,15 +294,51 @@ miniature_asm:
 	XOR r13, r13		;r13 = 0
 	XOR r12, r12		;r12 = 0
 		.filasBandaAlta:
-			CMP r13d, r9d		;mientras fila < topPlaneLimit - ((topPlaneLimit * i) / iters)
+			CMP r13d, r9d		;while( fila < topPlaneLimit - ((topPlaneLimit * i) / iters)))
 			JG .finBandaAlta
 				.columnasBandaAlta:
 					CMP r12d, r15d
 					JG .finColumnasAlta
-					MOV ebx, r15d	;newWidth
-					ADD ebx, 16		;Le sumo los dos pixels que saqué ya que no los proceso pero los necesito para moverme.
+					MOV ebx, r15d						;ebx = width * 3
+					ADD ebx, 16		
 					MOV rax, r13
-					MUL rbx 		; ancho en bytes * contador de filas.
+					MUL rbx 							;ebx = width * 3 * #fila
+					MOV rbx, rax
+					ADD rbx, r12 						;ebx = width * 3 * #fila + #columna
+					MOVDQU xmm2, [rdi + rbx] 			;xmm2(B) = | b | g | r | b | g | r | b | g | r | b | g | r | b | g | r | b |
+					ADD rbx, r15
+					add rbx, 16 						;ebx + width * 3
+					MOVDQU xmm3, [rdi + rbx] 			;xmm3(B) = | b | g | r | b | g | r | b | g | r | b | g | r | b | g | r | b |
+					ADD rbx, r15
+					add rbx, 16							;ebx + width * 3
+					MOVDQU xmm4, [rdi + rbx]			;xmm4(B) = | b | g | r | b | g | r | b | g | r | b | g | r | b | g | r | b |
+					ADD rbx, r15
+					add rbx, 16							;ebx + width * 3
+					MOVDQU xmm6, [rdi + rbx]			;xmm6(B) = | b | g | r | b | g | r | b | g | r | b | g | r | b | g | r | b |
+					ADD rbx, r15
+					add rbx, 16							;ebx + width * 3
+					MOVDQU xmm7, [rdi + rbx]			;xmm7(B) = | b | g | r | b | g | r | b | g | r | b | g | r | b | g | r | b |
+
+					get_miniature_color xmm2, xmm3, xmm4, xmm6, xmm7
+
+					SUB rbx, r15
+					SUB rbx, r15
+					SUB rbx, 32 						;ebx - width * 6 //Le quito dos filas.
+					PXOR xmm7, xmm7
+					MOVDQU xmm7, [rsi + rbx]			;xmm7(B) = rsi[rbx] 
+					PSHUFB xmm7, [MASK_INSERT_DEST] 	;xmm7(B) = | b | g | r | b | g | r | 0 | 0 | 0 | b | g | r | b | g | r | b |
+					PSHUFB xmm4, [MASK_INSERT_SRC] 		;xmm4(B) = | 0 | 0 | 0 | 0 | 0 | 0 | b | g | r | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+					PADDB xmm4, xmm7 					;xmm7(B) = | b | g | r | b | g | r | b | g | r | b | g | r | b | g | r | b |
+					MOVDQU [rsi + rbx], xmm4 			;rsi[rbx] = xmm4(B)
+					ADD r12d, 3 						;#columna + 3
+					XOR rbx, rbx 						;rbx = 0
+					JMP .columnasBandaAlta
+					.finColumnasAlta:
+					SUB r12d, 1
+					MOV ebx, r15d	
+					ADD ebx, 16		
+					MOV rax, r13
+					MUL rbx 		
 					MOV rbx, rax
 					ADD rbx, r12
 					MOVDQU xmm2, [rdi + rbx]
@@ -305,76 +355,65 @@ miniature_asm:
 					add rbx, 16
 					MOVDQU xmm7, [rdi + rbx]
 
-					PSHUFB xmm2, [MASK_ORD]
-					PSHUFB xmm3, [MASK_ORD]
-					PSHUFB xmm4, [MASK_ORD1]
-					PSHUFB xmm6, [MASK_ORD]
-					PSHUFB xmm7, [MASK_ORD]
+					PSHUFB xmm2, [MASK_LAST_COLUMN]
+					PSHUFB xmm3, [MASK_LAST_COLUMN]
+					PSHUFB xmm4, [MASK_LAST_COLUMN]
+					PSHUFB xmm6, [MASK_LAST_COLUMN]
+					PSHUFB xmm7, [MASK_LAST_COLUMN]
+
 					get_miniature_color xmm2, xmm3, xmm4, xmm6, xmm7
 
 					SUB rbx, r15
-					SUB rbx, 16
 					SUB rbx, r15
-					SUB rbx, 16
+					SUB rbx, 32
 					PXOR xmm7, xmm7
 					MOVDQU xmm7, [rsi + rbx]
-					PSHUFB xmm7, [MASK_INSERT_DEST]
-					PSHUFB xmm4, [MASK_INSERT_SRC]
+					PSHUFB xmm7, [MASK_INSERT_DEST_LAST]
+					PSHUFB xmm4, [MASK_INSERT_SRC_LAST]
 					PADDB xmm4, xmm7
 					MOVDQU [rsi + rbx], xmm4
-					ADD r12d, 3
-					XOR rbx, rbx
-					JMP .columnasBandaAlta
-					.finColumnasAlta:
 					ADD r13d, 1
 					XOR r12, r12
 					JMP .filasBandaAlta
 				.finBandaAlta:
 					XOR r13, r13
 					XOR r12, r12
-					PXOR xmm6, xmm6
-					MOVDQU xmm6, xmm0
-					CVTPS2DQ xmm6, xmm6
-					MOVD r13d, xmm6
-					ADD r12, 2
+					MOV r12, 3	 					;#fila = 2
+					ADD r9d, 3				  		;r9 = topPlaneLimit - ((topPlaneLimit * i) / iters) + 2
 					.copyFila:
-						CMP r12d, r13d
+						CMP r12d, r9d 				;while(#fila <= r9)
 						JG .finCopyFila
 						XOR rbx, rbx
-						XOR r9, r9
-						MOV r9, r15
-						ADD r9, 16
+						XOR r13, r13
+						MOV r13, r15
+						ADD r13, 16 				;r13 = width * 3
 						MOV rax, r12
-						MUL r9
-						MOV r9, rax
+						MUL r13 					;r13 = width * 3 * #fila
+						MOV r13, rax
+						ADD r13, 6 					;puntero + 6 para arrancar en la misma columna
+						ADD rbx, 6 					;#columna + 6 (2 pixels)
+						SUB r15d, 6 				;le quito los 2 pixels del fin al ancho ya que no quiero procesar los ultimos 2.
 						.copyColumna:
-							CMP ebx, r15d
-							JG .finCopyColumna
-							ADD r9, rbx
-							MOVDQU xmm4, [rsi + r9]
-							MOVDQU [rdi + r9], xmm4
+							CMP ebx, r15d 							;while(#columna < width * 3 - 6)
+							JG .finCopyColumna							
+							MOVDQU xmm4, [rsi + r13]
+							MOVDQU [rdi + r13], xmm4
+							ADD r13, 16 								;columna y puntero + 3
 							ADD ebx, 16
 							JMP .copyColumna
 						.finCopyColumna:
+						SUB r13, 12
+						MOVDQU xmm4, [rsi + r13]
+						MOVDQU [rdi + r13], xmm4						
+						ADD r15d, 6
 						ADD r12, 1
 						JMP .copyFila
-				.finCopyFila:
+				.finCopyFila:				
 				XOR r12, r12
 				XOR r13, r13
 				XOR rbx, rbx
 				XOR r9, r9
-				ADD r10d, 1
-				JMP .bandaAlta
 
-.bandaIntermedia:
-
-
-.startBottom:
-	XOR r10, r10
-	;SUB r15, 2
-.iteracionBottom:
-	CMP r10d, r8d			;i (contador) < iters
-	JGE .fin
 	;;Hago todo el procesamiento para calcular el alto de la banda en esta iteracion. Esto se repite por iteracion ya que va
 	;;cambiando como se puede apreciar a continuacion.
 	MOVD xmm3, r8d			;xmm3(D) = iters | 0 | 0 | 0 |
@@ -390,10 +429,10 @@ miniature_asm:
 	MULPS xmm4, xmm6		;xmm4 = (Height - bottomPlaneInit) * i | 0 | 0 | 0 |
 	DIVPS xmm4, xmm3		;xmm4 = (Height - bottomPlaneInit) * i /iters | 0 | 0 | 0 |
 	ADDPS xmm4, xmm1		;xmm4 (bottomPlaneInit) = bottomPlaneInit + xmm4
-	CVTPS2DQ xmm4, xmm4
-	PSUBD xmm4, [MASK_DOS_PPIO]
+	CVTTPS2DQ xmm4, xmm4
 	XOR r9, r9 			;r9 = 0
 	MOVD r9d, xmm4		;r9 = bottomPlaneInit + (((Height - bottomPlaneInit) * i) / iters)
+	SUB r9d, 2
 
 	;limpio todo lo que no uso y seteo en 0 a los contadores que voy a usar proximamente.
 	PXOR xmm3, xmm3
@@ -401,6 +440,7 @@ miniature_asm:
 	PXOR xmm6, xmm6
 	XOR r13, r13		;r13 = 0
 	XOR r12, r12		;r12 = 0
+	MOV r13, r9
 		.filasBandaBaja:
 			CMP r9d, r14d		;mientras height > bottomPlaneInit - ((bottomPlaneInit * i) / iters)
 			JG .finBandaBaja
@@ -427,19 +467,16 @@ miniature_asm:
 					ADD rbx, 16
 					MOVDQU xmm7, [rdi + rbx]
 
-					PSHUFB xmm2, [MASK_ORD]
-					PSHUFB xmm3, [MASK_ORD]
-					PSHUFB xmm4, [MASK_ORD1]
-					PSHUFB xmm6, [MASK_ORD]
-					PSHUFB xmm7, [MASK_ORD]
-
 					get_miniature_color xmm2, xmm3, xmm4, xmm6, xmm7
 
 					SUB rbx, r15
-					SUB rbx, 16
 					SUB rbx, r15
-					SUB rbx, 16
-					MOVDQU [rdi + rbx], xmm4
+					SUB rbx, 32
+					PXOR xmm7, xmm7
+					MOVDQU xmm7, [rsi + rbx]
+					PSHUFB xmm7, [MASK_INSERT_DEST]
+					PSHUFB xmm4, [MASK_INSERT_SRC]
+					PADDB xmm4, xmm7
 					MOVDQU [rsi + rbx], xmm4
 					ADD r12d, 3
 					XOR rbx, rbx
@@ -449,10 +486,40 @@ miniature_asm:
 					XOR r12, r12
 					JMP .filasBandaBaja
 				.finBandaBaja:
-				XOR r9, r9
+					ADD r14d, 2
+					.copyFilaBaja:
+						CMP r13d, r14d
+						JG .finCopyFilaBaja
+						XOR rbx, rbx
+						XOR r9, r9
+						MOV r9, r15
+						ADD r9, 16
+						MOV rax, r13
+						MUL r9
+						MOV r9, rax
+						ADD rbx, 6
+						ADD r9, 6
+						SUB r15d, 6
+						.copyColumnaBaja:
+							CMP ebx, r15d
+							JG .finCopyColumnaBaja							
+							MOVDQU xmm4, [rsi + r9]
+							MOVDQU [rdi + r9], xmm4
+							ADD r9, 16
+							ADD ebx, 16
+							JMP .copyColumnaBaja
+						.finCopyColumnaBaja:				
+						ADD r15d, 6
+						ADD r13, 1
+						JMP .copyFilaBaja
+				.finCopyFilaBaja:
+				SUB r14d, 2
 				XOR r12, r12
+				XOR r13, r13
+				XOR rbx, rbx
+				XOR r9, r9
 				ADD r10d, 1
-				JMP .iteracionBottom
+				JMP .bandaAlta
 
 .fin:
 	ADD rsp, 8

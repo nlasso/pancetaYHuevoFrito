@@ -51,12 +51,14 @@ void miniature_c(
 
     unsigned char (*src_matrix)[width * 3] = (unsigned char (*)[width * 3]) src;
     unsigned char (*dst_matrix)[width * 3] = (unsigned char (*)[width * 3]) dst;
-    int topPlaneLimit = topPlane * height;
-    int bottomPlaneInit = bottomPlane * height;
+    float topPlaneLimit = topPlane * height;
+    float bottomPlaneInit = bottomPlane * height;
     int newWidth = width * 3 - 6; //recorro hasta 2 pixels antes de terminar la matriz
     int row = 2; // filas empiezan en el 2do pixel
     int col = 6; // columnas empiezan en el 2do pixel
-    int i, rowsToProcess;
+    int i;
+    float rowsToProcess;
+    int rowsToProcess2;
     unsigned char b, g, r;
 
 
@@ -79,9 +81,9 @@ void miniature_c(
 
         /* Banda superior */
         rowsToProcess = i * topPlaneLimit / iters;
-        rowsToProcess = topPlaneLimit - rowsToProcess;
+        rowsToProcess2 = (unsigned int) (topPlaneLimit - rowsToProcess);
         row = 2;
-        while (row <= rowsToProcess) {
+        while (row <= rowsToProcess2) {
             while (col <= newWidth) {
                 b = (unsigned char) get_miniature_color(src, width * 3, row, col);
                 g = (unsigned char) get_miniature_color(src, width * 3, row, col + 1);
@@ -98,7 +100,7 @@ void miniature_c(
 
         /* resultado lo copio a src para mayor blur */        
         row = 2;
-        while (row <= rowsToProcess) {
+        while (row <= rowsToProcess2) {
             col = 6;
             while (col <= newWidth) {
                 src_matrix[row][col] = dst_matrix[row][col];
@@ -111,8 +113,8 @@ void miniature_c(
 
         /* Banda inferior */
         rowsToProcess = i * (height - bottomPlaneInit) / iters;
-        row = bottomPlaneInit + rowsToProcess;
-        while (row <= height-2) {
+        row = (unsigned int)bottomPlaneInit + rowsToProcess;
+        while (row <= height-3) {
             col = 6;
             while (col <= newWidth) {
                 b = (unsigned char) get_miniature_color(src, width * 3, row, col);
@@ -129,7 +131,7 @@ void miniature_c(
 
         /* resultado lo copio a src para mayor blur */        
         row = 2;
-        while (row <= height-2) {
+        while (row <= height-3) {
             col = 6;
             while (col <= newWidth) {
                 src_matrix[row][col] = dst_matrix[row][col];

@@ -168,8 +168,8 @@ color_filter_asm:
 	  	MOVD xmm5, r9d
 	  	PSHUFD xmm5, xmm5, 0	;| threshold | threshold | threshold | threshold | 
 
-	  	CVTPS2DQ xmm0, xmm0
-	  	CVTPS2DQ xmm7, xmm7
+	  	CVTTPS2DQ xmm0, xmm0
+	  	CVTTPS2DQ xmm7, xmm7
 
 	  	PCMPGTD xmm0, xmm5
 	  	PCMPGTD xmm7, xmm5
@@ -249,8 +249,8 @@ color_filter_asm:
 	  	DIVPS xmm11, xmm14
 
 	  	;Lo devuelvo a int para despues empaquetarlo. Se que lso bits que sean 0 quedaron asi.
-	  	CVTPS2DQ xmm4, xmm4
-	  	CVTPS2DQ xmm11, xmm11
+	  	CVTTPS2DQ xmm4, xmm4
+	  	CVTTPS2DQ xmm11, xmm11
 
 	  	PSHUFB xmm4, [MASK_REARM]
 	  	PSHUFB xmm11, [MASK_REARM1]
