@@ -20,7 +20,7 @@ typedef struct str_pd_entry {
 	unsigned char	g:1;
 	unsigned char	ignr_3:3;
 	unsigned int	base_12_31:20;
-} __attribute__((__packed__, aligned (8))) pd_entry;
+} __attribute__((__packed__, aligned (4))) pd_entry;
 
 typedef struct str_pt_entry {
 	unsigned char	p:1;
@@ -34,7 +34,7 @@ typedef struct str_pt_entry {
 	unsigned char	g:1;
 	unsigned char	ignr_3:3;
 	unsigned int	base_12_31:20;
-} __attribute__((__packed__, aligned (8))) pt_entry;
+} __attribute__((__packed__, aligned (4))) pt_entry;
 
 
 extern pd_entry* pd;

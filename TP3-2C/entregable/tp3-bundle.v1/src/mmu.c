@@ -41,19 +41,7 @@ void mmu_inicializar() {
 	};
 	//Pongo el resto de la PDT en 0 ya que no tiene mas entradas.
 	for(int i=2; i < 1024; i++){
-		pd[i] = (pd_entry){
-			.p=0x0,
-			.rw=0x0,
-			.us=0x0,
-			.pwt=0x0,
-			.pcd=0x0,
-			.a=0x0,
-			.ignr=0x0,
-			.ps=0x0,
-			.g=0x0,
-			.ignr_3=0x0,
-			.base_12_31 = 0x0
-		};
+		pd[i].p = 0;
 	}
 	for(int k = 0; k < 1024; k++){
 		pt[k] = (pt_entry){
