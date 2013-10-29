@@ -32,3 +32,14 @@ Probando con im\'agenes de distintos tamaños, una de 1920 X 1080 p\´ixeles y o
 
 \includegraphics{imagenes/DecodeMayor.jpg}
 
+%falta el grafico de imagen de menor tamaño.
+
+Para desarrollar el codigo con la tecnica de pipelining, lo primero que modificamos fue el uso de los regitros. Intentando de hacer cada seccion del codigo con registros distintos para disminuir la dependencia entre las instrucciones. Una vez logrado esto, el aumento de performance fue muy significativo. Realizar una iteracion del codigo nos costaba antes aproximadamente 250200 ciclos del clock y, con la nueva tecnica logramos reducir el tiemo a aproximadamente 115362 ciclos.
+\newline
+Luego intentamos intercalar algunas instrucciones para reducir aun mas la cantidad de ciclos necesarios, pero no se lograron cambios apreciables.
+\newline
+\newline
+En cuestion de performance, se puede apreciar en el siguiente grafico, que se ha logrado un salto en la cantidad de ciclos bastante importante. En el codigo C, en coomparacion con el ASM sin pipelining, demoraba aproximadamente 10.36 veces mas. La diferencia se lograba gracias a la posibilidad de leer de la memoria de a 16 bytes por cada acceso en lugar del unico que podiamos leer en C. Luego, una vez utilizada la tecnica de pipelining, podemos apreciar que la diferencia es aun mayor, logrando que en C se demore aproximadamente 22.48 veces más que utilizando pipelining en ASM. Y el ASM sin pipelining demora aproximadamente 2.17 veces mas que el que si utiliza esta tecnica.
+\newline
+
+%falta el grafico de pipelining
