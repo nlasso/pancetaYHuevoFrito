@@ -1,12 +1,3 @@
-Este filtro consiste b\'asicamente en dados un color y una distancia pasados como par\'ametros, procesa cada pixel de una im\'agen a color evaluando si 
-el color del mismo se "aleja" m\'as de la distancia del par\'ametro, y si eso pasa, el pixel se transforma a escala de grises, sino lo mantiene igual. 
-Esto logra el efecto de resaltar un color en una im\'agen
-
-\subsubsection{Implementación en C}
-Mediante dos ciclos anidados, se va recorriendo la im\'agen por cada componente de color de cada pixel. Por cada pixel se levantan sus 3 colores RGB para 
-calcular la distancia a los 3 colores RGB pasados por par\'ametro. Si el color de la im\'agen supera esa distancia, entonces en el pixel que se est\'a 
-procesando quedan sus 3 colores iguales, logrando una escala de grises. Si el color no supera la distancia, debe mantenerse tal cual, logrando as\'i ser 
-resaltado.
 
 \subsubsection{Implementación en Assembler}
 Haciendo uso de los registros \emph{XMM} por cada acceso a memoria se pueden traer 16 bytes con lo cual la cantidad de accesos a memoria decrementa 
@@ -78,21 +69,12 @@ compilado con optimizacion -O1, -O2 y -O3. El siguiente gr\'afico muestra como e
  \includegraphics[scale=0.5]{imagenes/optimizacionC.jpg}
 \end{center}
 
+Esta medici\'on fue realizada cambiando la cantidad de iteraciones y midiendo cuantos ticks de procesador consume procesar el video completo. El 
+problema de realizar las mediciones de esta manera es que el procesador switchea entre distintos procesos todo el tiempo haciendo que mi contador aumente
+ al ejecutar procesos que no pertenecen a mi funci\'on y se cuenta en intervalos muy grandes provocando que la probabilidad de contar ticks de procesos
+ exteriores sea mayor. Es por esta raz\'on que nuestra medici\'on no es lo suficientemente precisa. Una forma de hacerla mas precisa ser\'ia evaluando un
+promedio de la cantidad de Ticks que consume por cada frame de cada iteraci\'on. Pero al trabajar en ordenes tan grandes deber\'iamos procesar demasiada
+ informaci\'on que no viene al caso de lo que se queire mostrar.\newline
+
 \end{itemize}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{Resultados}
