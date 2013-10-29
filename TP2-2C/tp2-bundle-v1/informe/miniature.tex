@@ -30,7 +30,7 @@ el primer registro con la nueva fila de abajo. La imagen muestra la idea:
  \includegraphics[scale=0.7]{imagenes/mover1.png}
 \end{center}
 
-\item El otro propuesto fue, levanar esos 5 registros pero en lugar de mover 1 registro hacia abajo, aprovechar la cache del procesador moviendonos hacia
+\item El otro propuesto fue, levantar esos 5 registros pero en lugar de mover 1 registro hacia abajo, aprovechar la cache del procesador moviendonos hacia
 la derecha ya que cuando copiamos de memoria un registro de 16 bytes traemos con el mucha mas informaci\'on que queda en cache con lo cual al movernos hacia
 de esta manera estamos aprovechando los HIT de la cache en lugar de un MISS por cada iteraci\'on del ciclo. A continuaci\'on una imagen de lo propuesto.\newline
 \begin{center}
@@ -53,7 +53,7 @@ En cuanto a la performance confirmamos lo que hab\'iamos supuesto, el ASM result
 Como podemos ver en el gr\'afico, lo que tarda la ejecuci\'on en promedio, el C se mantiene a la misma distancia del ASM a medida que aumentan las iteraciones, siempre tardando m\'as tiempo.\\
 
 Experimentamos con varios tamaños de im\'agenes y pudimos ver que la diferencia en velocidad no cambia mucho. El C sigue tardando m\'as que el ASM, y con im\'agenes mas grandes hasta puede tardar m\'as que lo que vimos en el gr\'afico anterior.\\
-Consideramos que a la hora de hacer este tipo de filtros, lo m\'as prioritario para optimizar es es evitar los accesos a memoria lo m\'as posible, ya que como sabemos es una de las cosas m\'as costosas que hay.\\
+Consideramos que a la hora de hacer este tipo de filtros, lo m\'as prioritario para optimizar es evitar los accesos a memoria lo m\'as posible, ya que como sabemos es una de las cosas m\'as costosas en cuanto a performance.\\
 
 
 

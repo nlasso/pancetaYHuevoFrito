@@ -119,4 +119,19 @@ JLE .fin\\
 Midiendo tiempos de ejecuci\'on nos damos cuenta que no hay grandes diferencias con el ASM implementado sin aplicar esta t\'ecnica. Al parecer ahorrar 2 instrucciones b\'asicas de assembler para el tamaño de im\'agen que probamos (960 x 540), no es significativo.\\
 Vale aclarar que la cantidad de pixels en ancho o en alto debe ser multiplo de 10, sino habr\'ia que tener ciertas consideraciones.
 
+\subsubsection{Conversiones y extensiones de datos}
+En varias secciones del c\'odigo en assembler de los filtros fue necesario extender o convertir los datos de entrada ya sea para realizar operaciones con
+mayor precisi\'on o para poder operar con ellos.\newline
+
+ Por ejemplo, en el filtro de color la extensi\'on y conversi\'on del dato fue necesaria a la hora de
+ calcular la m\'ascara\footnote{Ver secci\'on 2.1.2}. La diferencia absoluta pudo calcularse sin ninguna operaci\'on extra pero cuando tuvimos que 
+Multiplicar y sumar datos era posible que se superara el n\'umero 255, que es el mayor n\'umero representable con 8 bits. Por esta raz\'on se extendieron
+los char de entrada en DoubleWords. Podr\'ia haber bastado con extender a Word pero luego necesitamos hacer una operaci\'on de raiz cuadrada con lo cual fue
+m\'as \'optimo extender a DoubleWord y luego convertir a Float ya que de esta manera no perdemos precisi\'on en el \'ultimo c\'alculo. A continuaci\'on, 
+result\'o necesario convertir de nuevo a dato Int Double Word. Para esto se us\'o la instrucci\'on CVTTPS2DQ ya que tiene la particularidad de truncar el 
+n\'umero en lugar de redondear al m\'as cercano como hacen otras instrucciones por default y est\'a seteado en el flag 13 y 14 del registro MXCSR\footnote{Ver Manual de Intel volumen 1, secci\'on 10.2.3}.
+ Vale aclararlo ya que a la hora de buscar diferencias entre filtros esto produjo una reducci\'on muy grande de diferencias. Por \'ultimo en la m\'ascara se comprimi\'o el dato 
+de DoubleWord a Byte. Para la operaci\'on real con los datos que son guardados en la salida tambi\'en fue necesario realizar estas operaciones, se extendi\'o a 
+Int de 32 bits y luego se convirti\'o a Float todo de una vez para que resulte m\'as \'optimo en lugar de primero desempaquetar a Word y luego a DoubleWord. Luego se
+procedi\'o con las operaciones de suma y divisi\'on y se empaquet\'o de nuevo a Byte para insertarlo en la posici\'on de salida.
 
