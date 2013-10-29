@@ -236,7 +236,7 @@ Rodr\'iguez, Agust\'in	& 120/10 & agustinrodriguez90@hotmail.com\\
 \section{Introducción}
 
 El lenguaje C es uno de los más eficientes en cuestión de performance, pero esto no quiere decir que sea óptimo para todos los casos o que no haya campos en los que pueda utilizarse una opción mejor.
-Para comprobar esto, experimentamos con el set de instrucciones SIMD de la arquitectura Intel. Vamos a procesar imágenes mediante la aplicación de ciertos filtros y estudiaremos la posible ventaja que puede tener un código en Assembler con respecto a uno en C.
+Para comprobar esto, experimentamos con el set de instrucciones SIMD de la arquitectura Intel. Vamos a procesar imágenes mediante la aplicación de ciertos filtros y estudiaremos la posible ventaja que puede tener un código en Assembler\footnote{Durante el desarrollo del informe puede verse referido a Assembler como ASM haciendo un abuso de notaci\'on siendo que este es solo el nombre de la extensi\'on.} con respecto a uno en C.
 Implementaremos los filtros en ambos lenguajes para luego poder comparar la performance de cada uno y evaluar las ventajas y/o desventajas de cada uno.
 
 
@@ -271,12 +271,12 @@ Implementaremos los filtros en ambos lenguajes para luego poder comparar la perf
 
 Las instrucciones SIMD (Single Instruction Multiple Data) proveen al programador de una herramienta más efectiva para realizar el mismo conjunto de operaciones a una gran cantidad de datos.
 
-La aplicación del filtros a imágenes era un ejemplo perfecto para probar su eficiencia.
+La aplicación de filtros a imágenes era un ejemplo perfecto para probar su eficiencia.
 
 Analizando los resultados de las implementaciones de los 3 filtros, podemos notar:
 
 \begin{itemize}
-\item Las operaciones básicas (padd, psub, pmul, pdiv, shifts, etc.) SIMD tienen un costo similar a sus correspondientes operaciones unitarias, pero generalmente requieren algún tipo de preproceso para poder trabajar con los 16 bytes (pack, unpack, shifts) en una sola iteración, por lo tanto, aunque más eficientes, no lo son en una relación directamente proporcional.
+\item Las operaciones básicas (padd, psub, pmul, pdiv, shifts, etc.) SIMD tienen un costo similar a sus correspondientes operaciones unitarias, pero generalmente requieren algún tipo de pre-proceso para poder trabajar con los 16 bytes (pack, unpack, shifts) en una sola iteración, por lo tanto, aunque más eficientes, no lo son en una relación directamente proporcional.
 \item En el caso que sí hay una relación directamente proporcional es en el acceso a memoria.
 \item Además, el acceso a memoria es, por lejos, la operación más costosa de las que implementamos en cada filtro.
 \item Por consecuencia directa del ítem anterior, las llamadas a otras funciones (que a su vez, probablemente contengan variable locales) dentro de una iteración provocan estragos en la efectividad de las implementaciones en C.

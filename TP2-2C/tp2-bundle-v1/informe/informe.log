@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.7.18)  29 OCT 2013 12:13
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.7.18)  29 OCT 2013 14:56
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -806,19 +806,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 4--6
 
  []
 
-<imagenes/ImagenReorden.png, id=24, 429.10312pt x 225.84375pt>
+<imagenes/ImagenReorden.png, id=27, 429.10312pt x 225.84375pt>
 File: imagenes/ImagenReorden.png Graphic file (type png)
 
-<use imagenes/ImagenReorden.png>
-<imagenes/resta.png, id=25, 675.27281pt x 37.64063pt>
+<use imagenes/ImagenReorden.png> [4 <./imagenes/ImagenReorden.png (PNG copy)>]
+<imagenes/resta.png, id=36, 675.27281pt x 37.64063pt>
 File: imagenes/resta.png Graphic file (type png)
  <use imagenes/resta.png>
 Overfull \hbox (2.27618pt too wide) in paragraph at lines 32--33
  [] 
  []
 
-[4 <./imagenes/ImagenReorden.png (PNG copy)>]
-<imagenes/FinOperacion.png, id=35, 376.40625pt x 97.86563pt>
+<imagenes/FinOperacion.png, id=37, 376.40625pt x 97.86563pt>
 File: imagenes/FinOperacion.png Graphic file (type png)
 
 <use imagenes/FinOperacion.png>
@@ -935,12 +934,12 @@ File: imagenes/DiferenciasImagenMenor.jpg Graphic file (type jpg)
 
 <use imagenes/DiferenciasImagenMenor.jpg> [13 <./imagenes/DecodeDiferencias.jpg
 > <./imagenes/DecodeMayor.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 37--44
+Underfull \hbox (badness 10000) in paragraph at lines 38--45
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 37--44
+Underfull \hbox (badness 10000) in paragraph at lines 38--45
 
  []
 
@@ -957,10 +956,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [16] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 12118 strings out of 495061
- 220856 string characters out of 1182621
+ 12117 strings out of 495061
+ 220848 string characters out of 1182621
  268618 words of memory out of 3000000
- 15004 multiletter control sequences out of 15000+50000
+ 15003 multiletter control sequences out of 15000+50000
  10955 words of font info for 42 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  56i,13n,57p,837b,487s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -977,7 +976,7 @@ r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf
 s/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texlive/fonts/type1/pub
 lic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
 s/cm/cmti10.pfb>
-Output written on informe.pdf (16 pages, 1336561 bytes).
+Output written on informe.pdf (16 pages, 1339526 bytes).
 PDF statistics:
  130 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
