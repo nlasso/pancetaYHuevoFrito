@@ -139,5 +139,10 @@
 
     popa
 %endmacro
-
+%macro limpiar_pantalla 0
+    mov ecx, 0x0f9f     ;limpiar pantalla   
+    .limpiar_next:
+          mov byte [fs:ecx], 0
+          loop .limpiar_next
+%endmacro
 %endif  ;; !__IMPRIMIR_MAC__ ;;

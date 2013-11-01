@@ -13,7 +13,9 @@ extern GDT_DESC
 
 ;;MMU
 extern mmu_inicializar
-
+extern mmu_inicializar_dir_tarea
+extern mmu_inicializar_tareas
+extern pd_tarea_idle
 ;; IDT
 extern IDT_DESC
 extern idt_inicializar
@@ -35,6 +37,8 @@ iniciando_mr_len equ    $ - iniciando_mr_msg
 iniciando_mp_msg db     'Iniciando kernel (Modo Protegido)...'
 iniciando_mp_len equ    $ - iniciando_mp_msg
 
+nombre_grupo_msg db         'Frambuesa a la crema'
+nombre_grupo_len equ        $ - nombre_grupo_msg
 ;; Seccion de código.
 ;; -------------------------------------------------------------------------- ;;
 
@@ -89,23 +93,35 @@ modo_protegido:
     ; pintar pantalla, todos los colores, que bonito!
         ;TODO
     ; inicializar el manejador de memoria
-    
+
+    limpiar_pantalla    ;esta macro limpia la pantalla.
+
     CALL mmu_inicializar
+
+    ;Imprimo el nombre del grupo por pantalla
+    imprimir_texto_mp nombre_grupo_msg, nombre_grupo_len, 0x07, 0, 1
 
     ; inicializar el directorio de paginas    
 
     ; inicializar memoria de tareas
-
+    XCHG bx, bx
+    CALL mmu_inicializar_dir_tarea
+    ;CALL mmu_inicializar_tareas
     ; habilitar paginacion
 
     MOV eax, 0x27000
     MOV cr3, eax
+
 
     XCHG bx, bx
     
     MOV eax, cr0
     OR eax, 0x80000000
     MOV cr0, eax
+XCHG bx, bx
+    mov eax, [pd_tarea_idle]
+    mov cr3, eax
+
 
 
     ; inicializar tarea idle
