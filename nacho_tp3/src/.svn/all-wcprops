@@ -1,0 +1,311 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/9/src
+END
+mmu.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/9/src/mmu.c
+END
+i386.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/i386.h
+END
+pantalla.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/9/src/pantalla.h
+END
+bochsrc
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/bochsrc
+END
+isr.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/5/src/isr.h
+END
+genbin.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/genbin.c
+END
+mmu.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/7/src/mmu.h
+END
+task1.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task1.ctsk
+END
+colors.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/2/src/colors.h
+END
+imprimir.mac
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/6/src/imprimir.mac
+END
+task3.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task3.ctsk
+END
+tss.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tss.c
+END
+task5.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task5.ctsk
+END
+task7.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task7.ctsk
+END
+idle.asm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/5/src/idle.asm
+END
+kernel.asm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/9/src/kernel.asm
+END
+gdt.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/gdt.c
+END
+tss.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tss.h
+END
+screen.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/screen.c
+END
+syscall.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/syscall.h
+END
+a20.asm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/a20.asm
+END
+idt.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/7/src/idt.c
+END
+defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/9/src/defines.h
+END
+gdt.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/gdt.h
+END
+screen.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/screen.h
+END
+LEEME.TXT
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/LEEME.TXT
+END
+idt.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/idt.h
+END
+sched.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/sched.c
+END
+sched.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/sched.h
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/6/src/Makefile
+END
+diskette.img.bz2
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/diskette.img.bz2
+END
+task2.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task2.ctsk
+END
+task4.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task4.ctsk
+END
+game.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/game.c
+END
+task6.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task6.ctsk
+END
+pic.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/pic.c
+END
+task8.ctsk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/4/src/task8.ctsk
+END
+tarea1.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/2/src/tarea1.c
+END
+tarea2.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tarea2.c
+END
+game.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/game.h
+END
+log.txt
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/log.txt
+END
+tarea3.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tarea3.c
+END
+pic.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/pic.h
+END
+tarea4.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tarea4.c
+END
+tarea5.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tarea5.c
+END
+tarea6.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tarea6.c
+END
+tarea7.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tarea7.c
+END
+tarea8.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/tarea8.c
+END
+bochsdbg
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/1/src/bochsdbg
+END
+isr.asm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/9/src/isr.asm
+END
+pantalla.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ignacio_sub-orga2_2013_tp3/!svn/ver/9/src/pantalla.c
+END
