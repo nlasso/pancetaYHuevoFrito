@@ -1,0 +1,132 @@
+/* ** por compatibilidad se omiten tildes **
+================================================================================
+ TRABAJO PRACTICO 3 - System Programming - ORGANIZACION DE COMPUTADOR II - FCEN
+================================================================================
+  definicion de la tabla de descriptores globales
+*/
+
+#include "gdt.h"
+
+// NOTA 1: AVAILABLE FOR SOFTWARE NO SABEMOS QUE HACE, LO PONEMOS EN 0
+// NOTA 2: TIPO DATOS ES 2 Y CODIGO ES A. DESPUES REVISAR.
+gdt_entry gdt[GDT_COUNT] = {
+  /* Descriptor nulo */
+  /* Offset = 0x00 */
+  [GDT_IDX_NULL_DESC] = (gdt_entry) {
+    (unsigned short)    0x0000,               /* limit[0:15]  */
+    (unsigned short)    0x0000,               /* base[0:15]   */
+    (unsigned char)     0x00,                 /* base[23:16]  */
+    (unsigned char)     0x00,                 /* type         */
+    (unsigned char)     0x00,                 /* s            */
+    (unsigned char)     0x00,                 /* dpl          */
+    (unsigned char)     0x01,                 /* p            */
+    (unsigned char)     0x00,                 /* limit[16:19] */
+    (unsigned char)     0x00,                 /* avl          */
+    (unsigned char)     0x00,                 /* l            */
+    (unsigned char)     0x00,                 /* db           */
+    (unsigned char)     0x00,                 /* g            */
+    (unsigned char)     0x00,                 /* base[31:24]  */
+  },
+  [GDT_IDX_NULL_DESC + (17)] = (gdt_entry) {   /* Datos Kernel */
+    .base_0_15        =   0x0000,
+    .base_16_23       =   0x00  ,
+    .base_24_31       =   0x00  ,
+    .limit_0_15       =   0xFFFF,
+    .limit_16_19      =   0x6   ,             // 0x6FFFF000
+    .type             =   0x2   ,
+    .s                =   0x1,                // sistema/usuario
+    .dpl              =   0x0,                // prioridad
+    .avl              =   0x0,                // no se usa
+    .p                =   0x1,
+    .g                =   0x1,
+    .l                =   0x0,                //64 bits
+    .db               =   0x1,                //se usan 32 bits?
+  },
+  {                                           /* Código Kernel */
+    .base_0_15        =   0x0000,
+    .base_16_23       =   0x00  ,
+    .base_24_31       =   0x00  ,
+    .limit_0_15       =   0xFFFF,
+    .limit_16_19      =   0x6   ,             // 0x6FFFF000
+    .type             =   0xA   ,
+    .s                =   0x1,                // sistema/usuario
+    .dpl              =   0x0,                // prioridad
+    .avl              =   0x0,                // no se usa
+    .p                =   0x1,
+    .g                =   0x1,
+    .l                =   0x0,                //64 bits
+    .db               =   0x1,                //se usan 32 bits?
+  },
+  {                                           /* Datos Usuario */
+    .base_0_15        =   0x0000,
+    .base_16_23       =   0x00  ,
+    .base_24_31       =   0x00  ,
+    .limit_0_15       =   0xFFFF,
+    .limit_16_19      =   0x6   ,             // 0x6FFFF000
+    .type             =   0x2   ,
+    .s                =   0x1,                // sistema/usuario
+    .dpl              =   0x3,                // prioridad
+    .avl              =   0x0,                // no se usa
+    .p                =   0x1,
+    .g                =   0x1,
+    .l                =   0x0,                //64 bits
+    .db               =   0x1,                //se usan 32 bits?
+  },
+  {                                           /* Código Usuario */
+    .base_0_15        =   0x0000,
+    .base_16_23       =   0x00  ,
+    .base_24_31       =   0x00  ,
+    .limit_0_15       =   0xFFFF,
+    .limit_16_19      =   0x6   ,             // 0x6FFFF000
+    .type             =   0xA   ,
+    .s                =   0x1,                // sistema/usuario
+    .dpl              =   0x0,                // prioridad
+    .avl              =   0x0,                // no se usa
+    .p                =   0x1,
+    .g                =   0x1,
+    .l                =   0x0,                //64 bits
+    .db               =   0x1,                //se usan 32 bits?
+  },{   /* Video */
+    .base_0_15        =   0x8000,
+    .base_16_23       =   0x0B  ,
+    .base_24_31       =   0x00  ,
+    .limit_0_15       =   0x0FBF,            // 0xFA0 (4000) -1
+    .limit_16_19      =   0x0   ,             // 0x000B8888FBF
+    .type             =   0x2   ,
+    .s                =   0x1,                // sistema/usuario
+    .dpl              =   0x0,                // prioridad
+    .avl              =   0x0,                // no se usa
+    .p                =   0x1,
+    .g                =   0x0,
+    .l                =   0x0,                //64 bits
+    .db               =   0x1,                //se usan 32 bits?
+  },
+  
+  //NOTA: NO ESTOY SEGURO QUE ESTO ESTE BIEN, REVISAR
+  // STACK
+  {
+  //limite        
+  .limit_0_15 = 0xFFFF,
+  .limit_16_19 = 0x6,
+  //base
+  .base_0_15 =   0x7000,
+  .base_16_23 =  0x02,
+  .base_24_31 =  0x00,
+  //tipo
+  .type =     0x2,
+
+  //seguridad   
+  .s =       0x1, // sistema/usuario   
+  .dpl =     0x3, // prioridad
+  .avl =     0x0, //available for use of software     
+  .p =       0x1,      
+  .g =       0x1,
+  .l =       0x0, //64 bits
+  .db =      0x1, //se usan 32 bits?
+  },
+};
+
+gdt_descriptor GDT_DESC = {
+    sizeof(gdt) - 1,
+    (unsigned int) &gdt
+};

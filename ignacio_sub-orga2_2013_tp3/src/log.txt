@@ -1,0 +1,5 @@
+16/10/2013 - 2:45 am
+Nacho: Hoy hice el gdt, el mmu (paginacion) y parte del kernel.
+Al parecer anda todo bien, pero no estoy seguro de que el mmu este bien armado, habria que revisarlo. Ademas, no tengo idea de como funciona el segmento del stack, imagino que es creando una entrada de gdt y simplemente apuntando con ss (stack segment) a dicha entrada. El problema es que el Stack funciona al revez (va del final al comienzo del stack), asi que no se bien como funciona. Ademas, no se bien como delimitarlo. 
+
+----

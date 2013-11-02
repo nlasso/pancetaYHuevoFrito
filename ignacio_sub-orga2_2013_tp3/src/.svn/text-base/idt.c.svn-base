@@ -5,7 +5,9 @@
   definicion de las rutinas de atencion de interrupciones
 */
 
+#include "defines.h"
 #include "idt.h"
+#include "isr.h"
 
 idt_entry idt[255] = { };
 
@@ -38,7 +40,6 @@ idt_descriptor IDT_DESC = {
     idt[numero].offset_16_31 = (unsigned short) ((unsigned int)(&_isr ## numero) >> 16 & (unsigned int) 0xFFFF);\
 
 
-
 void idt_inicializar() {
     IDT_ENTRY(0);
     IDT_ENTRY(1);
@@ -68,5 +69,31 @@ void idt_inicializar() {
     IDT_ENTRY(32);
     IDT_ENTRY(50);
     IDT_ENTRY(66);
-
 }
+
+
+
+
+
+    /*0   Divide-by-zero  fault
+    1   Debug exception trap or fault
+    2   Non-Maskable Interrupt (NMI)    trap
+    3   Breakpoint (INT 3)  trap
+    4   Overflow (INTO with EFlags[OF] set) trap
+    5   Bound exception (BOUND on out-of-bounds access) trap
+    6   Invalid Opcode  trap
+    7   FPU not available   trap
+    8*  Double Fault    abort
+    9   Coprocessor Segment Overrun abort
+    10* Invalid TSS fault
+    11* Segment not present fault
+    12* Stack exception fault
+    13* General Protection  fault or trap
+    14* Page fault  fault
+    15  Reserved
+    16  Floating-point error    fault
+    17  Alignment Check fault
+    18  Machine Check   abort
+    19 SIMD */
+    // Excepciones
+

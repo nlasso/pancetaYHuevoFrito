@@ -31,7 +31,7 @@
 00000000000i[     ]   SB16 support: no
 00000000000i[     ]   USB support: no
 00000000000i[     ]   VGA extension support: vbe 
-00000000000i[MEM0 ] allocated memory at 0x7ff695a86010. after alignment, vector=0x7ff695a87000
+00000000000i[MEM0 ] allocated memory at 0x7f8e99f18010. after alignment, vector=0x7f8e99f19000
 00000000000i[MEM0 ] 128,00MB
 00000000000i[MEM0 ] mem block size = 0x00100000, blocks=128
 00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -110,45 +110,46 @@
 00000000000i[     ] set SIGINT handler to bx_debug_ctrlc_handler
 00000000000i[XGUI ] Mouse capture off
 00000004855i[BIOS ] $Revision: 10789 $ $Date: 2011-11-24 17:03:51 +0100 (Do, 24. Nov 2011) $
-00000321296i[KBD  ] reset-disable command received
-00000324574i[BIOS ] Starting rombios32
-00000325021i[BIOS ] Shutdown flag 0
-00000325631i[BIOS ] ram_size=0x08000000
-00000326089i[BIOS ] ram_end=128MB
-00000338991i[BIOS ] Found 1 cpu(s)
-00000355245i[BIOS ] bios_table_addr: 0x000fbde8 end=0x000fcc00
-00000367815i[BIOS ] bios_table_cur_addr: 0x000fbde8
-00000495433i[VBIOS] VGABios $Id: vgabios.c,v 1.75 2011/10/15 14:07:21 vruppert Exp $
-00000495504i[BXVGA] VBE known Display Interface b0c0
-00000495536i[BXVGA] VBE known Display Interface b0c5
-00000498461i[VBIOS] VBE Bios $Id: vbe.c,v 1.64 2011/07/19 18:25:05 vruppert Exp $
-00000586879i[XGUI ] charmap update. Font Height is 16
-01549693020i[BIOS ] Booting from 0000:7c00
-01551572016i[CPU0 ] [1551572016] Stopped on MAGIC BREAKPOINT
-01551572016i[XGUI ] Mouse capture off
-01551572224i[CPU0 ] [1551572224] Stopped on MAGIC BREAKPOINT
-01551572224i[XGUI ] Mouse capture off
-01551572463i[CPU0 ] [1551572463] Stopped on MAGIC BREAKPOINT
-01551572463i[XGUI ] Mouse capture off
-01719172223i[     ] Ctrl-C detected in signal handler.
-01719172224i[XGUI ] Mouse capture off
-01719172224i[     ] dbg: Quit
-01719172224i[CPU0 ] CPU is in protected mode (active)
-01719172224i[CPU0 ] CS.mode = 32 bit
-01719172224i[CPU0 ] SS.mode = 16 bit
-01719172224i[CPU0 ] | EAX=000b8034  EBX=0000072e  ECX=0008ffe6  EDX=000f0100
-01719172224i[CPU0 ] | ESP=00004ffc  EBP=00000014  ESI=0000001a  EDI=00000140
-01719172224i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
-01719172224i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-01719172224i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 03ffffff 1 1
-01719172224i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 03ffffff 1 1
-01719172224i[CPU0 ] |  SS:9b00( 0005| 0|  0) 0009b000 0000ffff 0 0
-01719172224i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 03ffffff 1 1
-01719172224i[CPU0 ] |  FS:0018( 0003| 0|  0) 000b8000 00000fbf 0 1
-01719172224i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 03ffffff 1 1
-01719172224i[CPU0 ] | EIP=000012d0 (000012d0)
-01719172224i[CPU0 ] | CR0=0x60000011 CR2=0x00000000
-01719172224i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
-01719172224i[CMOS ] Last time is 946681543 (Fri Dec 31 20:05:43 1999)
-01719172224i[XGUI ] Exit
-01719172224i[CTRL ] quit_sim called with exit code 0
+00000320065i[KBD  ] reset-disable command received
+00000323343i[BIOS ] Starting rombios32
+00000323790i[BIOS ] Shutdown flag 0
+00000324400i[BIOS ] ram_size=0x08000000
+00000324858i[BIOS ] ram_end=128MB
+00000337736i[BIOS ] Found 1 cpu(s)
+00000353990i[BIOS ] bios_table_addr: 0x000fbde8 end=0x000fcc00
+00000366560i[BIOS ] bios_table_cur_addr: 0x000fbde8
+00000494178i[VBIOS] VGABios $Id: vgabios.c,v 1.75 2011/10/15 14:07:21 vruppert Exp $
+00000494249i[BXVGA] VBE known Display Interface b0c0
+00000494281i[BXVGA] VBE known Display Interface b0c5
+00000497206i[VBIOS] VBE Bios $Id: vbe.c,v 1.64 2011/07/19 18:25:05 vruppert Exp $
+00000524119i[XGUI ] charmap update. Font Height is 16
+00000714929i[XGUI ] charmap update. Font Height is 16
+01793090393i[BIOS ] Booting from 0000:7c00
+01794969401i[CPU0 ] [1794969401] Stopped on MAGIC BREAKPOINT
+01794969401i[XGUI ] Mouse capture off
+01794969609i[CPU0 ] [1794969609] Stopped on MAGIC BREAKPOINT
+01794969609i[XGUI ] Mouse capture off
+01794969848i[CPU0 ] [1794969848] Stopped on MAGIC BREAKPOINT
+01794969848i[XGUI ] Mouse capture off
+02029767905i[     ] Ctrl-C detected in signal handler.
+02029767906i[XGUI ] Mouse capture off
+02029767906i[     ] dbg: Quit
+02029767906i[CPU0 ] CPU is in protected mode (active)
+02029767906i[CPU0 ] CS.mode = 32 bit
+02029767906i[CPU0 ] SS.mode = 16 bit
+02029767906i[CPU0 ] | EAX=000b8034  EBX=0000072e  ECX=0008ffe6  EDX=000f0100
+02029767906i[CPU0 ] | ESP=00004ffc  EBP=00000014  ESI=0000001a  EDI=00000140
+02029767906i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
+02029767906i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+02029767906i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 03ffffff 1 1
+02029767906i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 03ffffff 1 1
+02029767906i[CPU0 ] |  SS:9b00( 0005| 0|  0) 0009b000 0000ffff 0 0
+02029767906i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 03ffffff 1 1
+02029767906i[CPU0 ] |  FS:0018( 0003| 0|  0) 000b8000 00000fbf 0 1
+02029767906i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 03ffffff 1 1
+02029767906i[CPU0 ] | EIP=000012d0 (000012d0)
+02029767906i[CPU0 ] | CR0=0x60000011 CR2=0x00000000
+02029767906i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
+02029767906i[CMOS ] Last time is 946681605 (Fri Dec 31 20:06:45 1999)
+02029767906i[XGUI ] Exit
+02029767906i[CTRL ] quit_sim called with exit code 0

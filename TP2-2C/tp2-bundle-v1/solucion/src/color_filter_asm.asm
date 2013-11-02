@@ -219,14 +219,6 @@ color_filter_asm:
 	  	PSHUFB xmm8, [MASK_UNPCKL]
 	  	PSHUFB xmm13, [MASK_UNPCKH]
 
-;
-	  	;PADDB xmm4, xmm7
-	  	;PADDB xmm4, xmm8
-;
-	  	;MOVDQA xmm10, xmm4
-	  	;PSHUFB xmm4, [MASK_UNPCKL]
-	  	;PSHUFB xmm10, [MASK_UNPCKH]
-
 	  	;Hago una mascara de 3,con tamaño de datos DoubleWord.
 	  	MOVDQA xmm14, [MASK_TRES]
 

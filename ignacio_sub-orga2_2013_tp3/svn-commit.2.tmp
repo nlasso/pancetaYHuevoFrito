@@ -1,0 +1,11 @@
+PERON PERON QUE GRANDE SOS! MI GENERAL.
+--This line, and those below, will be ignored--
+
+M    src/mmu.c
+M    src/isr.h
+M    src/mmu.h
+M    src/idle.asm
+M    src/kernel.asm
+M    src/idt.c
+M    src/defines.h
+M    src/isr.asm

@@ -1,0 +1,9 @@
+hola?
+--This line, and those below, will be ignored--
+
+M    src/isr.asm
+M    src/mmu.c
+M    src/mmu.h
+M    src/idt.c
+M    src/defines.h
+M    src/kernel.asm
