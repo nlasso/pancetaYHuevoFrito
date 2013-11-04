@@ -35,7 +35,7 @@ idt_descriptor IDT_DESC = {
 
 #define IDT_ENTRY(numero)   \
     idt[numero].offset_0_15 = (unsigned short) ((unsigned int)(&_isr ## numero) & (unsigned int) 0xFFFF);\
-    idt[numero].segsel = (unsigned short) 0x0090;\
+    idt[numero].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);\
     idt[numero].attr = (unsigned short) 0x8E00;\
     idt[numero].offset_16_31 = (unsigned short) ((unsigned int)(&_isr ## numero) >> 16 & (unsigned int) 0xFFFF);\
 
@@ -71,38 +71,40 @@ void idt_inicializar() {
     //IDT_ENTRY(66);
 
     //Inicializo todas las entradas de la IDT de la 32 a la 255
-    for(int i = 20; i < 256; i++){
+    int i = 20;
+    while(i < 256){
         idt[i].offset_0_15 = (unsigned short) ((unsigned int)(&int_invalida) & (unsigned int) 0xFFFF);
-        idt[i].segsel = (unsigned short) 0x0090;   //VERIFICAR: No estoy seguro de esto.
+        idt[i].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);   //VERIFICAR: No estoy seguro de esto.
         idt[i].attr = (unsigned short) 0x8E00;
         idt[i].offset_16_31 = (unsigned short) ((unsigned int)(&int_invalida) >> 16 & (unsigned int) 0xFFFF);
+        i++;
     }
 
     //Interrupcion de reloj.
     idt[INTCLOCK].offset_0_15 = (unsigned short) ((unsigned int)(&screen_proximo_reloj) & (unsigned int) 0xFFFF);
-    idt[INTCLOCK].segsel = (unsigned short) 0x0090;    //VERIFICAR: No estoy seguro de esto.
+    idt[INTCLOCK].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);    //VERIFICAR: No estoy seguro de esto.
     idt[INTCLOCK].attr = (unsigned short) 0x8E00;
     idt[INTCLOCK].offset_16_31 = (unsigned short) ((unsigned int)(&screen_proximo_reloj) >> 16 & (unsigned int) 0xFFFF);
 
     //Interrupcion de Teclado.
 
     idt[INTKEYBOARD].offset_0_15 = (unsigned short) ((unsigned int)(&int_teclado) & (unsigned int) 0xFFFF);
-    idt[INTKEYBOARD].segsel = (unsigned short) 0x0090;     //VERIFICAR: No estoy seguro de esto.
+    idt[INTKEYBOARD].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);     //VERIFICAR: No estoy seguro de esto.
     idt[INTKEYBOARD].attr = (unsigned short) 0x8E00;
     idt[INTKEYBOARD].offset_16_31 = (unsigned short) ((unsigned int)(&int_teclado) >> 16 & (unsigned int) 0xFFFF);
 
     //interrrupcion de software para servicios
 
     idt[INTSERVICIOS].offset_0_15 = (unsigned short) ((unsigned int)(&int_servicios) & (unsigned int) 0xFFFF);
-    idt[INTSERVICIOS].segsel = (unsigned short) 0x0090;    //VERIFICAR: No estoy seguro de esto.
-    idt[INTSERVICIOS].attr = (unsigned short) 0x8E00;
+    idt[INTSERVICIOS].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);    // HAY QUE CAMBIAR ESTO
+    idt[INTSERVICIOS].attr = (unsigned short) 0x8E00; // HAY QUE CAMBIAR ESTO
     idt[INTSERVICIOS].offset_16_31 = (unsigned short) ((unsigned int)(&int_servicios) >> 16 & (unsigned int) 0xFFFF);
 
     //Interrupcion de bandera.
 
     idt[INTBANDERA].offset_0_15 = (unsigned short) ((unsigned int)(&int_bandera) & (unsigned int) 0xFFFF);
-    idt[INTBANDERA].segsel = (unsigned short) 0x0090;      //VERIFICAR: No estoy seguro de esto.
-    idt[INTBANDERA].attr = (unsigned short) 0x8E00;
+    idt[INTBANDERA].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);      // HAY QUE CAMBIAR ESTO
+    idt[INTBANDERA].attr = (unsigned short) 0x8E00; // HAY QUE CAMBIAR ESTO
     idt[INTBANDERA].offset_16_31 = (unsigned short) ((unsigned int)(&int_bandera) >> 16 & (unsigned int) 0xFFFF);
 }
 

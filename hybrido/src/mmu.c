@@ -30,6 +30,11 @@ unsigned int TASK_PAG_DIR[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 void mmu_inicializar() {
 	mmu_identity_maping();
 	mmu_inicializar_tareas();
+	//
+	// LO DE ACA ABAJO ESTA PARA DEBUGGEAR, DESPUES BORRAR
+	long unsigned int a = get_pagedir_entry_fisica(0x40000000, (pagedir_entry *) SECTORFREEMEM);
+	long unsigned int * b = (long unsigned int *) 0x00000;
+	* b = a;
 }
 
 	//Mappings
@@ -107,8 +112,9 @@ void mmu_inicializar_tareas(){
 		long unsigned int mapeo = TASK_CODE_SRC_ARRAY[cont];
 		//long unsigned int mapeo = TASK_1_CODE_SRC_ADDR;
 		define_pagetab_entry(&pgtab3[0], _writable, _priviledge, mapeo );
+		//define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA );
 		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA );
-		define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
+		//define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
 
 		//FIN LOOP
 		cont++;
@@ -168,3 +174,24 @@ void bleach_pagetab_entry(pagetab_entry * tabla){// setea todo en 0
     (*tabla).dirbase_12_31 = 0x00000;
 }
 
+long unsigned int get_pagedir_entry_fisica(long unsigned int virtual, pagedir_entry * cr3){// NO ANDA BIEN, HAY QUE DEBUGGEAR
+	long unsigned int fisica = 0x00;
+
+	// CONSIGO LA TABLA
+	long unsigned int posicion_dir = (virtual >> 22);	
+	posicion_dir = (cr3[posicion_dir].dirbase_12_31 << 12);
+	pagetab_entry * tabla = (pagetab_entry *) posicion_dir ;
+	fisica = (long unsigned int) tabla;
+
+	// CONSIGO EL DESCRIPTOR
+	posicion_dir = virtual >> 12;
+	posicion_dir = (posicion_dir && 0x3FF); // POSICION DENTRO DE TABLA
+	pagetab_entry descriptor = tabla[posicion_dir-1]; //REVISAR ESO, NO ENTIENDO POR QUE EL -1 (LO SAQUE CON ENSEYO+ERROR)
+
+	//SUMO 
+	posicion_dir = virtual && 0x3FF;
+	fisica = descriptor.dirbase_12_31 << 12;
+	fisica += posicion_dir;
+
+	return fisica;
+};

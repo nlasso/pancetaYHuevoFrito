@@ -46,13 +46,21 @@
 #define GDT_IDX_VIDEO				22
 #define GDT_TSS_IDLE				23
 #define GDT_TSS_TS1					24
-#define GDT_TSS_TS2					25
-#define GDT_TSS_TS3					26
-#define GDT_TSS_TS4					27
-#define GDT_TSS_TS5					28
-#define GDT_TSS_TS6					29
-#define GDT_TSS_TS7					30
-#define GDT_TSS_TS8					31
+#define GDT_TSS_FG1					25
+#define GDT_TSS_TS2					26
+#define GDT_TSS_FG2					27
+#define GDT_TSS_TS3					28
+#define GDT_TSS_FG3					29
+#define GDT_TSS_TS4					30
+#define GDT_TSS_FG4					31
+#define GDT_TSS_TS5					32
+#define GDT_TSS_FG5					33
+#define GDT_TSS_TS6					34
+#define GDT_TSS_FG6					35
+#define GDT_TSS_TS7					36
+#define GDT_TSS_FG7					37
+#define GDT_TSS_TS8					38
+#define GDT_TSS_FG8					39
 
 /* Direcciones de memoria */
 /* -------------------------------------------------------------------------- */
@@ -72,6 +80,9 @@
 #define SECONDPAGETAB 			0x00030000   /* direccion fisica del segundo page tab */
 
 #define SECTORFREEMEM 			0x00031000   /* direccion fisica del primer page dir */
+
+
+#define POSVIRTUAL_TAREAS		0X40000000
 
 
 /* Direcciones virtuales de código, pila y datos */

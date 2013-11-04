@@ -56,5 +56,7 @@ extern tss tarea_idle;
 extern tss tarea_dibujar;
 
 void tss_inicializar();
+void bleach_tss(tss *);
+void tss_tarea_inicializar(int);
 
 #endif  /* !__TSS_H__ */
