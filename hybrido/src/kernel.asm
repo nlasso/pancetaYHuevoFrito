@@ -23,6 +23,7 @@ extern IDT_DESC
 extern idt_inicializar
 
 ;; PIC
+extern deshabilitar_pic
 extern resetear_pic
 extern habilitar_pic
 
@@ -109,7 +110,7 @@ Modo_protegido:
     ;call cambiar_pantalla
     pop byte eax
     call load_pantalla
-    breakpoint
+    
     
 
     ;; ---------------------------------------------------------------------- ;;
@@ -146,8 +147,12 @@ Modo_protegido:
     ; inicializar la IDT
     call idt_inicializar
     lidt[IDT_DESC]
-    mov eax, 0
-    div eax
+    call deshabilitar_pic
+    call resetear_pic
+    call habilitar_pic
+    sti
+    ;mov eax, 0
+    ;div eax
     brekpoint
 
     mov eax, 0x00031000

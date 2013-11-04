@@ -5,6 +5,7 @@
 ; definicion de rutinas de atencion de interrupciones
 
 %include "imprimir.mac"
+%include "defines.asm"
 
 BITS 32
 
@@ -13,6 +14,9 @@ BITS 32
 extern fin_intr_pic1
 extern print_error
 
+;; SCREEN 
+extern load_pantalla
+extern cambiar_pantalla
 
 ;;
 ;; Definición de MACROS
@@ -36,6 +40,8 @@ _isr%1:
 ; Scheduler
 reloj_numero:           dd 0x00000000
 reloj:                  db '|/-\'
+numeros_msj:            db '1234567890'
+numeros_len equ         $ - numeros_msj
 
 
 ;;
@@ -67,16 +73,130 @@ ISR 50
 ISR 66
 
 ;;
+;;Rutina de atencion de interrupcion invalida
+;;--------------------------------------------------------------------------- ;;
+global int_invalida
+int_invalida:
+    cli
+    pushad
+    CALL fin_intr_pic1
+    popad
+    sti
+    ret
+
+;;
 ;; Rutina de atención del RELOJ
 ;; -------------------------------------------------------------------------- ;;
+global screen_proximo_reloj
+screen_proximo_reloj:
+    cli
+    pushad
+    CALL fin_intr_pic1
+    CALL proximo_reloj
+    popad
+    sti
+    ret
 
 ;;
 ;; Rutina de atención del TECLADO
 ;; -------------------------------------------------------------------------- ;;
+global int_teclado
+int_teclado:
+    cli
+    pushad
+    call fin_intr_pic1
+    in al, 0x60             ;recibo la la lectura del teclado. 
+    mov ah, al
+    or al, 0x80             ;seteo el ultimo flag del byte entonces asi le digo al status que me de otra y que ya procese esta.
+    out 0x61, al            ;Lo envio al controlador de teclado
+    mov al, ah
+    out 0x61, al            ;Vuelvo a como estaba antes el controlador.
+    and ah, 0x80            ;Veo si ya solto la tecla sino termino la interrupcion.
+    jnz fin_teclado
+solto_tecla:
+    cmp al, 0x32            ;= 'm'
+    je activar_mapa
+    cmp al, 0x12            ;= 'e'
+    je activar_estado
+    mov cl, 0x02
+ciclo_numero:               ;los numeros en el scan code van del 0x02 al 0x0B entonces hago un ciclo para ver si está en ese rango
+    cmp al, 0x0B
+    je print_cero
+    cmp al, cl              
+    je print_number
+    add cl, 1               ; sumo el contador del rango en uno.
+    cmp cl, 0x0C
+    je fin_teclado
+    jmp ciclo_numero
+
+activar_mapa:
+    mov edi, SCREENMAPA         ;cambio la pantalla a mapa
+    call cambiar_pantalla
+    call load_pantalla
+    jmp fin_teclado
+
+activar_estado:
+    mov edi, SCREENESTADO       ;cambio la pantalla a estado.
+    call cambiar_pantalla
+    call load_pantalla
+    jmp fin_teclado
+print_number:
+    sub cl, 1              ;si es un numero entonces siempre es uno menos al que está ahi. entocnes si apreté la tecla 1 su scan code es el 0x02 entonces menos 1 me da lo que necesito
+    rdrand ax               ;esta instruccion guarda un numero random en el registro del tamaño del registro.
+    or al, 0x07             ;seteo los primeros 3 bits. Lo hago ya que esa es la letra blanca.
+    ;imprimir_texto_mp cl, 0x1, al, 0x0, 0x0          ;Imprimo el numero.
+
+    MOV edi, 0xB8000
+    MOV bl, al
+    SHL bx, 8
+    MOV bl, cl
+    MOV [edi], bx
+    jmp fin_teclado
+
+print_cero:
+    mov cl, 0              ;si es un numero entonces siempre es uno menos al que está ahi. entocnes si apreté la tecla 1 su scan code es el 0x02 entonces menos 1 me da lo que necesito
+    rdrand ax               ;esta instruccion guarda un numero random en el registro del tamaño del registro.
+    or al, 0x07             ;seteo los primeros 3 bits. Lo hago ya que esa es la letra blanca.
+    ;imprimir_texto_mp cl, 1, al , 0, 0          ;Imprimo el numero.
+    MOV edi, 0xB8000
+    MOV bl, al
+    SHL bx, 8
+    MOV bl, cl
+    MOV [edi], bx
+    jmp fin_teclado
+
+fin_teclado:
+    popad
+    sti
+    ret
+
 
 ;;
 ;; Rutinas de atención de las SYSCALLS
 ;; -------------------------------------------------------------------------- ;;
+global int_servicios
+int_servicios:
+    cli 
+    pushad
+    call fin_intr_pic1
+    mov eax, 0x42
+    popad
+    sti
+    ret
+
+;;
+;;Rutina de atencion de interrupcion de bandera
+;;--------------------------------------------------------------------------- ;;
+global int_bandera
+int_bandera:
+    cli 
+    pushad
+    call fin_intr_pic1
+    mov eax, 0x42
+    popad
+    sti
+    ret
+
 
 ;; Funciones Auxiliares
 ;; -------------------------------------------------------------------------- ;;

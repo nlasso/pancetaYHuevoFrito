@@ -33,4 +33,10 @@ void _isr32();
 void _isr50();
 void _isr66();
 
+void int_invalida();
+void screen_proximo_reloj();
+void int_teclado();
+void int_servicios();
+void int_bandera();
+
 #endif  /* !__ISR_H__ */

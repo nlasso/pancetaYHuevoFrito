@@ -106,14 +106,14 @@
 #define TASK_IDLE_CODE_SRC_ADDR 0x00020000
 
 /* INTERRUPCIONES */
-#define INTCLOCK 31 	//NOTA: ESTO ESTA MAL !!!!!!!
-#define INTKEYBOARD 32 	//NOTA: ESTO ESTA MAL !!!!!!!
-#define INTSERVICIOS 50
+#define INTCLOCK 32 	//NOTA: ESTO ESTA MAL !!!!!!!  	/ NICO: Segun las diapos el clock va a la 32.
+#define INTKEYBOARD 33 	//NOTA: ESTO ESTA MAL !!!!!!!	/ NICO: Segun las diapos el teclado va a la 33.
+#define INTSERVICIOS 0x50
 	 //Definiciones de int servicios 
 	#define ANCLA 	0x923
 	#define MISIL 	0x83A
 	#define NAVEGAR 0xAEF
-#define INTBANDERA 66
+#define INTBANDERA 0x66
 ////
 
 #endif  /* !__DEFINES_H__ */
