@@ -28,10 +28,6 @@ void _isr16();
 void _isr17();
 void _isr18();
 void _isr19();
-void _isr31();
-void _isr32();
-void _isr50();
-void _isr66();
 
 void int_invalida();
 void screen_proximo_reloj();

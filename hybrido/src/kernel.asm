@@ -151,8 +151,9 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
     sti
-    ;mov eax, 0
-    ;div eax
+    breakpoint
+    mov eax, 0
+    div eax
     brekpoint
 
     mov eax, 0x00031000

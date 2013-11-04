@@ -67,10 +67,6 @@ ISR 16
 ISR 17
 ISR 18
 ISR 19
-ISR 31
-ISR 32
-ISR 50
-ISR 66
 
 ;;
 ;;Rutina de atencion de interrupcion invalida
@@ -80,9 +76,10 @@ int_invalida:
     cli
     pushad
     CALL fin_intr_pic1
+    CALL print_error
     popad
     sti
-    ret
+    iret
 
 ;;
 ;; Rutina de atención del RELOJ

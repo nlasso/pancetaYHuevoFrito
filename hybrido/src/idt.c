@@ -9,7 +9,7 @@
 #include "idt.h"
 #include "isr.h"
 
-idt_entry idt[255] = { };
+idt_entry idt[256] = { };
 
 idt_descriptor IDT_DESC = {
     sizeof(idt) - 1,
@@ -71,7 +71,7 @@ void idt_inicializar() {
     //IDT_ENTRY(66);
 
     //Inicializo todas las entradas de la IDT de la 32 a la 255
-    for(int i = 32; i < 256; i++){
+    for(int i = 20; i < 256; i++){
         idt[i].offset_0_15 = (unsigned short) ((unsigned int)(&int_invalida) & (unsigned int) 0xFFFF);
         idt[i].segsel = (unsigned short) 0x0090;   //VERIFICAR: No estoy seguro de esto.
         idt[i].attr = (unsigned short) 0x8E00;
