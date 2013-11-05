@@ -8,6 +8,8 @@
 #ifndef __SCHED_H__
 #define __SCHED_H__
 
+//unsigned int tareas[];
+//unsigned int banderas[];
 
 void sched_inicializar();
 unsigned short sched_proximo_indice();

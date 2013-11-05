@@ -65,10 +65,6 @@ void idt_inicializar() {
     IDT_ENTRY(INTCLOCK);
     IDT_ENTRY(INTKEYBOARD);
     IDT_ENTRY(INTSERVICIOS);*/
-    //IDT_ENTRY(31);
-    //IDT_ENTRY(32);
-    //IDT_ENTRY(50);
-    //IDT_ENTRY(66);
 
     //Inicializo todas las entradas de la IDT de la 32 a la 255
     int i = 20;
