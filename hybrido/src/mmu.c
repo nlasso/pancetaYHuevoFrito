@@ -32,9 +32,9 @@ void mmu_inicializar() {
 	mmu_inicializar_tareas();
 	//
 	// LO DE ACA ABAJO ESTA PARA DEBUGGEAR, DESPUES BORRAR
-	long unsigned int a = get_pagedir_entry_fisica(0x40000000, (pagedir_entry *) SECTORFREEMEM);
+	/*unsigned int a = get_pagedir_entry_fisica(0x40000000 + TAMANO_PAGINA, (pagedir_entry *) (SECTORFREEMEM + (2 * TAMANO_PAGINA)));
 	long unsigned int * b = (long unsigned int *) 0x00000;
-	* b = a;
+	* b = a;*/
 }
 
 	//Mappings
@@ -46,12 +46,14 @@ void mmu_identity_maping() {
 	//Defino las dos tablas de paginas
 	pagetab_entry *pagetab1 = (pagetab_entry *) FIRSTPAGETAB;
 	pagetab_entry *pagetab2 = (pagetab_entry *) SECONDPAGETAB;
+	pagetab_entry *pagetab3 = (pagetab_entry *) IDLEPAGETAB;
 
 	x = 0;
 	while(x < CANT_ENTRADAS){
 		bleach_pagedir_entry(&pagedir[x]); 
 		bleach_pagetab_entry(&pagetab1[x]); 
 		bleach_pagetab_entry(&pagetab2[x]); 
+		bleach_pagetab_entry(&pagetab3[x]); 
 		x++;
 	}
 
@@ -60,6 +62,7 @@ void mmu_identity_maping() {
 	unsigned char _priviledge = 0;
 	define_pagedir_entry(&pagedir[0], _writable, _priviledge, (long unsigned int) pagetab1);//Defino pagedir apuntando a la primera pagina
 	define_pagedir_entry(&pagedir[1], _writable, _priviledge, (long unsigned int) pagetab2);//Defino pagedir apuntando a la segunda pagina
+	define_pagedir_entry(&pagedir[0x100], _writable, _priviledge, (long unsigned int) pagetab3);//Defino pagedir apuntando a la segunda pagina
 
 	//Defino la tabla 1
 	x= 0; 
@@ -79,11 +82,15 @@ void mmu_identity_maping() {
 		define_pagetab_entry(&pagetab2[x], _writable, _priviledge, mapeo );
 		x++;
 	}
+	//Defino la tabla 3 (para idle)
+	long unsigned int mapeo; mapeo = TASK_CODE_SRC_ARRAY[ 0 ] ;
+	define_pagetab_entry(&pagetab3[0], _writable, _priviledge, mapeo);
+	define_pagetab_entry(&pagetab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA);
 		
 }	
 
 void mmu_inicializar_tareas(){
-	unsigned int cont = 0;
+	unsigned int cont = 1;
 	unsigned int i = 0;
 	unsigned char _writable = 0; 
 	unsigned char _priviledge = 1;
@@ -98,14 +105,14 @@ void mmu_inicializar_tareas(){
 		LAST_MEMORY_FREE += TAMANO_PAGINA;
 
 		//IDENTITY MAPPING YA DEFINIDO
-		i = 0;
+		i = 1;
 		while(i < CANT_ENTRADAS){bleach_pagedir_entry(&pgdir[i]); i++;}
 		define_pagedir_entry(&pgdir[0], _writable, _priviledge, (long unsigned int) pgtab);//Defino pagedir apuntando a la primera pagina
 		define_pagedir_entry(&pgdir[1], _writable, _priviledge, (long unsigned int) pgtab2);//Defino pagedir apuntando a la segunda pagina
 
 		//PAGE TAREA MAPPING -PAGE 3-
 		//Limpio todas las paginas
-		i = 0;
+		i = 1;
 		while(i < CANT_ENTRADAS + 1){bleach_pagetab_entry(&pgtab3[i]);i++;}
 		//defino la entrada
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
@@ -121,7 +128,7 @@ void mmu_inicializar_tareas(){
 	}	
 }
 
-void * free_memory(){
+/*void * free_memory(){
 	void * ret = (void *) LAST_MEMORY_FREE;
 	if(LAST_MEMORY_FREE == 0x9FFFF){
 		char * error_text = "Nos quedamos sin free_memory en kernel";
@@ -131,7 +138,7 @@ void * free_memory(){
 	}else{LAST_MEMORY_FREE += TAMANO_PAGINA;}
 	return ret;
 
-}
+}*/
 
 
 	// BLEACHINGS DEFINES
@@ -174,24 +181,41 @@ void bleach_pagetab_entry(pagetab_entry * tabla){// setea todo en 0
     (*tabla).dirbase_12_31 = 0x00000;
 }
 
-long unsigned int get_pagedir_entry_fisica(long unsigned int virtual, pagedir_entry * cr3){// NO ANDA BIEN, HAY QUE DEBUGGEAR
+/*unsigned int get_pagedir_entry_fisica(long unsigned int virtual, pagedir_entry * cr3){
+	long unsigned int virtual_0_11 = virtual & 0x3FF;
+	pagetab_entry * descriptor = get_descriptor(virtual, cr3);
 	long unsigned int fisica = 0x00;
+	fisica += (*descriptor).dirbase_12_31 << 12;;
+	fisica += virtual_0_11;
+	return fisica;
+}*/
 
-	// CONSIGO LA TABLA
-	long unsigned int posicion_dir = (virtual >> 22);	
-	posicion_dir = (cr3[posicion_dir].dirbase_12_31 << 12);
+pagetab_entry * get_descriptor(long unsigned int virtual, long unsigned int cr3){
+	long unsigned int virtual_22_31 = virtual;
+	virtual_22_31 = virtual_22_31 >> 22;
+	long unsigned int virtual_12_21 = virtual;
+	virtual_12_21 = (virtual >> 12) & 0x3FF;
+
+	cr3 = (cr3 & 0xFFFFF000);
+	pagedir_entry * directorio = (pagedir_entry *) cr3;
+	// CONSIGO LA TABLA	
+	long unsigned int posicion_dir = ((directorio[virtual_22_31].dirbase_12_31) << 12);
 	pagetab_entry * tabla = (pagetab_entry *) posicion_dir ;
-	fisica = (long unsigned int) tabla;
+	//fisica = (long unsigned int) tabla;
 
 	// CONSIGO EL DESCRIPTOR
-	posicion_dir = virtual >> 12;
-	posicion_dir = (posicion_dir && 0x3FF); // POSICION DENTRO DE TABLA
-	pagetab_entry descriptor = tabla[posicion_dir-1]; //REVISAR ESO, NO ENTIENDO POR QUE EL -1 (LO SAQUE CON ENSEYO+ERROR)
+	return (& tabla[virtual_12_21]);
+};
 
-	//SUMO 
-	posicion_dir = virtual && 0x3FF;
-	fisica = descriptor.dirbase_12_31 << 12;
-	fisica += posicion_dir;
+void mmu_mapear_pagina(unsigned int virtual, unsigned int cr3, unsigned int fisica){
+	unsigned char _writable = 0; 
+	unsigned char _priviledge = 1;
+	pagetab_entry * descriptor = get_descriptor(virtual, cr3);
+	define_pagetab_entry(descriptor, _writable, _priviledge, fisica);
+};
 
-	return fisica;
+
+void mmu_unmapear_pagina(unsigned int virtual, unsigned int cr3){
+	pagetab_entry * descriptor = get_descriptor(virtual, cr3);
+	bleach_pagetab_entry(descriptor);
 };

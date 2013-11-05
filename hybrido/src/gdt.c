@@ -6,6 +6,11 @@
 */
 
 #include "gdt.h"
+#include "tss.h"
+extern tss tarea_inicial;
+extern tss tarea_idle;
+extern tss tss_navios[CANT_TAREAS];
+extern tss tss_banderas[CANT_TAREAS];
 
 // NOTA 1: AVAILABLE FOR SOFTWARE NO SABEMOS QUE HACE, LO PONEMOS EN 0
 // NOTA 2: TIPO DATOS ES 2 Y CODIGO ES A. DESPUES REVISAR.
@@ -103,8 +108,32 @@ gdt_entry gdt[GDT_COUNT] = {
     .g                =   0x0,
     .l                =   0x0,                //64 bits
     .db               =   0x1,                //se usan 32 bits?
-  },
+  }, 
+  //   
+  // DEFINO TODAS LAS ENTRADAS DE TSS EN BLANCO
+  // ESTO ES POR QUE NO PUEDO DEFINIRLAS DINAMICAMENTE
+  [GDT_TSS_INICIAL] = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},
+  [GDT_TSS_IDLE]    = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,}, 
+  [GDT_TSS_TS1]     = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},
+  [GDT_TSS_FG1]     = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},
 };
+
+void gdt_set_tss(){
+    gdt[GDT_TSS_INICIAL] = generate_gdt_tss((long unsigned int)&tarea_inicial);
+    gdt[GDT_TSS_IDLE] = generate_gdt_tss((long unsigned int)&tarea_idle);
+    gdt[GDT_TSS_TS1] = generate_gdt_tss((long unsigned int)&tss_navios[0]);
+    gdt[GDT_TSS_FG1] = generate_gdt_tss((long unsigned int)&tss_banderas[0]);
+};
+
+
 
 gdt_descriptor GDT_DESC = {
     sizeof(gdt) - 1,
