@@ -1,0 +1,40 @@
+\subsubsection{Global Descriptor Table}
+Como ya sabemos, el procesador comienza en lo que se llama ''modo real'', que direcciona a 1 MB de memoria y no existen niveles de protecci\'on ni privilegios.\\
+Por eso necesitamos que el procesador pase a ''modo protegido'', para direccionar a m\'as memoria y manejar niveles de protecci\'on. El kernel se encargar\'a de hacer esto.\\
+Antes de iniciar en modo protegido, es imprescindible tener bien configurado la Tabla de Descriptores Globales, la cual es una tabla que contiene descriptores de segmento, con la finalidad de definir caracter\'isticas de varias \'areas de la memoria.\\
+En el enunciado se piden 4 segmentos que deben direccionar a 1.75 GB: 2 para c\'odigo de nivel 0 y 3 respectivamente, y 2 para datos, de nivel 0 y 3 tambi\'en.\\
+La estructura de un descriptor de segmento es la siguiente:\\
+
+\begin{itemize}
+  \item L — 64-bit code segment (IA-32e mode only)
+  \item AVL — Available for use by system software
+  \item BASE — Segment base address
+  \item D/B — Default operation size (0 = 16-bit segment; 1 = 32-bit segment)
+  \item DPL — Descriptor privilege level
+  \item G — Granularity
+  \item LIMIT — Segment Limit
+  \item P — Segment present
+  \item S — Descriptor type (0 = system; 1 = code or data)
+  \item TYPE — Segment type
+\end{itemize}
+
+Para definir los segmentos que nos requieren, los items importantes son:\\
+BASE. Ubicaci\'on del byte 0 del segmento en el espacio de direcciones lineales. El valor en los 4 segmentos es 0x00000000.\\
+P. Present. Indica si el segmento est\'a presente en la memoria. El valor en los 4 segmentos es 0x01.\\
+DPL. Descriptor de privilegios. Seg\'un el enunciado, 2 segmentos llevan el valor 0x00, y los otros 2 0x03.\\
+G. Granularity. Debe estar en 0x01 para que las unidades de base y limit se interpreten de 4-KBytes.\\
+Limit. Tamaño del segmento. Va para los 4 segmentos lo mismo:\\
+\indent Tenemos que direccionar a 1.75 GB, que son 1792 MB, que equivalen a 1835008 KB.\\
+\indent Como G vale 0x01, las unidades deben representarse de 4 KB, por eso dividimos por 4.\\
+\indent $\frac{1835008}{4} = 458752$\\
+\indent Pero como la memoria empieza desde el 0, debe ser un n\'umero menos: 458751\\
+\indent $458751 = 0x6FFFF$
+Type. Indica si es un segmento de c\'odigo o de datos. Para los 2 de c\'odigo ponemos el valor de 0x08, indicando que son "Execute only". Mientras que para los 2 de datos ponemos el valor de 0x02, indicando que son de Read/Write.\\\\
+
+Tambi\'en debemos colocar un segmento que describa el \'area de la pantalla en la memoria. Sabemos que empieza en la direcci\'on 0x000B8000, con un tamaño de 0x0F9F.\\\\
+
+Una vez que tenemos configurada la gdt, guardamos su ubicacion en una variable gdt\_desc. Para que luego la instrucci\'on lgdt pueda cargar la gdt.\\
+Ya podemos pasar a modo protegido, poniendo en 1 el bit menos significativo del registro CR0, que indica ''Protected Envirnoment''.
+ 
+
+ 
