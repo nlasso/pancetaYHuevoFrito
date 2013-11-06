@@ -9,6 +9,7 @@
 
 
 void sched_inicializar() {
+	
 }
 
 

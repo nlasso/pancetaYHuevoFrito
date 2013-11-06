@@ -162,7 +162,10 @@ Modo_protegido:
     call deshabilitar_pic
     call resetear_pic
     call habilitar_pic
-    sti
+    
+    ;breakpoint
+    ;mov eax, 0
+    ;div eax
     breakpoint
     mov eax, 1
     div eax
@@ -178,7 +181,7 @@ Modo_protegido:
     ; cargar la tarea inicial
 
     ; saltar a la primer tarea
-    
+    sti
     ; Ciclar infinitamente (por si algo sale mal...)
     jmp $
 
