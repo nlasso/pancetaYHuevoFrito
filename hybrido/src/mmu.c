@@ -30,11 +30,6 @@ unsigned int TASK_PAG_DIR[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 void mmu_inicializar() {
 	mmu_identity_maping();
 	mmu_inicializar_tareas();
-	//
-	// LO DE ACA ABAJO ESTA PARA DEBUGGEAR, DESPUES BORRAR
-	/*unsigned int a = get_pagedir_entry_fisica(0x40000000 + TAMANO_PAGINA, (pagedir_entry *) (SECTORFREEMEM + (2 * TAMANO_PAGINA)));
-	long unsigned int * b = (long unsigned int *) 0x00000;
-	* b = a;*/
 }
 
 	//Mappings
@@ -60,8 +55,8 @@ void mmu_identity_maping() {
 	//Guardo la informacion en el directorio de tabla de paginas paginas  
 	unsigned char _writable = 1; 
 	unsigned char _priviledge = 0;
-	define_pagedir_entry(&pagedir[0], _writable, _priviledge, (long unsigned int) pagetab1);//Defino pagedir apuntando a la primera pagina
-	define_pagedir_entry(&pagedir[1], _writable, _priviledge, (long unsigned int) pagetab2);//Defino pagedir apuntando a la segunda pagina
+	define_pagedir_entry(&pagedir[0]    , _writable, _priviledge, (long unsigned int) pagetab1);//Defino pagedir apuntando a la primera pagina
+	define_pagedir_entry(&pagedir[1]    , _writable, _priviledge, (long unsigned int) pagetab2);//Defino pagedir apuntando a la segunda pagina
 	define_pagedir_entry(&pagedir[0x100], _writable, _priviledge, (long unsigned int) pagetab3);//Defino pagedir apuntando a la segunda pagina
 
 	//Defino la tabla 1
@@ -83,9 +78,11 @@ void mmu_identity_maping() {
 		x++;
 	}
 	//Defino la tabla 3 (para idle)
+	//_priviledge = 0; //_priviledge de idle ???
 	long unsigned int mapeo; mapeo = TASK_CODE_SRC_ARRAY[ 0 ] ;
 	define_pagetab_entry(&pagetab3[0], _writable, _priviledge, mapeo);
 	define_pagetab_entry(&pagetab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA);
+	define_pagetab_entry(&pagetab3[3], _writable, _priviledge, PILALVLCERO);
 		
 }	
 
@@ -101,7 +98,9 @@ void mmu_inicializar_tareas(){
 		LAST_MEMORY_FREE += TAMANO_PAGINA;
 		pagetab_entry * pgtab  = (pagetab_entry *)  FIRSTPAGETAB;	//ESTAS PAGINAS YA ESTAN DEFINIDAS POR EL IDENTITY MAPPING
 		pagetab_entry * pgtab2 = (pagetab_entry *)  SECONDPAGETAB; //ESTAS PAGINAS YA ESTAN DEFINIDAS POR EL IDENTITY MAPPING
-		pagetab_entry * pgtab3 = (pagetab_entry *)  LAST_MEMORY_FREE;	
+		pagetab_entry * pgtab3 = (pagetab_entry *)  LAST_MEMORY_FREE;
+		LAST_MEMORY_FREE += TAMANO_PAGINA;
+		long unsigned int _pila0  = LAST_MEMORY_FREE;	
 		LAST_MEMORY_FREE += TAMANO_PAGINA;
 
 		//IDENTITY MAPPING YA DEFINIDO
@@ -117,28 +116,15 @@ void mmu_inicializar_tareas(){
 		//defino la entrada
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
 		long unsigned int mapeo = TASK_CODE_SRC_ARRAY[cont];
-		//long unsigned int mapeo = TASK_1_CODE_SRC_ADDR;
 		define_pagetab_entry(&pgtab3[0], _writable, _priviledge, mapeo );
-		//define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA );
 		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA );
-		//define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
+		define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
+		define_pagetab_entry(&pgtab3[3], _writable, _priviledge, _pila0);
 
 		//FIN LOOP
 		cont++;
 	}	
 }
-
-/*void * free_memory(){
-	void * ret = (void *) LAST_MEMORY_FREE;
-	if(LAST_MEMORY_FREE == 0x9FFFF){
-		char * error_text = "Nos quedamos sin free_memory en kernel";
-		print_texto( &pantalla_actual,0,0, error_text ,(C_FG_WHITE | C_BG_BLACK));
-		int x = 0;
-		while(1){x++;} //TILDO EL SISTEMA
-	}else{LAST_MEMORY_FREE += TAMANO_PAGINA;}
-	return ret;
-
-}*/
 
 
 	// BLEACHINGS DEFINES
