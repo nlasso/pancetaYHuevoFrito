@@ -27,8 +27,8 @@
 %define GDT_FG8					40 * 8
 
 ; INTERRUPCIONES
-%define INTCLOCK 31 	
-%define INTKEYBOARD 32 	
+%define INTCLOCK 32 	
+%define INTKEYBOARD 33
 %define INTSERVICIOS 0x50
 %define ANCLA 	0x923
 %define MISIL 	0x83A
@@ -40,8 +40,8 @@
 %define PILALVLCERO	 			0x00029000 
 
 ;; PANTALLAS
-%define SCREENESTADO			0
-%define SCREENMAPA				1
+%define SCREENESTADO			1
+%define SCREENMAPA				0
 
 
 ;; PAGINAS
