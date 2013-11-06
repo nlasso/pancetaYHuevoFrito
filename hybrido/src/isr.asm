@@ -27,9 +27,17 @@ global _isr%1
 
 _isr%1:
 .loopear:
-    push word %1
+    cli
+    pushad
+    breakpoint
+    xor ax, ax
+    mov ax, %1
+    push  ax
     call print_error
-    pop  word ax
+    pop  ax
+    popad
+    sti
+    iret
     ; To Infinity And Beyond!!
     ;jmp $
 %endmacro

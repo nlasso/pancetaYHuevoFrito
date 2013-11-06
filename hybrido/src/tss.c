@@ -77,12 +77,7 @@ void tss_tarea_inicializar(int num_task){
 	tss bandera = tss_banderas[num_task];
 
 	long unsigned int posicion_directorio = SECTORFREEMEM;
-	int i = num_task;
-	while( i < 0){
-		posicion_directorio += (TAMANO_PAGINA);
-		posicion_directorio += (TAMANO_PAGINA);
-		i--;
-	};
+	int i = num_task; while( i < 0){posicion_directorio += (TAMANO_PAGINA * 2);i--;};
 
     bleach_tss(& task); bleach_tss(& bandera);
     //eip
@@ -100,9 +95,9 @@ void tss_tarea_inicializar(int num_task){
     task.gs = GDT_IDX_DATA_3  * 8; bandera.gs = GDT_IDX_DATA_3   * 8;
     //ss (ss3) - ss0 - ss1 - ss2
     task.ss = GDT_IDX_DATA_3  * 8; bandera.ss = GDT_IDX_DATA_3   * 8;
-    task.ss0 = GDT_IDX_DATA_3 * 8; bandera.ss0 = GDT_IDX_DATA_3  * 8;
-    task.ss1 = GDT_IDX_DATA_3 * 8; bandera.ss1 = GDT_IDX_DATA_3  * 8;
-    task.ss2 = GDT_IDX_DATA_3 * 8; bandera.ss2 = GDT_IDX_DATA_3  * 8;
+    task.ss0 = GDT_IDX_DATA_0 * 8; bandera.ss0 = GDT_IDX_DATA_0  * 8;
+    /*task.ss1 = GDT_IDX_DATA_3 * 8; bandera.ss1 = GDT_IDX_DATA_3  * 8;
+    task.ss2 = GDT_IDX_DATA_3 * 8; bandera.ss2 = GDT_IDX_DATA_3  * 8;*/
     //EBP ESP
 
 }

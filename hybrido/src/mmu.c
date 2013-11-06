@@ -83,6 +83,7 @@ void mmu_identity_maping() {
 		x++;
 	}
 	//Defino la tabla 3 (para idle)
+	//_priviledge de idle ???
 	long unsigned int mapeo; mapeo = TASK_CODE_SRC_ARRAY[ 0 ] ;
 	define_pagetab_entry(&pagetab3[0], _writable, _priviledge, mapeo);
 	define_pagetab_entry(&pagetab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA);

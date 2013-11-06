@@ -145,12 +145,14 @@ Modo_protegido:
     ; inicializar tarea idle
 
     ; inicializar todas las tsss
-    mov ax, tarea_inicial
-    ;ltr ax
+    call gdt_set_tss
     call tss_inicializar
+    mov ax, GDT_INICIAL
+    ltr ax
+    
 
     ; inicializar entradas de la gdt de las tsss
-    CALL gdt_set_tss
+    ;CALL gdt_set_tss
 
     ; inicializar el scheduler
 
@@ -162,7 +164,7 @@ Modo_protegido:
     call habilitar_pic
     sti
     breakpoint
-    mov eax, 0
+    mov eax, 1
     div eax
     brekpoint
 
