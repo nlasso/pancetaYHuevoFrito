@@ -26,17 +26,21 @@ extern cambiar_pantalla
 global _isr%1
 
 _isr%1:
-.loopear:
-    cli
+    ;cli
     pushad
     breakpoint
-    xor ax, ax
+    ;xor ax, ax
     mov ax, %1
-    push  ax
+    push ax
+    push ax
     call print_error
     pop  ax
+    pop  ax
     popad
-    sti
+    mov ax, 15
+    mov cx, 15
+    ;sti
+    breakpoint
     iret
     ; To Infinity And Beyond!!
     ;jmp $

@@ -167,9 +167,8 @@ Modo_protegido:
     ;mov eax, 0
     ;div eax
     breakpoint
-    mov eax, 1
-    div eax
-    brekpoint
+    int 12
+    breakpoint
 
     mov eax, 0x00032000
     mov cr3, eax
