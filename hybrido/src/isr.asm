@@ -32,13 +32,9 @@ _isr%1:
     ;xor ax, ax
     mov ax, %1
     push ax
-    push ax
     call print_error
     pop  ax
-    pop  ax
     popad
-    mov ax, 15
-    mov cx, 15
     ;sti
     breakpoint
     iret

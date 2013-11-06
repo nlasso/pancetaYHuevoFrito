@@ -7,6 +7,7 @@
 
 #include "tss.h"
 extern unsigned int TASK_CODE_SRC_ARRAY[] ;
+extern unsigned int TASK_PAG_DIR[] ;
 
 tss tarea_inicial;
 tss tarea_idle;
@@ -16,7 +17,8 @@ tss tss_banderas[CANT_TAREAS];
 
 void tss_inicializar() {
 	bleach_tss(&tarea_inicial);
-	bleach_tss(&tarea_idle);
+    definir_tss(&tarea_idle, MAINPAGEDIR, PILALVLCERO, POSVIRTUAL_TAREAS, 0);
+    tss_tareas_inicializar();
 }
 
 void bleach_tss(tss * task){
@@ -47,7 +49,7 @@ void bleach_tss(tss * task){
 
     .eip = 0x0,
 
-    .eflags = 0x00000002, //Esto tiene que quedar en 2 o no hay interrupciones
+    .eflags = 0x00000202, //Esto tiene que quedar en 202 o no hay interrupciones
 
     .eax = 0x0,
     .ecx = 0x0,
@@ -72,32 +74,57 @@ void bleach_tss(tss * task){
 	};
 };
 
-void tss_tarea_inicializar(int num_task){
-	tss task = tss_navios[num_task];
-	tss bandera = tss_banderas[num_task];
+void tss_tareas_inicializar(){
+    int num_task = 1;
+    long unsigned int pos_dir;
+    long unsigned int pos_codigo; 
+    long unsigned int pos_pila0;
+    while(num_task - 1 < CANT_TAREAS){
+    	tss task = tss_navios[num_task-1];
+    	tss bandera = tss_banderas[num_task-1];
 
-	long unsigned int posicion_directorio = SECTORFREEMEM;
-	int i = num_task; while( i < 0){posicion_directorio += (TAMANO_PAGINA * 2);i--;};
+        pos_dir = TASK_PAG_DIR[num_task];
+        pos_codigo = POSVIRTUAL_TAREAS; 
+        pos_pila0 = POSVIRTUAL_TAREAS + (TAMANO_PAGINA * 3);
 
-    bleach_tss(& task); bleach_tss(& bandera);
-    //eip
-    task.eip = POSVIRTUAL_TAREAS; bandera.eip = POSVIRTUAL_TAREAS+ TAMANO_PAGINA;                              
-    //cr3
-	task.cr3 = (posicion_directorio) >> 12; bandera.cr3 = (posicion_directorio + (TAMANO_PAGINA)) >> 12;
-    //pila cero
-    task.esp0 = PILALVLCERO ;   bandera.esp0 = PILALVLCERO ;
-    //cs
-    task.cs = GDT_IDX_CODE_3 * 8; bandera.cs = GDT_IDX_CODE_3  * 8;
-    //ds - fs -es -gs  
-    task.ds = GDT_IDX_DATA_3  * 8; bandera.ds = GDT_IDX_DATA_3   * 8;
-    task.fs = GDT_IDX_DATA_3  * 8; bandera.fs = GDT_IDX_DATA_3   * 8;
-    task.es = GDT_IDX_DATA_3  * 8; bandera.es = GDT_IDX_DATA_3   * 8;
-    task.gs = GDT_IDX_DATA_3  * 8; bandera.gs = GDT_IDX_DATA_3   * 8;
-    //ss (ss3) - ss0 - ss1 - ss2
-    task.ss = GDT_IDX_DATA_3  * 8; bandera.ss = GDT_IDX_DATA_3   * 8;
-    task.ss0 = GDT_IDX_DATA_0 * 8; bandera.ss0 = GDT_IDX_DATA_0  * 8;
-    /*task.ss1 = GDT_IDX_DATA_3 * 8; bandera.ss1 = GDT_IDX_DATA_3  * 8;
-    task.ss2 = GDT_IDX_DATA_3 * 8; bandera.ss2 = GDT_IDX_DATA_3  * 8;*/
-    //EBP ESP
+        definir_tss(  &task , pos_dir, pos_pila0, pos_codigo, 3);
 
+        pos_codigo += TAMANO_PAGINA;
+        pos_pila0  += (TAMANO_PAGINA/2);
+
+        definir_tss(&bandera, pos_dir, pos_pila0, pos_codigo, 3);
+
+        num_task++;
+    }
 }
+
+void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, long unsigned int _eip, char _priviledge){
+    bleach_tss(task);
+
+    //INPUT
+    (*task).cr3 = _cr3;
+    (*task).eip = _eip;
+    (*task).esp0 = _esp0;
+
+    //CONSTANTES
+    (*task).ss0 = GDT_IDX_DATA_0 * 8;
+    (*task).esp = POSVIRTUAL_TAREAS + 0X1C00;//la catedra lo define asi
+    (*task).ebp = (*task).esp;
+
+    //SELECTORES
+    long unsigned int DATA;
+    long unsigned int CODE;
+
+    if(_priviledge == 3){   DATA = GDT_IDX_DATA_3; CODE = GDT_IDX_CODE_3;
+    }else{                  DATA = GDT_IDX_DATA_0; CODE = GDT_IDX_CODE_0;}
+    DATA = GDT_IDX_DATA_0; 
+    CODE = GDT_IDX_CODE_0;
+    DATA *= 8; CODE *= 8;
+
+    (*task).cs = CODE;
+    (*task).ds = DATA;
+    (*task).fs = DATA;
+    (*task).es = DATA;
+    (*task).gs = DATA;
+    (*task).ss = DATA; 
+};

@@ -149,7 +149,10 @@ Modo_protegido:
     call tss_inicializar
     mov ax, GDT_INICIAL
     ltr ax
-    
+    breakpoint
+    mov ax, ax
+    breakpoint
+    jmp GDT_IDLE:0x0
 
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss

@@ -112,7 +112,7 @@ gdt_entry gdt[GDT_COUNT] = {
   //   
   // DEFINO TODAS LAS ENTRADAS DE TSS EN BLANCO
   // ESTO ES POR QUE NO PUEDO DEFINIRLAS DINAMICAMENTE
-  [GDT_TSS_INICIAL] = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
+ /* [GDT_TSS_INICIAL] = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},
   [GDT_TSS_IDLE]    = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
@@ -123,13 +123,12 @@ gdt_entry gdt[GDT_COUNT] = {
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},
   [GDT_TSS_FG1]     = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
-    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},
+    (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},*/
 };
 
 void gdt_set_tss(){
-    gdt[GDT_TSS_INICIAL] = generate_gdt_tss((long unsigned int)&tarea_inicial);
-    gdt[GDT_TSS_INICIAL].dpl = 0x0;
-    gdt[GDT_TSS_IDLE] = generate_gdt_tss((long unsigned int)&tarea_idle);
+    gdt[GDT_TSS_INICIAL] = generate_gdt_tss((long unsigned int)&tarea_inicial); gdt[GDT_TSS_INICIAL].dpl = 0x0;
+    gdt[GDT_TSS_IDLE] = generate_gdt_tss((long unsigned int)&tarea_idle);       gdt[GDT_TSS_IDLE].dpl    = 0x0;
     gdt[GDT_TSS_TS1] = generate_gdt_tss((long unsigned int)&tss_navios[0]);
     gdt[GDT_TSS_FG1] = generate_gdt_tss((long unsigned int)&tss_banderas[0]);
 };
@@ -142,7 +141,7 @@ gdt_entry generate_gdt_tss(long unsigned int dir_tss){
     .base_16_23       =   (dir_tss << 16) & 0xFF  ,
     /*  .base_24_31       =   0x00  ,  */
     .base_24_31       =   (dir_tss << 24)  ,
-    .limit_0_15       =   0x0068,
+    .limit_0_15       =   0x0069,
     .limit_16_19      =   0x0,             // 0x68
     .type             =   0x9,             //tss no busy             
     .s                =   0x0,             // sistema
