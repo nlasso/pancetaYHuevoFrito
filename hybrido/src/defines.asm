@@ -7,16 +7,24 @@
 %define GDT_DATA_0				20 * 8
 %define GDT_DATA_3				21 * 8
 %define GDT_VIDEO				22 * 8
-%define GDT_IDLE				23 * 8
-%define GDT_TS1					24 * 8
-%define GDT_TS1					24 * 8
-%define GDT_TS2					25 * 8
-%define GDT_TS3					26 * 8
-%define GDT_TS4					27 * 8
-%define GDT_TS5					28 * 8
-%define GDT_TS6					29 * 8
-%define GDT_TS7					30 * 8
-%define GDT_TS8					31 * 8
+%define GDT_INICIAL				23 * 8
+%define GDT_IDLE				24 * 8
+%define GDT_TS1					25 * 8
+%define GDT_FG1					26 * 8
+%define GDT_TS2					27 * 8
+%define GDT_FG2					28 * 8
+%define GDT_TS3					29 * 8
+%define GDT_FG3					30 * 8
+%define GDT_TS4					31 * 8
+%define GDT_FG4					32 * 8
+%define GDT_TS5					33 * 8
+%define GDT_FG5					34 * 8
+%define GDT_TS6					35 * 8
+%define GDT_FG6					36 * 8
+%define GDT_TS7					37 * 8
+%define GDT_FG7					38 * 8
+%define GDT_TS8					39 * 8
+%define GDT_FG8					40 * 8
 
 ; INTERRUPCIONES
 %define INTCLOCK 32 	
@@ -39,4 +47,4 @@
 ;; PAGINAS
 
 %define MAINPAGEDIR 			0x00027000  
-%define IDLEPAGEDIR 			0x00031000  
+;%define IDLEPAGEDIR 			0x00031000  

@@ -32,6 +32,11 @@ extern inicializar_pantalla
 extern load_pantalla
 extern cambiar_pantalla
 
+;; TSS 
+extern tss_inicializar
+extern tarea_inicial
+extern gdt_set_tss
+
 ;; Saltear seccion de datos
 jmp start
 
@@ -125,6 +130,7 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas
     ;; ---------------------------------------------------------------------- ;;
+ 
 
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
@@ -139,8 +145,12 @@ Modo_protegido:
     ; inicializar tarea idle
 
     ; inicializar todas las tsss
+    mov ax, tarea_inicial
+    ;ltr ax
+    call tss_inicializar
 
     ; inicializar entradas de la gdt de las tsss
+    CALL gdt_set_tss
 
     ; inicializar el scheduler
 
@@ -156,7 +166,7 @@ Modo_protegido:
     ;div eax
     breakpoint
 
-    mov eax, 0x00031000
+    mov eax, 0x00032000
     mov cr3, eax
 
     breakpoint

@@ -44,23 +44,24 @@
 #define GDT_IDX_DATA_0				20
 #define GDT_IDX_DATA_3				21
 #define GDT_IDX_VIDEO				22
-#define GDT_TSS_IDLE				23
-#define GDT_TSS_TS1					24
-#define GDT_TSS_FG1					25
-#define GDT_TSS_TS2					26
-#define GDT_TSS_FG2					27
-#define GDT_TSS_TS3					28
-#define GDT_TSS_FG3					29
-#define GDT_TSS_TS4					30
-#define GDT_TSS_FG4					31
-#define GDT_TSS_TS5					32
-#define GDT_TSS_FG5					33
-#define GDT_TSS_TS6					34
-#define GDT_TSS_FG6					35
-#define GDT_TSS_TS7					36
-#define GDT_TSS_FG7					37
-#define GDT_TSS_TS8					38
-#define GDT_TSS_FG8					39
+#define GDT_TSS_INICIAL				23
+#define GDT_TSS_IDLE				24
+#define GDT_TSS_TS1					25
+#define GDT_TSS_FG1					26
+#define GDT_TSS_TS2					27
+#define GDT_TSS_FG2					28
+#define GDT_TSS_TS3					29
+#define GDT_TSS_FG3					30
+#define GDT_TSS_TS4					31
+#define GDT_TSS_FG4					32
+#define GDT_TSS_TS5					33
+#define GDT_TSS_FG5					34
+#define GDT_TSS_TS6					35
+#define GDT_TSS_FG6					36
+#define GDT_TSS_TS7					37
+#define GDT_TSS_FG7					38
+#define GDT_TSS_TS8					39
+#define GDT_TSS_FG8					40
 
 /* Direcciones de memoria */
 /* -------------------------------------------------------------------------- */
@@ -78,8 +79,9 @@
 #define MAINPAGEDIR 			0x00027000   /* direccion fisica del primer page dir */
 #define FIRSTPAGETAB 			0x00028000   /* direccion fisica del primer page tab */
 #define SECONDPAGETAB 			0x00030000   /* direccion fisica del segundo page tab */
+#define IDLEPAGETAB 			0x00031000   /* direccion fisica del tercer page tab */
 
-#define SECTORFREEMEM 			0x00031000   /* direccion fisica del primer page dir */
+#define SECTORFREEMEM 			0x00032000   /* direccion fisica del primer page dir */
 
 
 #define POSVIRTUAL_TAREAS		0X40000000
