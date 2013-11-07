@@ -30,6 +30,7 @@
 /* Misc */
 /* -------------------------------------------------------------------------- */
 #define CANT_TAREAS             8
+#define CANT_PAG_TAREA			3 // 2 DE CODIGO, 1 DE PILA
 #define TAMANO_PAGINA           0x00001000
 #define CANT_ENTRADAS          	0x00000400
 #define CANT_IDENTITY_MAPEOS	0x00000780 //ESTO PODRIA SER 7FF, REVISAR
@@ -115,7 +116,6 @@
 #define TASK_6_CODE_SRC_ADDR    0x0001A000
 #define TASK_7_CODE_SRC_ADDR    0x0001C000
 #define TASK_8_CODE_SRC_ADDR    0x0001E000
-
 #define TASK_IDLE_CODE_SRC_ADDR 0x00020000
 
 /* INTERRUPCIONES */
