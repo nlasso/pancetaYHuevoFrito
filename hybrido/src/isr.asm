@@ -30,6 +30,7 @@ _isr%1:
     call print_error
     pop  word ax
     ; To Infinity And Beyond!!
+    iret
     ;jmp $
 %endmacro
 

@@ -170,7 +170,11 @@ Modo_protegido:
     mov cr3, eax
 
     breakpoint
-
+;
+    ;mov eax, 1
+    ;div eax
+;
+;breakpoint
     ; configurar controlador de interrupciones
 
     ; cargar la tarea inicial
