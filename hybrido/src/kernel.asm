@@ -147,12 +147,6 @@ Modo_protegido:
     ; inicializar todas las tsss
     call gdt_set_tss
     call tss_inicializar
-    mov ax, GDT_INICIAL
-    ltr ax
-    breakpoint
-    mov ax, ax
-    breakpoint
-    jmp GDT_IDLE:0x0
 
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
@@ -161,11 +155,20 @@ Modo_protegido:
 
     ; inicializar la IDT
     call idt_inicializar
-    lidt[IDT_DESC]
+    lidt [IDT_DESC]
     call deshabilitar_pic
     call resetear_pic
     call habilitar_pic
     
+breakpoint
+
+
+    mov ax, GDT_INICIAL
+    ltr ax
+    breakpoint
+    mov ax, ax
+    breakpoint
+    jmp GDT_IDLE:0x0
     ;breakpoint
     ;mov eax, 0
     ;div eax
@@ -177,7 +180,11 @@ Modo_protegido:
     mov cr3, eax
 
     breakpoint
-
+;
+    ;mov eax, 1
+    ;div eax
+;
+;breakpoint
     ; configurar controlador de interrupciones
 
     ; cargar la tarea inicial

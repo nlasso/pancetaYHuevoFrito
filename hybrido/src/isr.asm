@@ -39,6 +39,7 @@ _isr%1:
     breakpoint
     iret
     ; To Infinity And Beyond!!
+    iret
     ;jmp $
 %endmacro
 
