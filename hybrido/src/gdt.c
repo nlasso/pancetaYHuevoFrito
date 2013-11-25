@@ -115,7 +115,8 @@ gdt_entry gdt[GDT_COUNT] = {
  /* [GDT_TSS_INICIAL] = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},
-  [GDT_TSS_IDLE]    = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
+  [GDT_TSS_IDLE]    = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0
+  x0000,(unsigned char)0x00,
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,}, 
   [GDT_TSS_TS1]     = (gdt_entry) {(unsigned short)0x0000,(unsigned short)0x0000,(unsigned char)0x00,
@@ -126,11 +127,26 @@ gdt_entry gdt[GDT_COUNT] = {
     (unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,(unsigned char)0x00,},*/
 };
 
-void gdt_set_tss(){
+void gdt_set_tss(){//esto se tiene que correr una vez creadas las tss de las tareas, sino da error
     gdt[GDT_TSS_INICIAL] = generate_gdt_tss((long unsigned int)&tarea_inicial); gdt[GDT_TSS_INICIAL].dpl = 0x0;
     gdt[GDT_TSS_IDLE] = generate_gdt_tss((long unsigned int)&tarea_idle);       gdt[GDT_TSS_IDLE].dpl    = 0x0;
     gdt[GDT_TSS_TS1] = generate_gdt_tss((long unsigned int)&tss_navios[0]);
     gdt[GDT_TSS_FG1] = generate_gdt_tss((long unsigned int)&tss_banderas[0]);
+    gdt[GDT_TSS_TS2] = generate_gdt_tss((long unsigned int)&tss_navios[1]);
+    gdt[GDT_TSS_FG2] = generate_gdt_tss((long unsigned int)&tss_banderas[1]);
+    gdt[GDT_TSS_TS3] = generate_gdt_tss((long unsigned int)&tss_navios[2]);
+    gdt[GDT_TSS_FG3] = generate_gdt_tss((long unsigned int)&tss_banderas[2]);
+    gdt[GDT_TSS_TS4] = generate_gdt_tss((long unsigned int)&tss_navios[3]);
+    gdt[GDT_TSS_FG4] = generate_gdt_tss((long unsigned int)&tss_banderas[3]);
+    gdt[GDT_TSS_TS5] = generate_gdt_tss((long unsigned int)&tss_navios[4]);
+    gdt[GDT_TSS_FG5] = generate_gdt_tss((long unsigned int)&tss_banderas[4]);
+    gdt[GDT_TSS_TS6] = generate_gdt_tss((long unsigned int)&tss_navios[5]);
+    gdt[GDT_TSS_FG6] = generate_gdt_tss((long unsigned int)&tss_banderas[5]);
+    gdt[GDT_TSS_TS7] = generate_gdt_tss((long unsigned int)&tss_navios[6]);
+    gdt[GDT_TSS_FG7] = generate_gdt_tss((long unsigned int)&tss_banderas[6]);
+    gdt[GDT_TSS_TS8] = generate_gdt_tss((long unsigned int)&tss_navios[7]);
+    gdt[GDT_TSS_FG8] = generate_gdt_tss((long unsigned int)&tss_banderas[7]);
+
 };
 
 gdt_entry generate_gdt_tss(long unsigned int dir_tss){
