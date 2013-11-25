@@ -172,14 +172,14 @@ breakpoint
     ;breakpoint
     ;mov eax, 0
     ;div eax
-    breakpoint
-    int 12
-    breakpoint
-
-    mov eax, 0x00032000
-    mov cr3, eax
-
-    breakpoint
+    ;breakpoint
+    ;int 12
+    ;breakpoint
+;
+    ;mov eax, 0x00032000
+    ;mov cr3, eax
+;
+    ;breakpoint
 ;
     ;mov eax, 1
     ;div eax

@@ -36,6 +36,9 @@
 #define CANT_IDENTITY_MAPEOS	0x00000780 //ESTO PODRIA SER 7FF, REVISAR
 #define TASK_SIZE               2 * 4096
 
+/* SCHED */
+/* -------------------------------------------------------------------------- */
+#define QUANTUM_TAREA			2
 
 /* Indices en la gdt */
 /* -------------------------------------------------------------------------- */
