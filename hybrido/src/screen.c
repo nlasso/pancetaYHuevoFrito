@@ -84,6 +84,8 @@ void inicializar_pantalla(){
 	print_tablatar_from_gdt(7);
 	print_tablatar_from_gdt(8);
 
+	print_tablatar_error(3,5);
+
 
 	cambiar_pantalla(SCREENESTADO);
 	load_pantalla();
