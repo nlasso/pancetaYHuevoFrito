@@ -42,7 +42,7 @@ void sched_inicializar() {
 }
 
 void desalojar_tarea(){
-	unsigned int _tarea_actual = TAREA_ACTUAL;
+	unsigned int _tarea_actual = sched.TAREA_ACTUAL;
 	saltar_idle(); // Antes de borrarlo salto a la tarea IDLE.
 
 	// Desalojo Tarea y bandera, es decir los borro de sus respectivos arrays.
@@ -74,8 +74,25 @@ void cambiar_contexto(int _contexto){
 }
 
 unsigned short sched_proximo_indice() {
+	unsigned int tarea_actual = sched.TAREA_ACTUAL;
+	tarea_actual++;
+	unsigned int siguiente_indice = siguiente_indice_posible(tarea_actual);
+	saltar_a_tarea(siguiente_indice);			//VERIFICAR: Tengo que saltar si o si??
+    return sched.tareas[siguiente_indice].tarea;
+}
 
-    return 0;
+unsigned short siguiente_indice_posible(tarea_actual){
+	if(tarea_actual == CANT_TAREAS  + 1){
+		tarea_actual == INDICE_IDLE;
+		return tarea_actual;
+	}else{
+		if(sched.tareas[tarea_actual].estado != 0){
+			return tarea_actual;
+		}else{
+			tarea_actual++;
+			return siguiente_indice_posible(tarea_actual);
+		}
+	}
 }
 
 unsigned short sched_proxima_bandera(){
