@@ -20,12 +20,8 @@
 #define SCREENESTADO			0
 #define SCREENMAPA				1
 #define ASCII_first_num			48
+#define ASCII_first_let			65
 #define ASCII_space				0x20
-#define NAMEGRUPO				"Palito Peron Helado/Best Name Ever"
-#define TABLAERRORES_Y			2
-#define TABLAERRORES_X			49
-#define TABLAERRORES_ANCHO		29
-#define TABLAERRORES_ALTO		14
 
 /* Misc */
 /* -------------------------------------------------------------------------- */

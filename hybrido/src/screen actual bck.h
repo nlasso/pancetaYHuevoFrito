@@ -2,7 +2,6 @@
 #define __SCREEEEN_H__
 
 #include "defines.h"
-extern int get_pagina_fisica(int, int);
 
 
 //TIPOS
@@ -20,34 +19,15 @@ char pantalla_actual = 1 ;
 
 //
 void print_cuadrado(screen *, char, int, int , int, int );
-void print_texto(screen *, char *, int, int );
-void print_formato(screen *, char, int, int);
 void print_pixel(screen *, pixel, int, int);
 int pos( int, int);
 
-////Prints en pantalla
+////Configuracion de pantalla
 //ESTADO 
-char * nametxt = "Palito Peron Helado/Best Name Ever";
-char * naviotxt = "Navio ?";
-char * errortxt = "Ningun Error   ";
-char string_errores[21][10] = {"Error  0", "Error  1","Error  2","Error  3","Error  4","Error  5","Error  6","Error  7","Error  8","Error  9","Error 10",
-"Error 11","Error 12","Error 13","Error 14","Error 15","Error 16","Error 17","Error 18","Error 19","Error 20" };
-
 int bandera_x[8] = {1,13,25,37,1,13,25,37};
 int bandera_long_x = 10;
-int bandera_y[8] = {3,3,3,3,10,10,10,10};
+int bandera_y[8] = {2,2,2,2,9,9,9,9};
 int bandera_long_y =  5;
-
-int tablaerror_x = 49;
-int tablaerror_long_x = 29;
-int tablaerror_y = 3;
-int tablaerror_long_y=11;
-
-int tablatar_x = 2;
-int tablatar_long_x = 76;
-int tablatar_y = 16;
-int tablatar_long_y = 8;
-
 // MAPA
 
 void mpus_quitar(int, int, int);
@@ -63,23 +43,21 @@ void screen_en_negro();
 //
 void inicializar_pantalla();
 
-void print_tablaerror(int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int);
-void print_tablatar(int, int, int, int);
-void print_tablatar_from_gdt(int);
-void print_tablatar_error(int, int);
+
+
+
 
 //
 
 void print_clock();
 
 
-
+//void print_pixel(char *, int, int, char, char);
+void print_texto(char *, int, int, char *, char);
 void print_estado_bandera(int, char *);
 /*int bandera_posicion_x(int);
 int bandera_posicion_y(int);*/
 void print_mapa_mem(long, char, char);
 void print_error(char);
-
-void reg_a_string(int , char *, int);
 
 #endif	/* !__SCREEEEN_H__ */

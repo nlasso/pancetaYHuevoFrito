@@ -35,7 +35,6 @@ typedef struct str_gdt_entry {
 } __attribute__((__packed__, aligned (8))) gdt_entry;
 
 void gdt_set_tss();
-
 gdt_entry generate_gdt_tss(long unsigned int);
 
 /* Tabla GDT */

@@ -11,6 +11,7 @@ extern char pantalla_actual;
 extern void print_texto(char *, int, int, char *, char);
 
 
+
 //////////////////////////////////////////////////////////////////////////////////
 //																		//////////
 // MAIN FUNCIONES 														//////////
@@ -192,6 +193,17 @@ pagetab_entry * get_descriptor(long unsigned int virtual, long unsigned int cr3)
 	// CONSIGO EL DESCRIPTOR
 	return (& tabla[virtual_12_21]);
 };
+
+int get_pagina_fisica(int tarea, int pagina){ //SOLO SE PUEDE USAR DESPUES DE INICIALIZAR
+	long unsigned int cr3 = TASK_PAG_DIR[tarea];
+	long unsigned int virtual = 0x40000000;
+	if(pagina == 1 )  virtual = 0x40001000;
+	if(pagina == 2 )  virtual = 0x40002000;
+	pagetab_entry * descriptor = get_descriptor (virtual, cr3);
+	int answer = (* descriptor).dirbase_12_31 << 12;
+	return answer;
+
+}
 
 void mmu_mapear_pagina(unsigned int virtual, unsigned int cr3, unsigned int fisica){
 	unsigned char _writable = 0; 

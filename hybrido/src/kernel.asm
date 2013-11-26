@@ -28,6 +28,7 @@ extern resetear_pic
 extern habilitar_pic
 
 ;; PANTALLA Y PRINTS
+extern screen_en_negro
 extern inicializar_pantalla
 extern load_pantalla
 extern cambiar_pantalla
@@ -95,7 +96,7 @@ Modo_protegido:
     mov es, eax
     mov gs, eax
     mov ss, eax
-    breakpoint
+   ; breakpoint
 
     ;; ---------------------------------------------------------------------- ;;
     ;; setear la pila
@@ -108,13 +109,15 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     imprimir_texto_mp iniciando_mp_msg, iniciando_mp_len, 0x07, 4, 3
 
-    call inicializar_pantalla
-    call load_pantalla
-    breakpoint
-    push byte 0 ;PREGUNTAR SI TENGO QUE POPPEAR ESTO
+    call screen_en_negro
+    ;breakpoint
+    ;call inicializar_pantalla
+    ;call load_pantalla
+    ;breakpoint
+    ;push byte 0 ;PREGUNTAR SI TENGO QUE POPPEAR ESTO
     ;call cambiar_pantalla
-    pop byte eax
-    call load_pantalla
+    ;pop byte eax
+    ;call load_pantalla
     
     
 
@@ -126,6 +129,7 @@ Modo_protegido:
     ;; inicializar el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
     call mmu_inicializar
+    call inicializar_pantalla
     breakpoint
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas

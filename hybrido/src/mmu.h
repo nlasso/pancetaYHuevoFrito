@@ -43,6 +43,7 @@ void bleach_pagedir_entry(pagedir_entry *);
 void define_pagedir_entry(pagedir_entry *, unsigned char,unsigned char, unsigned long);
 unsigned int get_pagedir_entry_fisica(long unsigned int, long unsigned int);
 pagetab_entry * get_descriptor(long unsigned int, long unsigned int);
+int get_pagina_fisica(int, int);
 void bleach_pagetab_entry(pagetab_entry *);
 void define_pagetab_entry(pagetab_entry *, unsigned char,unsigned char, unsigned long);
 void mmu_inicializar() ;
