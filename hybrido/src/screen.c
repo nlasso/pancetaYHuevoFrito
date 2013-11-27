@@ -83,6 +83,11 @@ void inicializar_pantalla(){
 	print_tablatar_from_gdt(6);
 	print_tablatar_from_gdt(7);
 	print_tablatar_from_gdt(8);
+	
+
+	char *stringz = "        ";
+	reg_a_string(dir_a_cord(get_pagina_fisica(1,0)), stringz, 0);
+	print_texto(ESTADO, stringz, 0, 1);
 
 	print_tablatar_error(3,5);
 
@@ -100,8 +105,21 @@ void inicializar_pantalla(){
 	x1 = 0; x2 = 15; y1= 3; y2 = 3;
 	print_cuadrado(buffer, (C_FG_BLACK | C_BG_GREEN), x1, y1, x2, y2);
 
-	//cambiar_pantalla(SCREENMAPA);
-	//load_pantalla();
+	print_mapa_from_gdt(1);
+	print_mapa_from_gdt(2);
+	print_mapa_from_gdt(3);
+	print_mapa_from_gdt(4);
+	print_mapa_from_gdt(5);
+	print_mapa_from_gdt(6);
+	print_mapa_from_gdt(7);
+	print_mapa_from_gdt(8);
+	print_missil(0x10000);
+	print_missil_cord(256);
+	print_missil_cord(257);
+	print_missil_cord(258);
+
+	cambiar_pantalla(SCREENMAPA);
+	load_pantalla();
 
 	/*cambiar_pantalla(SCREENMAPA);
 	load_pantalla();*/
@@ -141,6 +159,17 @@ void print_cuadrado(screen * pantalla, char format, int x1, int y1, int x2, int 
 	};
 };
 
+
+void print_texto_cord(screen * pantalla, char * texto, int cordenada) {
+	pixel pix;
+	int z = 0;
+	while(texto[z] != 0){
+		pix.letra = texto[z];
+		pix.formato = ((* pantalla)[cordenada+z]).formato;
+		print_pixel_cord(pantalla, pix, cordenada+z);
+		z ++;
+	}
+}
 void print_texto(screen * pantalla, char * texto, int x, int y) {
 	pixel pix;
 	int z = 0;
@@ -152,37 +181,24 @@ void print_texto(screen * pantalla, char * texto, int x, int y) {
 	}
 }
 
+
+void print_formato_cord(screen * pantalla, char  formato, int cordenada) {
+	(* pantalla)[cordenada].formato = formato;
+}
 void print_formato(screen * pantalla, char  formato, int x, int y) {
 	(* pantalla)[pos(x,y)].formato = formato;
 }
 
+void print_pixel_cord(screen * pantalla, pixel pix, int cordenada){	(*pantalla)[cordenada] = pix;}
 void print_pixel(screen * pantalla, pixel pix, int x, int y){	(*pantalla)[pos(x,y)] = pix;}
 
-
-///
-/// MISC
-///
-
-int pos(int x, int y){return (x+ (y*80));};
-
-void reg_a_string(int registro, char * txt, int inicio){
-	int posicion = 7 + inicio; //voy de atras para adelante
-	int valor;
-	while(posicion >= inicio){
-		valor = registro & 0xF;
-		if(valor < 10){ valor += ASCII_first_num;
-		}else{ valor -= 10; valor += ASCII_first_let;
-		};
-		txt[posicion] = valor;
-		registro = registro >> 4;
-		posicion--;
-	}
-};
 
 
 /////
 ///// PRINTS ESPECIFICOS
 /////
+
+////// Tabla Error
 
 void print_error(char error){
 
@@ -247,6 +263,8 @@ void print_tablaerror(int eax, int ebx, int ecx, int edx, int esi,
 		print_texto(ESTADO, string, x, y);
 }
 
+/////// Tabla Tarea
+
 void print_tablatar(int tarea, int pg1, int pg2, int pg3){
 	int x = tablatar_x + 1;
 	int y = tablatar_y + tarea - 1;
@@ -281,3 +299,88 @@ void print_tablatar_error(int tarea, int num_error){
 	x -= 12;
 	print_texto(ESTADO,string_errores[num_error], x, y);
 }
+
+////// Mapa 
+
+void print_mapa_from_gdt(int tarea){
+	int pg0 = get_pagina_fisica(tarea,0);
+	int pg1 = get_pagina_fisica(tarea,1);
+	int pg2 = get_pagina_fisica(tarea,2);
+	print_pg_mapa(tarea, pg0);
+	print_pg_mapa(tarea, pg1);
+	print_pg_mapa(tarea, pg2);
+}
+
+void print_numero_mapa_cord(int cordenada){
+	pixel pix; char dato = (* map_uses)[cordenada];
+	pix.formato = (C_FG_BLACK | C_BG_RED);
+	if (dato == 0){	
+		pix.letra = ASCII_space; 			//SI ES 0 NO IMPRIMO NADA
+		if(cordenada <= 256){ 	pix.formato = (C_FG_BLACK | C_BG_GREEN);}
+		else{					pix.formato = (C_FG_BLACK | C_BG_BLUE);}						
+	} 	
+	else if(dato < 9){	
+		pix.letra = dato + ASCII_first_num; //SI ES UN NUMERO LO IMPRIMO
+	}else{	
+		pix.letra = *(char *)"X"; 			//SI SUPERA LA CANTIDAD DE TAREAS IMPRIMO X			
+	} 
+	print_pixel_cord(MAPA, pix, cordenada);
+};
+
+void print_numero_mapa(int x, int y){print_numero_mapa_cord(pos(x,y));};
+
+void unprint_pg_mapa_from_gdt(int tarea, int pagina){
+	int pgdir = get_pagina_fisica(tarea,pagina);
+	int pgcord = dir_a_cord(pgdir);
+	char uso = (* map_uses)[pgcord];
+	if(uso > 0 ){ //Este IF nos permite unprint si no hubo prints
+		uso -= tarea; if(uso > 10){uso -= 10;}; 
+	};	
+	(* map_uses)[pgcord] = uso;
+	print_numero_mapa_cord(pgcord);
+}
+
+void print_pg_mapa(int tarea, int direccion){
+	int cordenada = dir_a_cord(direccion);
+	char uso = (* map_uses)[cordenada];
+	if( uso != 0) { uso += 10;} uso += tarea;
+	(* map_uses)[cordenada] = uso;
+	print_numero_mapa_cord(cordenada);
+}
+
+void print_missil(int direccion){ print_missil_cord(dir_a_cord(direccion));}
+
+void print_missil_cord(int cordenada){
+	int ult_cordenada 	= (int) (ultimo_missil); 
+	ult_cordenada 	   -= (int) 		 (MAPA);
+	ult_cordenada      /=  					  2;
+	print_numero_mapa_cord(ult_cordenada);
+	
+	ultimo_missil = &((* MAPA)[cordenada]);
+	(* ultimo_missil).formato = (C_FG_BLACK | C_BG_BROWN);
+	(* ultimo_missil).letra = * (char*) "#";
+
+};
+///
+/// MISC
+///
+
+int pos(int x, int y){return (x+ (y*80));};
+
+
+void reg_a_string(int registro, char * txt, int inicio){
+	int posicion = 7 + inicio; //voy de atras para adelante
+	int valor;
+	while(posicion >= inicio){
+		valor = registro & 0xF;
+		if(valor < 10){ valor += ASCII_first_num;
+		}else{ valor -= 10; valor += ASCII_first_let;
+		};
+		txt[posicion] = valor;
+		registro = registro >> 4;
+		posicion--;
+	}
+};
+
+int dir_a_cord(int dir_fisica){return dir_fisica/ 0x1000;};
+int cord_a_dir(int cordenada ){return cordenada * 0x1000;};
