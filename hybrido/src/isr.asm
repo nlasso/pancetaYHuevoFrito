@@ -24,11 +24,26 @@ extern navegar
 
 ;;SCHED
 extern restar_quantum
+extern dame_tarea_actual
+extern desalojar_tarea
+extern saltar_idle
 
 ;;SCREEN ERROR RELATED
 extern print_error
 extern print_tablaerror
 extern estado_error
+
+;;
+;; Funciones Auxiliares
+;; -------------------------------------------------------------------------- ;;
+
+global jump_idle
+jump_idle:
+    pushad
+    jmp GDT_IDLE:0x0
+    popad
+    iret
+
 
 ;;
 ;; Definición de MACROS
@@ -85,6 +100,8 @@ _isr%1:
     push ax
     call print_error
     pop  ax
+    call desalojar_tarea
+    call saltar_idle        ;VERIFICAR: esto. Debería saltar en cualquier error a IDLE.
     popad
     CALL load_pantalla;
     sti
@@ -102,6 +119,7 @@ reloj_numero:           dd 0x00000000
 reloj:                  db '|/-\'
 numeros_msj:            db '1234567890'
 numeros_len equ         $ - numeros_msj
+segsel
 
 
 ;;
@@ -138,6 +156,8 @@ int_invalida:
     pushad
     CALL fin_intr_pic1
     CALL print_error
+    CALL desalojar_tarea
+    CALL saltar_idle
     popad
     sti
     iret
@@ -151,7 +171,7 @@ screen_proximo_reloj:
     pushad
     CALL fin_intr_pic1
     CALL proximo_reloj
-    ;CALL restar_quantum              ;Veo en que contexto estoy
+    CALL restar_quantum              ;Decremento en uno el QUANTUM_RESTANTE
 
     popad
     sti
@@ -245,6 +265,7 @@ int_servicios:
     cli 
     push edx
     call fin_intr_pic1
+    call desalojar_tarea
     cmp eax, ANCLA
     je .SYSTEM_ANCLA
     cmp eax, MISIL
@@ -274,6 +295,7 @@ int_servicios:
         push eax
         call navegar
 .fin: 
+    call saltar_idle
     pop edx
     sti
     ret
@@ -287,6 +309,7 @@ int_bandera:
     pushad
     call fin_intr_pic1
     mov eax, 0x42
+    call saltar_idle
     popad
     sti
     ret

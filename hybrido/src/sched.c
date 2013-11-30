@@ -6,8 +6,10 @@
 */
 #include "defines.h"
 #include "sched.h"
+#include "isr.h"
 
 #define INDICE_IDLE		0
+
 
 // Indice de tareas.
 unsigned int indices_tareas[] = {GDT_TSS_TS1, GDT_TSS_TS2, GDT_TSS_TS3, GDT_TSS_TS4, GDT_TSS_TS5, GDT_TSS_TS6, GDT_TSS_TS7, 
@@ -54,6 +56,7 @@ void desalojar_tarea(){
 void saltar_idle(){
 	// Tengo que saltar a la tarea IDLE y correr hasta que se termine el quantum.
 	sched.TAREA_ACTUAL = 0;
+	jump_idle();
 }
 
 void restaurar_quantum(){

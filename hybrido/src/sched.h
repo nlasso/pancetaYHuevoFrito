@@ -9,6 +9,7 @@
 #define __SCHED_H__
 
 #include "defines.h"
+#include "isr.h"
 
 /*-----------ESTRUCTURAS DE SCHEDULING-----------*/
 
