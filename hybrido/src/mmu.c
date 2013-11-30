@@ -217,3 +217,26 @@ void mmu_unmapear_pagina(unsigned int virtual, unsigned int cr3){
 	pagetab_entry * descriptor = get_descriptor(virtual, cr3);
 	bleach_pagetab_entry(descriptor);
 };
+
+void canionear(unsigned int posicion_apuntada, unsigned int* buffer, int cr3){
+	pagetab_entry* page_tab = get_descriptor(posicion_apuntada, cr3);
+	unsigned int* page_frame_base = (unsigned int*)(page_tab->dirbase_12_31 && 0xFFFFF000) + (posicion_apuntada && 0xFFF);
+	if(page_frame_base >= (unsigned int*) 0x100){
+		for(int i = 0; i < 0x97; i++){
+			page_frame_base[i] = buffer[i];
+		}
+	}
+}
+
+void navegar(unsigned int cr3, unsigned int posicion_codigo1, unsigned int posicion_codigo2){
+	unsigned int* page_tab = (unsigned int*)((get_descriptor(posicion_codigo1,cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
+	unsigned int* page_tab2 = (unsigned int*)((get_descriptor(posicion_codigo2,cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
+	unsigned int* pagina_codigo1 = (unsigned int*)((get_descriptor(TASK_CODE, cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
+	unsigned int* pagina_codigo2 = (unsigned int*)((get_descriptor(TASK_CODE2, cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
+	for(int i=0; i< TAMANO_PAGINA; i++){
+		page_tab[i] = pagina_codigo1[i];
+		page_tab2[i] = pagina_codigo2[i];
+	}
+	mmu_mapear_pagina(TASK_CODE,cr3,posicion_codigo1);
+	mmu_mapear_pagina(TASK_CODE2, cr3, posicion_codigo2);
+}

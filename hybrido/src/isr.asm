@@ -18,6 +18,14 @@ extern print_error
 extern load_pantalla
 extern cambiar_pantalla
 
+;; MMU
+extern mmu_mapear_pagina
+extern canionear
+extern navegar
+
+;;SCHED
+extern restar_quantum
+
 ;;
 ;; Definición de MACROS
 ;; -------------------------------------------------------------------------- ;;
@@ -100,6 +108,8 @@ screen_proximo_reloj:
     pushad
     CALL fin_intr_pic1
     CALL proximo_reloj
+    ;CALL restar_quantum              ;Veo en que contexto estoy
+
     popad
     sti
     ret
@@ -190,10 +200,38 @@ fin_teclado:
 global int_servicios
 int_servicios:
     cli 
-    pushad
+    push edx
     call fin_intr_pic1
-    mov eax, 0x42
-    popad
+    cmp eax, ANCLA
+    je .SYSTEM_ANCLA
+    cmp eax, MISIL
+    je .SYSTEM_MISIL
+    cmp eax, NAVEGAR
+    je .SYSTEM_NAVEGAR
+
+    .SYSTEM_ANCLA:
+        mov eax, cr3
+        mov ecx, TASK_ANCLA
+        push ebx
+        push eax
+        push ecx
+        call mmu_mapear_pagina
+        jmp .fin
+
+    .SYSTEM_MISIL:
+        mov eax, cr3
+        push eax
+        push ecx
+        push ebx
+        call canionear
+    .SYSTEM_NAVEGAR:
+        mov eax, cr3
+        push ecx
+        push ebx
+        push eax
+        call navegar
+.fin: 
+    pop edx
     sti
     ret
 
