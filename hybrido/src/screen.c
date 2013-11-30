@@ -71,26 +71,17 @@ void inicializar_pantalla(){
 	print_cuadrado(buffer, (C_FG_WHITE | C_BG_CYAN), x1, y1, x2, y2);
 
 	// Imprime ejemplo de errores
-	int b = 0xA1020B01;
-	print_tablaerror(b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b);
+	//int b = 0xA1020B01;
+	///print_tablaerror(b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b);
 
 	// Imprime ejemplo tareas
-	print_tablatar_from_gdt(1);
-	print_tablatar_from_gdt(2);
-	print_tablatar_from_gdt(3);
-	print_tablatar_from_gdt(4);
-	print_tablatar_from_gdt(5);
-	print_tablatar_from_gdt(6);
-	print_tablatar_from_gdt(7);
-	print_tablatar_from_gdt(8);
+	
 	
 
-	char *stringz = "        ";
+	/*char *stringz = "        ";
 	reg_a_string(dir_a_cord(get_pagina_fisica(1,0)), stringz, 0);
-	print_texto(ESTADO, stringz, 0, 1);
-
-	print_tablatar_error(3,5);
-
+	print_texto(ESTADO, stringz, 0, 1);*/
+	
 
 	cambiar_pantalla(SCREENESTADO);
 	load_pantalla();
@@ -105,6 +96,30 @@ void inicializar_pantalla(){
 	x1 = 0; x2 = 15; y1= 3; y2 = 3;
 	print_cuadrado(buffer, (C_FG_BLACK | C_BG_GREEN), x1, y1, x2, y2);
 
+	print_missil(0x10000);
+	print_missil_cord(256);
+	print_missil_cord(257);
+	print_missil_cord(258);
+
+	//cambiar_pantalla(SCREENMAPA);
+	load_pantalla();
+
+	/*cambiar_pantalla(SCREENMAPA);
+	load_pantalla();*/
+}
+
+void inicializar_pantalla_memoria(){ //NECESITA QUE ESTE DEFINIDA LA GDT PARA FUNCIONAR
+	print_tablatar_from_gdt(1);
+	print_tablatar_from_gdt(2);
+	print_tablatar_from_gdt(3);
+	print_tablatar_from_gdt(4);
+	print_tablatar_from_gdt(5);
+	print_tablatar_from_gdt(6);
+	print_tablatar_from_gdt(7);
+	print_tablatar_from_gdt(8);
+
+	print_tablatar_error(3,5); //ESTO NO IRIA
+
 	print_mapa_from_gdt(1);
 	print_mapa_from_gdt(2);
 	print_mapa_from_gdt(3);
@@ -113,16 +128,7 @@ void inicializar_pantalla(){
 	print_mapa_from_gdt(6);
 	print_mapa_from_gdt(7);
 	print_mapa_from_gdt(8);
-	print_missil(0x10000);
-	print_missil_cord(256);
-	print_missil_cord(257);
-	print_missil_cord(258);
 
-	cambiar_pantalla(SCREENMAPA);
-	load_pantalla();
-
-	/*cambiar_pantalla(SCREENMAPA);
-	load_pantalla();*/
 }
 
 //
@@ -204,63 +210,63 @@ void print_error(char error){
 
 };
 
-void print_tablaerror(int eax, int ebx, int ecx, int edx, int esi, 
-	int edi, int ebp, int esp, int eip, int cr0, int cr2, int cr3 ,
-	int cs, int ds, int es, int fs, int gs, int ss, int eflags){
+void print_tablaerror(){
 	char string[] = "??? ????????";
 	char eflags_string[] = "EFLAGS";
 	// PRIMERA COLUMNA
 		int x = tablaerror_x;	int y = tablaerror_y;
 		/*eax*/  string[0] = *(char *) "e"; string[2] = *(char *) "x";
-		string[1] = *(char *) "a";	reg_a_string(eax, string, 4);
+		string[1] = *(char *) "a";	reg_a_string(estado_error.eax, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*ebx*/	y += 1 ; string[1] = *(char *) "b";	reg_a_string(ebx, string, 4);
+		/*ebx*/	y += 1 ; string[1] = *(char *) "b";	reg_a_string(estado_error.ebx, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*ecx*/	y += 1 ; string[1] = *(char *) "c";	reg_a_string(ecx, string, 4);
+		/*ecx*/	y += 1 ; string[1] = *(char *) "c";	reg_a_string(estado_error.ecx, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*edx*/ y += 1 ; string[1] = *(char *) "d";	reg_a_string(edx, string, 4);
+		/*edx*/ y += 1 ; string[1] = *(char *) "d";	reg_a_string(estado_error.edx, string, 4);
 		print_texto(ESTADO, string, x, y);
 		/*esi*/ string[2] = *(char *) "i"; string[1] = *(char *) "s";
-		y += 1; reg_a_string(esi, string, 4);
+		y += 1; reg_a_string(estado_error.esi, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*edi*/ string[1] = *(char *) "d"; y += 1; reg_a_string(esi, string, 4);
+		/*edi*/ string[1] = *(char *) "d"; y += 1; reg_a_string(estado_error.edi, string, 4);
 		print_texto(ESTADO, string, x, y);
 		/*ebp*/ string[2] = *(char *) "p"; string[1] = *(char *) "b";
-		y += 1; reg_a_string(ebp, string, 4);
+		y += 1; reg_a_string(estado_error.ebp, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*esp*/ string[1] = *(char *) "s"; y += 1; reg_a_string(esp, string, 4);
+		/*esp*/ string[1] = *(char *) "s"; y += 1; reg_a_string(estado_error.esp, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*eip*/ string[1] = *(char *) "i"; y += 1; reg_a_string(eip, string, 4);
+		/*eip*/ string[1] = *(char *) "i"; y += 1; reg_a_string(estado_error.eip, string, 4);
 		print_texto(ESTADO, string, x, y);
 		/*CR0*/  string[0] = *(char *) "C"; string[1] = *(char *) "R";
-		string[2] = *(char *) "0";  y+=1;reg_a_string(cr0, string, 4);
+		string[2] = *(char *) "0";  y+=1;reg_a_string(estado_error.cr0, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*CR2*/string[2] = *(char *) "2";  y+=1;reg_a_string(cr2, string, 4);
+		/*CR2*/string[2] = *(char *) "2";  y+=1;reg_a_string(estado_error.cr2, string, 4);
 		print_texto(ESTADO, string, x, y);
-		/*CR3*/string[2] = *(char *) "3";  y+=1;reg_a_string(cr3, string, 4);
+		/*CR3*/string[2] = *(char *) "3";  y+=1;reg_a_string(estado_error.cr3, string, 4);
 		print_texto(ESTADO, string, x, y);
 	// SEGUNDA COLUMNA
 		x = tablaerror_x + 14;	y = tablaerror_y;
 		/*?s*/ string[1] = *(char *) "s"; string[2] = *(char *) " ";
-		/*cs*/ string[0] = *(char *) "c"; reg_a_string(cs, string, 4);
+		/*cs*/ string[0] = *(char *) "c"; reg_a_string(estado_error.cs, string, 4);
 		print_texto(ESTADO, string, x, y); y++;
-		/*ds*/ string[0] = *(char *) "d"; reg_a_string(ds, string, 4);
+		/*ds*/ string[0] = *(char *) "d"; reg_a_string(estado_error.ds, string, 4);
 		print_texto(ESTADO, string, x, y); y++;
-		/*es*/ string[0] = *(char *) "e"; reg_a_string(es, string, 4);
+		/*es*/ string[0] = *(char *) "e"; reg_a_string(estado_error.es, string, 4);
 		print_texto(ESTADO, string, x, y); y++;
-		/*fs*/ string[0] = *(char *) "f"; reg_a_string(fs, string, 4);
+		/*fs*/ string[0] = *(char *) "f"; reg_a_string(estado_error.fs, string, 4);
 		print_texto(ESTADO, string, x, y); y++;
-		/*gs*/ string[0] = *(char *) "g"; reg_a_string(gs, string, 4);
+		/*gs*/ string[0] = *(char *) "g"; reg_a_string(estado_error.gs, string, 4);
 		print_texto(ESTADO, string, x, y); y++;
-		/*ss*/ string[0] = *(char *) "s"; reg_a_string(ss, string, 4);
+		/*ss*/ string[0] = *(char *) "s"; reg_a_string(estado_error.ss, string, 4);
 		print_texto(ESTADO, string, x, y); y++;
 		y++; 
 		/*EFLGAS*/
 		print_texto(ESTADO, eflags_string, x, y);
 		y++;
 		string[1] = *(char *) " "; string[0] = *(char *) " ";
-		reg_a_string(eflags, string, 4);
+		reg_a_string(estado_error.eflags, string, 4);
 		print_texto(ESTADO, string, x, y);
+
+		//load_pantalla();
 }
 
 /////// Tabla Tarea
