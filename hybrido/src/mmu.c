@@ -221,7 +221,8 @@ void canionear(unsigned int posicion_apuntada, unsigned int* buffer, int cr3){
 	pagetab_entry* page_tab = get_descriptor(posicion_apuntada, cr3);
 	unsigned int* page_frame_base = (unsigned int*)(page_tab->dirbase_12_31 && 0xFFFFF000) + (posicion_apuntada && 0xFFF);
 	if(page_frame_base >= (unsigned int*) 0x100){
-		for(int i = 0; i < 0x97; i++){
+		int i = 0;
+		for(i = 0; i < 0x97; i++){
 			page_frame_base[i] = buffer[i];
 		}
 	}
@@ -232,7 +233,8 @@ void navegar(unsigned int cr3, unsigned int posicion_codigo1, unsigned int posic
 	unsigned int* page_tab2 = (unsigned int*)((get_descriptor(posicion_codigo2,cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
 	unsigned int* pagina_codigo1 = (unsigned int*)((get_descriptor(TASK_CODE, cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
 	unsigned int* pagina_codigo2 = (unsigned int*)((get_descriptor(TASK_CODE2, cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
-	for(int i=0; i< TAMANO_PAGINA; i++){
+	int i = 0;
+	for(i=0; i< TAMANO_PAGINA; i++){
 		page_tab[i] = pagina_codigo1[i];
 		page_tab2[i] = pagina_codigo2[i];
 	}
