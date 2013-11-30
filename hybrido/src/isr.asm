@@ -12,7 +12,6 @@ BITS 32
 
 ;; PIC
 extern fin_intr_pic1
-extern print_error
 
 ;; SCREEN 
 extern load_pantalla
@@ -26,6 +25,11 @@ extern navegar
 ;;SCHED
 extern restar_quantum
 
+;;SCREEN ERROR RELATED
+extern print_error
+extern print_tablaerror
+extern estado_error
+
 ;;
 ;; Definición de MACROS
 ;; -------------------------------------------------------------------------- ;;
@@ -36,16 +40,55 @@ global _isr%1
 _isr%1:
     ;cli
     pushad
-    breakpoint
-    ;xor ax, ax
+    ;breakpoint
+    mov eax, 1
+    mov [estado_error], eax
+    mov ax, 2
+    mov [estado_error+4], eax
+    mov ax, 3
+    mov [estado_error+8], eax
+    mov ax, 4
+    mov [estado_error+12], eax
+    mov ax, 5
+    mov [estado_error+16], eax
+    mov ax, 6
+    mov [estado_error+20], eax
+    mov ax, 7
+    mov [estado_error+24], eax
+    mov ax, 8
+    mov [estado_error+28], eax
+    mov ax, 9
+    mov [estado_error+32], eax
+    mov ax, 10
+    mov [estado_error+36], eax
+    mov ax, 11
+    mov [estado_error+40], eax
+    mov ax, 12
+    mov [estado_error+44], eax
+    mov ax, 13
+    mov [estado_error+48], eax
+    mov ax, 14
+    mov [estado_error+52], eax
+    mov ax, 15
+    mov [estado_error+56], eax
+    mov ax, 16
+    mov [estado_error+60], eax
+    mov ax, 17
+    mov [estado_error+64], eax
+    mov ax, 18
+    mov [estado_error+68], eax
+    mov ax, 19
+    mov [estado_error+72], eax
+    call print_tablaerror;
+    xor ax, ax
     mov ax, %1
     push ax
     call print_error
     pop  ax
     popad
-    ;sti
+    CALL load_pantalla;
+    sti
     breakpoint
-    iret
     ; To Infinity And Beyond!!
     iret
     ;jmp $

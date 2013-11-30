@@ -202,7 +202,6 @@ int get_pagina_fisica(int tarea, int pagina){ //SOLO SE PUEDE USAR DESPUES DE IN
 	pagetab_entry * descriptor = get_descriptor (virtual, cr3);
 	int answer = (* descriptor).dirbase_12_31 << 12;
 	return answer;
-
 }
 
 void mmu_mapear_pagina(unsigned int virtual, unsigned int cr3, unsigned int fisica){

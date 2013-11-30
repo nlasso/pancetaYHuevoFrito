@@ -33,6 +33,7 @@ struct sched_t
 	unsigned int CONTEXTO;				//Si el contexto == 0 entonces estoy en tareas de lo contrario estoy en bandera.
 } sched;
 
+
 /*---------------------SERVICIOS-------------------*/
 /*SCHED_INICIALIZAR: inicializa todas las estructuras requeridas por el Kernel para funcionar. array de tareas, QUANTUMS, etc...*/
 void sched_inicializar();
@@ -75,5 +76,8 @@ unsigned short sched_proximo_indice();
 
 /*SCHED_PROXIMA_BANDERA: devuelve el indice de la proxima bandera.*/
 unsigned short sched_proxima_bandera();
+
+/* MISC */
+unsigned short siguiente_indice_posible(int);
 
 #endif	/* !__SCHED_H__ */

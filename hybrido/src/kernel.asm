@@ -30,6 +30,7 @@ extern habilitar_pic
 ;; PANTALLA Y PRINTS
 extern screen_en_negro
 extern inicializar_pantalla
+extern inicializar_pantalla_memoria
 extern load_pantalla
 extern cambiar_pantalla
 
@@ -114,7 +115,7 @@ Modo_protegido:
 
     call screen_en_negro
     ;breakpoint
-    ;call inicializar_pantalla
+    call inicializar_pantalla
     ;call load_pantalla
     ;breakpoint
     ;push byte 0 ;PREGUNTAR SI TENGO QUE POPPEAR ESTO
@@ -133,6 +134,11 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     call mmu_inicializar
     call inicializar_pantalla
+    ;; ---------------------------------------------------------------------- ;;
+    ;; imprimir el directorio de paginas
+    ;; ---------------------------------------------------------------------- ;;
+    call inicializar_pantalla_memoria
+    breakpoint
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas
     ;; ---------------------------------------------------------------------- ;;
@@ -169,6 +175,10 @@ Modo_protegido:
     call deshabilitar_pic
     call resetear_pic
     call habilitar_pic
+    
+    ;breakpoint
+    int 10
+    breakpoint
 
     mov ax, GDT_INICIAL
     ltr ax

@@ -22,12 +22,14 @@ void sched_inicializar() {
 	struct tarea_t tarea_idle;
 	tarea_idle.tarea = (GDT_TSS_IDLE << 3) + 0x03;
 	tarea_idle.bandera = (GDT_TSS_IDLE << 3) + 0x03;	//Por precaucion pongo la misma tarea. pero IDLE no tiene bandera!
+
 	tarea_idle.estado = 1;
 
 	sched.tareas[0] = tarea_idle;
 
 	// Cargo los selectores de segmentos en mi estructura de scheduling.
-	for (int i = 1; i < CANT_TAREAS; i++)
+	int i = 0;
+	for (i = 1; i < CANT_TAREAS; i++)
 	{
 		struct tarea_t tarea_struct;
 		tarea_struct.tarea = (indices_tareas[i] << 3) + 0x03;
