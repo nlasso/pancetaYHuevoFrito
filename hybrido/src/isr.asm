@@ -27,6 +27,7 @@ extern restar_quantum
 extern dame_tarea_actual
 extern desalojar_tarea
 extern saltar_idle
+extern clock
 
 ;;SCREEN ERROR RELATED
 extern print_error
@@ -40,7 +41,9 @@ extern estado_error
 global jump_idle
 jump_idle:
     pushad
-    jmp GDT_IDLE:0x0
+    mov ax, GDT_IDLE
+    mov [selector], ax
+    jmp far [offset]
     popad
     iret
 
@@ -119,7 +122,8 @@ reloj_numero:           dd 0x00000000
 reloj:                  db '|/-\'
 numeros_msj:            db '1234567890'
 numeros_len equ         $ - numeros_msj
-segsel
+offset:                 dd 0
+selector:               dw 0
 
 
 ;;
@@ -171,8 +175,11 @@ screen_proximo_reloj:
     pushad
     CALL fin_intr_pic1
     CALL proximo_reloj
-    CALL restar_quantum              ;Decremento en uno el QUANTUM_RESTANTE
-
+    breakpoint
+    CALL clock
+    breakpoint
+    mov [selector], ax
+    jmp far [offset]
     popad
     sti
     ret
@@ -308,7 +315,6 @@ int_bandera:
     cli 
     pushad
     call fin_intr_pic1
-    mov eax, 0x42
     call saltar_idle
     popad
     sti

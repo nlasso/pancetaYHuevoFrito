@@ -177,7 +177,7 @@ Modo_protegido:
     call habilitar_pic
     
     ;breakpoint
-    int 10
+    ;int 10
     breakpoint
 
     mov ax, GDT_INICIAL

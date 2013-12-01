@@ -22,6 +22,7 @@ struct tarea_t
 	unsigned short tarea;			// TSS Segment Selector para la tarea.
 	unsigned short bandera;		// TSS Segment Selector para la bandera de la tarea.
 	unsigned int estado;		// Estado: si el estado == 1 entonces puedo acceder a la tarea. Si estado == 0 la tarea fue desalojada.
+	unsigned int indice;
 } tarea;
 
 /*Main struct del scheduler*/
@@ -31,7 +32,8 @@ struct sched_t
 	unsigned int QUANTUM_RESTANTE;		// QUANTUMS restantes
 	unsigned int TAREA_ACTUAL;			// Indice del array tareas que esta corriendo ahora. CUIDADO: No es un seg sel. es solo un numero indice del array.
 	unsigned int BANDERA_ACTUAL;
-	unsigned int CONTEXTO;				//Si el contexto == 0 entonces estoy en tareas de lo contrario estoy en bandera.
+	unsigned int CONTEXTO;				// Si el contexto == 0 entonces estoy en tareas de lo contrario estoy en bandera.
+	unsigned int TASKS_UP;				// Numero de tareas habilitadas en ese momento. Si el numero es 0 se entiende que solo puede correr la tarea IDLE
 } sched;
 
 
@@ -70,15 +72,14 @@ unsigned int dame_bandera(int);
 /*SETEAR_CONTEXTO setea el contexto dependiendo que voy a correr.*/
 void cambiar_contexto(int);
 
-static unsigned short siguiente_indice_posible(int);
+static unsigned int siguiente_indice_posible(int);
 
 /*SCHED_PROXIMO_INDICE: devuelve el indice de la proxima tarea.*/
-unsigned short sched_proximo_indice();
+unsigned int sched_proximo_indice();
 
 /*SCHED_PROXIMA_BANDERA: devuelve el indice de la proxima bandera.*/
-unsigned short sched_proxima_bandera();
+unsigned int sched_proxima_bandera();
 
-/* MISC */
-unsigned short siguiente_indice_posible(int);
+unsigned short clock();
 
 #endif	/* !__SCHED_H__ */
