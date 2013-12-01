@@ -90,6 +90,7 @@
 /* Direcciones virtuales de código, pila y datos */
 /* -------------------------------------------------------------------------- */
 #define TASK_CODE               0x40000000 /* direccion virtual del codigo */
+#define TASK_CODE2				0x40001000 /* direccion virtual de la segunda pagina de codigo*/
 
 //#define TASK_IDLE_CODE          0x40000000 /* direccion virtual del codigo de la tarea idle */
 //#define TASK_IDLE_STACK         0x003D0000 /* direccion virtual de la pila de la tarea idle */

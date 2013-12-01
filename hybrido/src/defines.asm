@@ -1,5 +1,8 @@
 %define breakpoint xchg bx,bx
 
+;;TAREAS
+%define TASK_ANCLA 				0x40002000
+
 ;;GDT
 %define GDT_NULL_DESC           0
 %define GDT_CODE_0				18 * 8

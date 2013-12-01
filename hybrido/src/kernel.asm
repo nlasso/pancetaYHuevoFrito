@@ -39,6 +39,9 @@ extern tss_inicializar
 extern tarea_inicial
 extern gdt_set_tss
 
+;;SCHED
+extern sched_inicializar
+
 ;; Saltear seccion de datos
 jmp start
 
@@ -130,6 +133,7 @@ Modo_protegido:
     ;; inicializar el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
     call mmu_inicializar
+    call inicializar_pantalla
     ;; ---------------------------------------------------------------------- ;;
     ;; imprimir el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
@@ -148,7 +152,6 @@ Modo_protegido:
     mov eax, cr0
     or eax, 0x80000000
     mov cr0, eax
-   ; breakpoint
 
     ; inicializar tarea idle
 
@@ -160,6 +163,11 @@ Modo_protegido:
     ;CALL gdt_set_tss
 
     ; inicializar el scheduler
+    breakpoint
+
+    CALL sched_inicializar
+
+    breakpoint
 
     ; inicializar la IDT
     call idt_inicializar
@@ -174,9 +182,7 @@ Modo_protegido:
 
     mov ax, GDT_INICIAL
     ltr ax
-    breakpoint
     mov ax, ax
-    breakpoint
     jmp GDT_IDLE:0x0
     ;breakpoint
     ;mov eax, 0
