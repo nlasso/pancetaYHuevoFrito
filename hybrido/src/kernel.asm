@@ -17,6 +17,7 @@ extern GDT_DESC
 ;; MMU
 extern mmu_inicializar
 extern mmu_primeraPagina
+extern mmu_tareas_a_mar
 
 ;; IDT
 extern IDT_DESC
@@ -150,7 +151,7 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
     ;; ---------------------------------------------------------------------- ;;
-    mov eax, MAINPAGEDIR
+    mov eax, [TASK_PAG_DIR]
     mov cr3, eax
     mov eax, cr0
     or eax, 0x80000000
@@ -166,14 +167,9 @@ Modo_protegido:
     ;CALL gdt_set_tss
 
     ; inicializar el scheduler
-
-    breakpoint
     mov eax, [TASK_PAG_DIR+4]
     mov cr3, eax
-    push 0x00103000
-    push 0x00000000
-    push 0x00000001
-    call reubicar_pagina;
+
 
     CALL sched_inicializar
 
@@ -187,6 +183,7 @@ Modo_protegido:
     call habilitar_pic
 
     breakpoint
+
     mov ax, GDT_INICIAL
     ltr ax
     mov ax, ax
