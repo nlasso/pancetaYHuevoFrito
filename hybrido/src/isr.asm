@@ -46,7 +46,8 @@ global _isr%1
 _isr%1:
     ;cli
     pushad
-    ;breakpoint
+    breakpoint
+    mov cx, %1
     mov eax, 1
     mov [estado_error], eax
     mov ax, 2
