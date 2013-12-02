@@ -28,6 +28,7 @@ extern dame_tarea_actual
 extern desalojar_tarea
 extern saltar_idle
 extern clock
+extern bandera
 
 ;;SCREEN ERROR RELATED
 extern print_error
@@ -315,7 +316,7 @@ int_bandera:
     cli 
     pushad
     call fin_intr_pic1
-    call saltar_idle
+    call bandera
     popad
     sti
     ret

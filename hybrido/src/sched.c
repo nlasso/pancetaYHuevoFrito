@@ -22,8 +22,8 @@ unsigned int indices_banderas[] = {GDT_TSS_FG1, GDT_TSS_FG2, GDT_TSS_FG3, GDT_TS
 void sched_inicializar() {
 	// Carlo la tarea idle.
 	struct tarea_t tarea_idle;
-	tarea_idle.tarea = (GDT_TSS_IDLE << 3) + 0x03;
-	tarea_idle.bandera = (GDT_TSS_IDLE << 3) + 0x03;	//Por precaucion pongo la misma tarea. pero IDLE no tiene bandera!
+	tarea_idle.tarea = (GDT_TSS_IDLE << 3) + 0x00;
+	tarea_idle.bandera = (GDT_TSS_IDLE << 3) + 0x00;	//Por precaucion pongo la misma tarea. pero IDLE no tiene bandera!
 
 	tarea_idle.estado = 1;
 
@@ -31,15 +31,15 @@ void sched_inicializar() {
 
 	// Cargo los selectores de segmentos en mi estructura de scheduling.
 	int i = 0;
-	for (i = 1; i < CANT_TAREAS; i++)
+	for (i = 0; i < CANT_TAREAS; i++)
 	{
 		struct tarea_t tarea_struct;
 		tarea_struct.tarea = (indices_tareas[i] << 3) + 0x03;
 		tarea_struct.bandera = (indices_banderas[i] << 3) + 0x03;
 		tarea_struct.estado = 1;
-		tarea_struct.indice = i;
+		tarea_struct.indice = i + 1;
 
-		sched.tareas[i] = tarea_struct;
+		sched.tareas[i + 1] = tarea_struct;
 	}
 	sched.QUANTUM_RESTANTE = QUANTUM_TAREA;
 	sched.TAREA_ACTUAL = INDICE_IDLE;
@@ -126,7 +126,7 @@ unsigned int sched_proxima_bandera(){
 }
 
 unsigned short clock(){
-	int NEXT_INDEX;
+	int NEXT_INDEX = 0;
 	if(sched.TASKS_UP > 0){
 		if(sched.CONTEXTO == 0){
 			sched.QUANTUM_RESTANTE--;			//Si estoy en contexto de tareas entonces me interesa saber del quantum restante.
@@ -155,5 +155,13 @@ unsigned short clock(){
 		}		
 	}else{
 		return sched.tareas[INDICE_IDLE].tarea;
+	}
+}
+
+void bandera(){
+	if(sched.CONTEXTO == 1){
+		saltar_idle();
+	}else{
+		desalojar_tarea();
 	}
 }

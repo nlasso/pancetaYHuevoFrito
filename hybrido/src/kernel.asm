@@ -138,7 +138,6 @@ Modo_protegido:
     ;; imprimir el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
     call inicializar_pantalla_memoria
-    breakpoint
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas
     ;; ---------------------------------------------------------------------- ;;
@@ -163,11 +162,8 @@ Modo_protegido:
     ;CALL gdt_set_tss
 
     ; inicializar el scheduler
-    breakpoint
 
     CALL sched_inicializar
-
-    breakpoint
 
     ; inicializar la IDT
     call idt_inicializar

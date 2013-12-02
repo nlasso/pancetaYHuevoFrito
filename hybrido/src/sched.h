@@ -80,6 +80,10 @@ unsigned int sched_proximo_indice();
 /*SCHED_PROXIMA_BANDERA: devuelve el indice de la proxima bandera.*/
 unsigned int sched_proxima_bandera();
 
+/*CLOCK: código de la interrupcion de reloj*/
 unsigned short clock();
+
+/*BANDERA: Código de la interrupcion de bandera*/
+void bandera();
 
 #endif	/* !__SCHED_H__ */
