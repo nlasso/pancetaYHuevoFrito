@@ -142,6 +142,7 @@ Modo_protegido:
     ;; imprimir el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
     call inicializar_pantalla_memoria
+    breakpoint
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas
     ;; ---------------------------------------------------------------------- ;;
@@ -150,11 +151,12 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
     ;; ---------------------------------------------------------------------- ;;
-    mov eax, MAINPAGEDIR
+    mov eax, [TASK_PAG_DIR]
     mov cr3, eax
     mov eax, cr0
     or eax, 0x80000000
     mov cr0, eax
+    breakpoint;
 
     ; inicializar tarea idle
 
@@ -166,7 +168,6 @@ Modo_protegido:
     ;CALL gdt_set_tss
 
     ; inicializar el scheduler
-
     breakpoint
     mov eax, [TASK_PAG_DIR+4]
     mov cr3, eax
@@ -188,6 +189,7 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
+    breakpoint
 
     mov ax, GDT_INICIAL
     ltr ax

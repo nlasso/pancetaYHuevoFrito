@@ -42,6 +42,7 @@ void mmu_identity_maping() {
 	unsigned int x;
 	//Dejo pagedir en blanco
 	pagedir_entry *pagedir = (pagedir_entry *) MAINPAGEDIR;
+	TASK_PAG_DIR[0] = MAINPAGEDIR;
 	//Defino las dos tablas de paginas
 	pagetab_entry *pagetab1 = (pagetab_entry *) FIRSTPAGETAB;
 	pagetab_entry *pagetab2 = (pagetab_entry *) SECONDPAGETAB;
@@ -86,8 +87,7 @@ void mmu_identity_maping() {
 	long unsigned int mapeo; mapeo = TASK_CODE_SRC_ARRAY[ 0 ] ;
 	define_pagetab_entry(&pagetab3[0], _writable, _priviledge, mapeo);
 	define_pagetab_entry(&pagetab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA);
-	define_pagetab_entry(&pagetab3[3], _writable, _priviledge, PILALVLCERO);
-		
+	define_pagetab_entry(&pagetab3[3], _writable, _priviledge, PILALVLCERO);		
 }	
 
 void mmu_inicializar_tareas(){
