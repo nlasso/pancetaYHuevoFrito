@@ -119,7 +119,6 @@ Modo_protegido:
     imprimir_texto_mp iniciando_mp_msg, iniciando_mp_len, 0x07, 4, 3
 
     call screen_en_negro
-    ;breakpoint
     call inicializar_pantalla
     ;call load_pantalla
     ;breakpoint
