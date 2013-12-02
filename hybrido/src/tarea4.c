@@ -35,27 +35,27 @@ unsigned char * bandera();
 
 void task() {
     /* Tarea 4 */
-    while(1) {
-        // TODO: Implementar.
-    };
+    //while(1) {
+        //// TODO: Implementar.
+    //};
 }
 
 unsigned char * bandera() {
-    ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
-    int *b = (int*)(var_B);
-    unsigned int fil;
-    unsigned int col;
-    if (*b == 1) *b = 0; else *b = 1;
-    for (fil = 0; fil < 5; fil++) {
-        for (col = 0; col < 10; col++) {
-            buffer[fil][col].c = 220 ;
-            if( *b == 0 )
-                buffer[fil][col].a = C_BG_RED | C_FG_LIGHT_RED;
-            else
-                buffer[fil][col].a = C_BG_CYAN | C_FG_LIGHT_CYAN;
-        }
-    }
-    syscall_bandera_fin((unsigned int) buffer);
-    /* Para que el compilador no tire warning... */
+    //ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
+    //int *b = (int*)(var_B);
+    //unsigned int fil;
+    //unsigned int col;
+    //if (*b == 1) *b = 0; else *b = 1;
+    //for (fil = 0; fil < 5; fil++) {
+        //for (col = 0; col < 10; col++) {
+            //buffer[fil][col].c = 220 ;
+            //if( *b == 0 )
+                //buffer[fil][col].a = C_BG_RED | C_FG_LIGHT_RED;
+            //else
+                //buffer[fil][col].a = C_BG_CYAN | C_FG_LIGHT_CYAN;
+        //}
+    //}
+    //syscall_bandera_fin((unsigned int) buffer);
+    ///* Para que el compilador no tire warning... */
     return 0;
 }

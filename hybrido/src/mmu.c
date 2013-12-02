@@ -112,7 +112,7 @@ void mmu_inicializar_tareas(){
 		LAST_MEMORY_FREE += TAMANO_PAGINA;
 
 		//IDENTITY MAPPING YA DEFINIDO
-		_priviledge = 0;
+		_priviledge = 1;
 		i = 1;
 		while(i < CANT_ENTRADAS){
 			bleach_pagedir_entry(&pgdir[i]); 
@@ -130,7 +130,7 @@ void mmu_inicializar_tareas(){
 			i++;
 		}
 		//defino la entrada
-		_priviledge = 3;
+		_priviledge = 1;
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
 		
 
