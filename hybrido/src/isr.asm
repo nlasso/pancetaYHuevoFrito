@@ -181,8 +181,8 @@ screen_proximo_reloj:
     CALL clock
     breakpoint
     mov [selector], ax
-    jmp far [offset]
     popad
+    jmp far [offset]
     sti
     ret
 
