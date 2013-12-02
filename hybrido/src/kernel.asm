@@ -42,6 +42,10 @@ extern gdt_set_tss
 ;;SCHED
 extern sched_inicializar
 
+;;TEST  STUFF
+extern reubicar_pagina;
+extern TASK_PAG_DIR;
+
 ;; Saltear seccion de datos
 jmp start
 
@@ -164,10 +168,18 @@ Modo_protegido:
 
     ; inicializar el scheduler
     breakpoint
+    mov eax, [TASK_PAG_DIR+4]
+    mov cr3, eax
+    breakpoint
+    push 0x00103000
+    push 0x00000000
+    push 0x00000001
+    call reubicar_pagina;
+    breakpoint
 
     CALL sched_inicializar
 
-    breakpoint
+    ;breakpoint
 
     ; inicializar la IDT
     call idt_inicializar
@@ -175,9 +187,7 @@ Modo_protegido:
     call deshabilitar_pic
     call resetear_pic
     call habilitar_pic
-    
-    ;breakpoint
-    int 10
+
     breakpoint
 
     mov ax, GDT_INICIAL

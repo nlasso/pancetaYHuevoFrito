@@ -92,7 +92,7 @@ void cambiar_contexto(int _contexto){
 	sched.CONTEXTO = _contexto;
 }
 
-static unsigned short siguiente_indice_posible(int tarea_siguiente){
+unsigned short siguiente_indice_posible(int tarea_siguiente){
 	if(tarea_siguiente == CANT_TAREAS  + 1){
 		tarea_siguiente = 1;
 		return siguiente_indice_posible(tarea_siguiente);

@@ -70,7 +70,7 @@ unsigned int dame_bandera(int);
 /*SETEAR_CONTEXTO setea el contexto dependiendo que voy a correr.*/
 void cambiar_contexto(int);
 
-static unsigned short siguiente_indice_posible(int);
+unsigned short siguiente_indice_posible(int);
 
 /*SCHED_PROXIMO_INDICE: devuelve el indice de la proxima tarea.*/
 unsigned short sched_proximo_indice();
