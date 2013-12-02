@@ -236,7 +236,7 @@ void anclar(unsigned int destino){
 	int tarea = sched.TAREA_ACTUAL;
 	unsigned int cr3 = TASK_PAG_DIR[tarea];
 	int temp =  0x40002000;
-	mmu_mapear_pagina(temp,cr3, posicion_apuntada); 
+	mmu_mapear_pagina(temp,cr3, destino); 
 
 }
 

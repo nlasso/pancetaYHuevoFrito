@@ -21,6 +21,7 @@ extern cambiar_pantalla
 extern mmu_mapear_pagina
 extern canionear
 extern navegar
+extern anclar
 
 ;;SCHED
 extern restar_quantum
@@ -282,25 +283,17 @@ int_servicios:
     je .SYSTEM_NAVEGAR
 
     .SYSTEM_ANCLA:
-        mov eax, cr3
-        mov ecx, TASK_ANCLA
         push ebx
-        push eax
-        push ecx
-        call mmu_mapear_pagina
+        call anclar
         jmp .fin
 
     .SYSTEM_MISIL:
-        mov eax, cr3
-        push eax
         push ecx
         push ebx
         call canionear
     .SYSTEM_NAVEGAR:
-        mov eax, cr3
         push ecx
         push ebx
-        push eax
         call navegar
 .fin: 
     call saltar_idle
