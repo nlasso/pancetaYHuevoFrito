@@ -87,7 +87,7 @@ gdt_entry gdt[GDT_COUNT] = {
     //ACA EL TP BACON TENIA 0X8
     .type             =   0xA   ,
     .s                =   0x1,                // sistema/usuario
-    .dpl              =   0x0,                // prioridad
+    .dpl              =   0x3,                // prioridad
     .avl              =   0x0,                // no se usa
     .p                =   0x1,
     .g                =   0x1,
@@ -157,7 +157,7 @@ gdt_entry generate_gdt_tss(long unsigned int dir_tss){
     .base_16_23       =   (dir_tss << 16) & 0xFF  ,
     /*  .base_24_31       =   0x00  ,  */
     .base_24_31       =   (dir_tss << 24)  ,
-    .limit_0_15       =   0x0068,
+    .limit_0_15       =   0x0067,
     .limit_16_19      =   0x0,             // 0x68
     .type             =   0x9,             //tss no busy             
     .s                =   0x0,             // sistema
