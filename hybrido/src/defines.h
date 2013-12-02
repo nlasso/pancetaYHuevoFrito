@@ -70,8 +70,8 @@
 #define VIDEO                   0x000B8000 /* direccion fisica del buffer de video */
 #define MEMVIDEO				0x000A0000
 
-#define PILAKERNEL				0X00026000
-#define PILALVLCERO	 			0x00029000  
+#define PILAKERNEL				0x00027000 	//OJO: son pila, arrancan al reves!
+#define PILALVLCERO	 			0x0002A000  
 
 #define BUFFERESTADO			0X0002E000
 #define BUFFERMAPA				0X0002F000
