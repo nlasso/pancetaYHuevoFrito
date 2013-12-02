@@ -109,14 +109,21 @@ void mmu_inicializar_tareas(){
 
 		//IDENTITY MAPPING YA DEFINIDO
 		i = 1;
-		while(i < CANT_ENTRADAS){bleach_pagedir_entry(&pgdir[i]); i++;}
+		while(i < CANT_ENTRADAS){
+			bleach_pagedir_entry(&pgdir[i]); 
+			i++;
+		}
+		
 		define_pagedir_entry(&pgdir[0], _writable, _priviledge, (long unsigned int) pgtab);//Defino pagedir apuntando a la primera pagina
 		define_pagedir_entry(&pgdir[1], _writable, _priviledge, (long unsigned int) pgtab2);//Defino pagedir apuntando a la segunda pagina
 
 		//PAGE TAREA MAPPING -PAGE 3-
 		//Limpio todas las paginas
 		i = 1;
-		while(i < CANT_ENTRADAS + 1){bleach_pagetab_entry(&pgtab3[i]);i++;}
+		while(i < CANT_ENTRADAS + 1){
+			bleach_pagetab_entry(&pgtab3[i]);
+			i++;
+		}
 		//defino la entrada
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
 		long unsigned int mapeo = TASK_CODE_SRC_ARRAY[cont];

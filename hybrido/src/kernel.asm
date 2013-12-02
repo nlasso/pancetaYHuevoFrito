@@ -170,12 +170,10 @@ Modo_protegido:
     breakpoint
     mov eax, [TASK_PAG_DIR+4]
     mov cr3, eax
-    breakpoint
     push 0x00103000
     push 0x00000000
     push 0x00000001
     call reubicar_pagina;
-    breakpoint
 
     CALL sched_inicializar
 
@@ -188,7 +186,7 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
-
+    breakpoint
     mov ax, GDT_INICIAL
     ltr ax
     mov ax, ax
