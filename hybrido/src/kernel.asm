@@ -17,6 +17,7 @@ extern GDT_DESC
 ;; MMU
 extern mmu_inicializar
 extern mmu_primeraPagina
+extern mmu_tareas_a_mar
 
 ;; IDT
 extern IDT_DESC
@@ -41,6 +42,10 @@ extern gdt_set_tss
 
 ;;SCHED
 extern sched_inicializar
+
+;;TEST  STUFF
+extern reubicar_pagina;
+extern TASK_PAG_DIR;
 
 ;; Saltear seccion de datos
 jmp start
@@ -147,11 +152,12 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
     ;; ---------------------------------------------------------------------- ;;
-    mov eax, MAINPAGEDIR
+    mov eax, [TASK_PAG_DIR]
     mov cr3, eax
     mov eax, cr0
     or eax, 0x80000000
     mov cr0, eax
+    breakpoint;
 
     ; inicializar tarea idle
 
@@ -159,15 +165,28 @@ Modo_protegido:
     call gdt_set_tss
     call tss_inicializar
 
+
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
 
     ; inicializar el scheduler
     breakpoint
+    mov eax, [TASK_PAG_DIR+4]
+    mov cr3, eax
+    breakpoint
+    breakpoint
+    breakpoint
+    breakpoint
+    mov eax, [TASK_PAG_DIR]
+    mov cr3, eax
+    breakpoint
+    breakpoint
+    breakpoint
+
 
     CALL sched_inicializar
 
-    breakpoint
+    ;breakpoint
 
     ; inicializar la IDT
     call idt_inicializar
@@ -175,9 +194,7 @@ Modo_protegido:
     call deshabilitar_pic
     call resetear_pic
     call habilitar_pic
-    
-    ;breakpoint
-    int 10
+
     breakpoint
 
     mov ax, GDT_INICIAL

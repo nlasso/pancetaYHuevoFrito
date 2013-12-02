@@ -22,8 +22,8 @@ unsigned int indices_banderas[] = {GDT_TSS_FG1, GDT_TSS_FG2, GDT_TSS_FG3, GDT_TS
 void sched_inicializar() {
 	// Carlo la tarea idle.
 	struct tarea_t tarea_idle;
-	tarea_idle.tarea = (GDT_TSS_IDLE << 3) + 0x03;
-	tarea_idle.bandera = (GDT_TSS_IDLE << 3) + 0x03;	//Por precaucion pongo la misma tarea. pero IDLE no tiene bandera!
+	tarea_idle.tarea = (GDT_TSS_IDLE << 3) + 0x00;
+	tarea_idle.bandera = (GDT_TSS_IDLE << 3) + 0x00;	//Por precaucion pongo la misma tarea. pero IDLE no tiene bandera!
 
 	tarea_idle.estado = 1;
 
@@ -31,27 +31,29 @@ void sched_inicializar() {
 
 	// Cargo los selectores de segmentos en mi estructura de scheduling.
 	int i = 0;
-	for (i = 1; i < CANT_TAREAS; i++)
+	for (i = 0; i < CANT_TAREAS; i++)
 	{
 		struct tarea_t tarea_struct;
 		tarea_struct.tarea = (indices_tareas[i] << 3) + 0x03;
 		tarea_struct.bandera = (indices_banderas[i] << 3) + 0x03;
 		tarea_struct.estado = 1;
+		tarea_struct.indice = i + 1;
 
-		sched.tareas[i] = tarea_struct;
+		sched.tareas[i + 1] = tarea_struct;
 	}
 	sched.QUANTUM_RESTANTE = QUANTUM_TAREA;
 	sched.TAREA_ACTUAL = INDICE_IDLE;
 	sched.CONTEXTO = 0;
 	sched.BANDERA_ACTUAL = 0;
+	sched.TASKS_UP = CANT_TAREAS;
 }
 
+// Desalojo Tarea y bandera, es decir los borro de sus respectivos arrays.
 void desalojar_tarea(){
 	unsigned int _tarea_actual = sched.TAREA_ACTUAL;
-	saltar_idle(); // Antes de borrarlo salto a la tarea IDLE.
-
-	// Desalojo Tarea y bandera, es decir los borro de sus respectivos arrays.
 	sched.tareas[_tarea_actual].estado = 0;
+	sched.TASKS_UP--;
+	saltar_idle(); 
 }
 void saltar_idle(){
 	// Tengo que saltar a la tarea IDLE y correr hasta que se termine el quantum.
@@ -92,13 +94,13 @@ void cambiar_contexto(int _contexto){
 	sched.CONTEXTO = _contexto;
 }
 
-static unsigned short siguiente_indice_posible(int tarea_siguiente){
+static unsigned int siguiente_indice_posible(int tarea_siguiente){
 	if(tarea_siguiente == CANT_TAREAS  + 1){
 		tarea_siguiente = 1;
 		return siguiente_indice_posible(tarea_siguiente);
 	}else{
 		if(sched.tareas[tarea_siguiente].estado != 0){
-			return (unsigned short)tarea_siguiente;
+			return tarea_siguiente;
 		}else{
 			tarea_siguiente++;
 			return siguiente_indice_posible(tarea_siguiente);
@@ -106,19 +108,60 @@ static unsigned short siguiente_indice_posible(int tarea_siguiente){
 	}
 }
 
-unsigned short sched_proximo_indice() {
+unsigned int sched_proximo_indice() {
 	unsigned int tarea_actual = sched.TAREA_ACTUAL;
 	tarea_actual++;
 	unsigned int siguiente_indice = siguiente_indice_posible(tarea_actual);
 	saltar_a_tarea(siguiente_indice);			//VERIFICAR: Tengo que saltar si o si??
-    return sched.tareas[siguiente_indice].tarea;
+    return siguiente_indice;
 }
 
 
-unsigned short sched_proxima_bandera(){
+unsigned int sched_proxima_bandera(){
 	unsigned int bandera_actual = sched.BANDERA_ACTUAL;
 	bandera_actual++;
 	unsigned int siguiente_indice = siguiente_indice_posible(bandera_actual);
 	saltar_a_bandera(siguiente_indice);
-	return sched.tareas[siguiente_indice].bandera;
+	return siguiente_indice;
+}
+
+unsigned short clock(){
+	int NEXT_INDEX = 0;
+	if(sched.TASKS_UP > 0){
+		if(sched.CONTEXTO == 0){
+			sched.QUANTUM_RESTANTE--;			//Si estoy en contexto de tareas entonces me interesa saber del quantum restante.
+			if(sched.QUANTUM_RESTANTE == 0){
+				NEXT_INDEX = sched_proxima_bandera();
+				sched.CONTEXTO = 1;
+				sched.BANDERA_ACTUAL = NEXT_INDEX;
+				return sched.tareas[NEXT_INDEX].bandera;
+			}else{
+				NEXT_INDEX = sched_proximo_indice();
+				sched.TAREA_ACTUAL = NEXT_INDEX;
+				return sched.tareas[NEXT_INDEX].tarea;
+			}
+		}else{
+			if(sched_proxima_bandera() == sched.BANDERA_ACTUAL){
+				NEXT_INDEX = sched_proximo_indice();
+				sched.TAREA_ACTUAL = NEXT_INDEX;
+				sched.CONTEXTO = 0;
+				restaurar_quantum();
+				return sched.tareas[NEXT_INDEX].tarea;
+			}else{
+				NEXT_INDEX = sched_proxima_bandera();
+				sched.BANDERA_ACTUAL =  NEXT_INDEX;
+				return sched.tareas[NEXT_INDEX].bandera;
+			}
+		}		
+	}else{
+		return sched.tareas[INDICE_IDLE].tarea;
+	}
+}
+
+void bandera(){
+	if(sched.CONTEXTO == 1){
+		saltar_idle();
+	}else{
+		desalojar_tarea();
+	}
 }

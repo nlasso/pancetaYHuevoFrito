@@ -21,12 +21,15 @@ extern cambiar_pantalla
 extern mmu_mapear_pagina
 extern canionear
 extern navegar
+extern anclar
 
 ;;SCHED
 extern restar_quantum
 extern dame_tarea_actual
 extern desalojar_tarea
 extern saltar_idle
+extern clock
+extern bandera
 
 ;;SCREEN ERROR RELATED
 extern print_error
@@ -40,7 +43,9 @@ extern estado_error
 global jump_idle
 jump_idle:
     pushad
-    jmp GDT_IDLE:0x0
+    mov ax, GDT_IDLE
+    mov [selector], ax
+    jmp far [offset]
     popad
     iret
 
@@ -119,7 +124,8 @@ reloj_numero:           dd 0x00000000
 reloj:                  db '|/-\'
 numeros_msj:            db '1234567890'
 numeros_len equ         $ - numeros_msj
-segsel
+offset:                 dd 0
+selector:               dw 0
 
 
 ;;
@@ -171,8 +177,11 @@ screen_proximo_reloj:
     pushad
     CALL fin_intr_pic1
     CALL proximo_reloj
-    CALL restar_quantum              ;Decremento en uno el QUANTUM_RESTANTE
-
+    breakpoint
+    CALL clock
+    breakpoint
+    mov [selector], ax
+    jmp far [offset]
     popad
     sti
     ret
@@ -274,25 +283,17 @@ int_servicios:
     je .SYSTEM_NAVEGAR
 
     .SYSTEM_ANCLA:
-        mov eax, cr3
-        mov ecx, TASK_ANCLA
         push ebx
-        push eax
-        push ecx
-        call mmu_mapear_pagina
+        call anclar
         jmp .fin
 
     .SYSTEM_MISIL:
-        mov eax, cr3
-        push eax
         push ecx
         push ebx
         call canionear
     .SYSTEM_NAVEGAR:
-        mov eax, cr3
         push ecx
         push ebx
-        push eax
         call navegar
 .fin: 
     call saltar_idle
@@ -308,8 +309,7 @@ int_bandera:
     cli 
     pushad
     call fin_intr_pic1
-    mov eax, 0x42
-    call saltar_idle
+    call bandera
     popad
     sti
     ret

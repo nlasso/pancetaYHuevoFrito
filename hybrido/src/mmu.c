@@ -9,8 +9,11 @@
 #include "colors.h"
 extern char pantalla_actual;
 extern void print_texto(char *, int, int, char *, char);
-
-
+extern struct sched_t sched;
+extern void inicializar_pantalla_memoria();
+extern void print_mapa_from_gdt (int, int);
+extern void load_pantalla();
+extern void unprint_pg_mapa_from_gdt(int,int);
 
 //////////////////////////////////////////////////////////////////////////////////
 //																		//////////
@@ -39,6 +42,7 @@ void mmu_identity_maping() {
 	unsigned int x;
 	//Dejo pagedir en blanco
 	pagedir_entry *pagedir = (pagedir_entry *) MAINPAGEDIR;
+	TASK_PAG_DIR[0] = MAINPAGEDIR;
 	//Defino las dos tablas de paginas
 	pagetab_entry *pagetab1 = (pagetab_entry *) FIRSTPAGETAB;
 	pagetab_entry *pagetab2 = (pagetab_entry *) SECONDPAGETAB;
@@ -83,8 +87,7 @@ void mmu_identity_maping() {
 	long unsigned int mapeo; mapeo = TASK_CODE_SRC_ARRAY[ 0 ] ;
 	define_pagetab_entry(&pagetab3[0], _writable, _priviledge, mapeo);
 	define_pagetab_entry(&pagetab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA);
-	define_pagetab_entry(&pagetab3[3], _writable, _priviledge, PILALVLCERO);
-		
+	define_pagetab_entry(&pagetab3[3], _writable, _priviledge, PILALVLCERO);		
 }	
 
 void mmu_inicializar_tareas(){
@@ -92,6 +95,7 @@ void mmu_inicializar_tareas(){
 	unsigned int i = 0;
 	unsigned char _writable = 0; 
 	unsigned char _priviledge = 1;
+	int mar = 0x100000;
 	while(cont < CANT_TAREAS + 1){
 		//DEFINO PAGINAS
 		pagedir_entry * pgdir  = (pagedir_entry *)  LAST_MEMORY_FREE; 	
@@ -116,9 +120,16 @@ void mmu_inicializar_tareas(){
 		while(i < CANT_ENTRADAS + 1){bleach_pagetab_entry(&pgtab3[i]);i++;}
 		//defino la entrada
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
+		
+
 		long unsigned int mapeo = TASK_CODE_SRC_ARRAY[cont];
-		define_pagetab_entry(&pgtab3[0], _writable, _priviledge, mapeo );
-		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA );
+		//clonar_pagina(mapeo, mar);
+		define_pagetab_entry(&pgtab3[0], _writable, _priviledge, mar );
+		mar += TAMANO_PAGINA; 
+		mapeo += TAMANO_PAGINA;
+		//clonar_pagina(mapeo, mar);
+		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, 0x101000);
+		//mar += TAMANO_PAGINA; 
 		define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
 		define_pagetab_entry(&pgtab3[3], _writable, _priviledge, _pila0);
 
@@ -144,7 +155,7 @@ void define_pagetab_entry(pagetab_entry * tabla, unsigned char escritura,
 	    unsigned char privilegio, unsigned long base){  
 	    (*tabla).present = 1;       
 	    //NOTA: NO SE UQE VA EN PAGE_ATTRIBUTE_INDEX NI EN GLOBAL
-	    (*tabla).dirbase_12_31 = base >> 12;
+	    (*tabla).dirbase_12_31 = (base >> 12);
 	    (*tabla).priviledge = privilegio;             
 	    (*tabla).writable = escritura;
 }
@@ -168,16 +179,7 @@ void bleach_pagetab_entry(pagetab_entry * tabla){// setea todo en 0
     (*tabla).dirbase_12_31 = 0x00000;
 }
 
-/*unsigned int get_pagedir_entry_fisica(long unsigned int virtual, pagedir_entry * cr3){
-	long unsigned int virtual_0_11 = virtual & 0x3FF;
-	pagetab_entry * descriptor = get_descriptor(virtual, cr3);
-	long unsigned int fisica = 0x00;
-	fisica += (*descriptor).dirbase_12_31 << 12;;
-	fisica += virtual_0_11;
-	return fisica;
-}*/
-
-pagetab_entry * get_descriptor(long unsigned int virtual, long unsigned int cr3){
+pagetab_entry * get_descriptor(unsigned int virtual, unsigned int cr3){
 	long unsigned int virtual_22_31 = virtual;
 	virtual_22_31 = virtual_22_31 >> 22;
 	long unsigned int virtual_12_21 = virtual;
@@ -194,14 +196,16 @@ pagetab_entry * get_descriptor(long unsigned int virtual, long unsigned int cr3)
 	return (& tabla[virtual_12_21]);
 };
 
-int get_pagina_fisica(int tarea, int pagina){ //SOLO SE PUEDE USAR DESPUES DE INICIALIZAR
-	long unsigned int cr3 = TASK_PAG_DIR[tarea];
-	long unsigned int virtual = 0x40000000;
-	if(pagina == 1 )  virtual = 0x40001000;
-	if(pagina == 2 )  virtual = 0x40002000;
-	pagetab_entry * descriptor = get_descriptor (virtual, cr3);
+int get_pagina_fisica(int cr3, int dir_virtual){ //SOLO SE PUEDE USAR DESPUES DE INICIALIZAR
+	pagetab_entry * descriptor = get_descriptor (dir_virtual, cr3);
 	int answer = (* descriptor).dirbase_12_31 << 12;
 	return answer;
+}
+
+int get_pagina_fisica_tarea(int tarea, int pagina){ //SOLO SE PUEDE USAR DESPUES DE INICIALIZAR
+	unsigned int cr3 = TASK_PAG_DIR[tarea];
+	unsigned int virtual = 0x40000000 + (pagina*0x1000);
+	return get_pagina_fisica(cr3, virtual);
 }
 
 void mmu_mapear_pagina(unsigned int virtual, unsigned int cr3, unsigned int fisica){
@@ -217,27 +221,71 @@ void mmu_unmapear_pagina(unsigned int virtual, unsigned int cr3){
 	bleach_pagetab_entry(descriptor);
 };
 
-void canionear(unsigned int posicion_apuntada, unsigned int* buffer, int cr3){
-	pagetab_entry* page_tab = get_descriptor(posicion_apuntada, cr3);
-	unsigned int* page_frame_base = (unsigned int*)(page_tab->dirbase_12_31 && 0xFFFFF000) + (posicion_apuntada && 0xFFF);
-	if(page_frame_base >= (unsigned int*) 0x100){
-		int i = 0;
-		for(i = 0; i < 0x97; i++){
-			page_frame_base[i] = buffer[i];
-		}
-	}
+void canionear(unsigned int posicion_apuntada, unsigned int* buffer){
+	//varialbes
+	int tarea = sched.TAREA_ACTUAL;
+	unsigned int cr3 = TASK_PAG_DIR[tarea];
+	int temp= 0x40004000;
+	//
+	mmu_mapear_pagina(temp,cr3, posicion_apuntada); 
+	unsigned int* destino = (unsigned int*) temp;
+	int i = 0;
+	while(i<97){destino[i] = buffer[i]; i++;}
+	// hago que el descriptor apunte a la copia
+	mmu_unmapear_pagina(temp, cr3);
+
+	
+	load_pantalla();
+
+	//inicializar_pantalla_memoria();	
 }
 
-void navegar(unsigned int cr3, unsigned int posicion_codigo1, unsigned int posicion_codigo2){
-	unsigned int* page_tab = (unsigned int*)((get_descriptor(posicion_codigo1,cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
-	unsigned int* page_tab2 = (unsigned int*)((get_descriptor(posicion_codigo2,cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
-	unsigned int* pagina_codigo1 = (unsigned int*)((get_descriptor(TASK_CODE, cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
-	unsigned int* pagina_codigo2 = (unsigned int*)((get_descriptor(TASK_CODE2, cr3)->dirbase_12_31 << 12) && 0xFFFFF000);
+void anclar(unsigned int destino){
+	int tarea = sched.TAREA_ACTUAL;
+	unsigned int cr3 = TASK_PAG_DIR[tarea];
+	int temp =  0x40002000;
+	mmu_mapear_pagina(temp,cr3, destino); 
+
+}
+
+void navegar(unsigned int destino1, unsigned int destino2){
+	if((destino1 > 0x100000) && (destino2 > 0x100000)){
+		int tarea_actual = sched.TAREA_ACTUAL;
+		reubicar_pagina(tarea_actual, 0, destino1);
+		reubicar_pagina(tarea_actual, 1, destino2);
+	}		
+}
+
+void reubicar_pagina(unsigned int tarea, unsigned int numero_pagina, unsigned int destino){
+	//varialbes
+
+	unsigned int cr3 = TASK_PAG_DIR[tarea];
+	int pg =  0x40000000 + 0x1000 * numero_pagina; 
+	int temp= 0x40004000;
+	// Borro lo que esta impreso en pantalla
+	unprint_pg_mapa_from_gdt(tarea, 0);
+	unprint_pg_mapa_from_gdt(tarea, 1);
+	unprint_pg_mapa_from_gdt(tarea, 2);
+	// preparo el descriptor dummy para la copia
+	mmu_mapear_pagina(		temp,cr3, destino); 
+	// copio la informacion
+	clonar_pagina(pg, temp);	
+	// hago que el descriptor apunte a la copia
+	mmu_mapear_pagina(pg, cr3, destino);
+	mmu_unmapear_pagina(temp, cr3);
+
+	print_mapa_from_gdt(tarea,numero_pagina);
+	
+	load_pantalla();
+	//inicializar_pantalla_memoria();	
+}
+
+void clonar_pagina(unsigned int origen, unsigned int destino){
+	int* pag_origen = (int*)(origen);
+	int* pag_destino= (int*)(destino);
 	int i = 0;
-	for(i=0; i< TAMANO_PAGINA; i++){
-		page_tab[i] = pagina_codigo1[i];
-		page_tab2[i] = pagina_codigo2[i];
-	}
-	mmu_mapear_pagina(TASK_CODE,cr3,posicion_codigo1);
-	mmu_mapear_pagina(TASK_CODE2, cr3, posicion_codigo2);
+	while(i < 1024){
+		//(*pag_dest).line[i] = (*pag_orig).line[i]; 
+		pag_destino[i] = pag_origen[i]; 
+		i++;}
 }
