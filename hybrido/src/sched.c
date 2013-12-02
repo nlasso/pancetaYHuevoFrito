@@ -38,7 +38,6 @@ void sched_inicializar() {
 		tarea_struct.bandera = (indices_banderas[i] << 3) + 0x03;
 		tarea_struct.estado = 1;
 		tarea_struct.indice = i + 1;
-
 		sched.tareas[i + 1] = tarea_struct;
 	}
 	sched.QUANTUM_RESTANTE = QUANTUM_TAREA;

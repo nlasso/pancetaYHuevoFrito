@@ -93,14 +93,14 @@ void idt_inicializar() {
 
     idt[INTSERVICIOS].offset_0_15 = (unsigned short) ((unsigned int)(&int_servicios) & (unsigned int) 0xFFFF);
     idt[INTSERVICIOS].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);    // HAY QUE CAMBIAR ESTO
-    idt[INTSERVICIOS].attr = (unsigned short) 0x8E00; // HAY QUE CAMBIAR ESTO
+    idt[INTSERVICIOS].attr = (unsigned short) 0xEE00; // DPL = 3 poque las llaman las tareas
     idt[INTSERVICIOS].offset_16_31 = (unsigned short) ((unsigned int)(&int_servicios) >> 16 & (unsigned int) 0xFFFF);
 
     //Interrupcion de bandera.
 
     idt[INTBANDERA].offset_0_15 = (unsigned short) ((unsigned int)(&int_bandera) & (unsigned int) 0xFFFF);
     idt[INTBANDERA].segsel = (unsigned short) (GDT_IDX_CODE_0 * 8);      // HAY QUE CAMBIAR ESTO
-    idt[INTBANDERA].attr = (unsigned short) 0x8E00; // HAY QUE CAMBIAR ESTO
+    idt[INTBANDERA].attr = (unsigned short) 0xEE00; // DPL = 3 porque la llaman las tareas.
     idt[INTBANDERA].offset_16_31 = (unsigned short) ((unsigned int)(&int_bandera) >> 16 & (unsigned int) 0xFFFF);
 }
 

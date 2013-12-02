@@ -37,20 +37,6 @@ extern print_tablaerror
 extern estado_error
 
 ;;
-;; Funciones Auxiliares
-;; -------------------------------------------------------------------------- ;;
-
-global jump_idle
-jump_idle:
-    pushad
-    mov ax, GDT_IDLE
-    mov [selector], ax
-    jmp far [offset]
-    popad
-    iret
-
-
-;;
 ;; Definición de MACROS
 ;; -------------------------------------------------------------------------- ;;
 
@@ -126,6 +112,19 @@ numeros_msj:            db '1234567890'
 numeros_len equ         $ - numeros_msj
 offset:                 dd 0
 selector:               dw 0
+
+;;
+;; Funciones Auxiliares
+;; -------------------------------------------------------------------------- ;;
+
+global jump_idle
+jump_idle:
+    pushad
+    mov ax, GDT_IDLE
+    mov [selector], ax
+    jmp far [offset]
+    popad
+    iret
 
 
 ;;

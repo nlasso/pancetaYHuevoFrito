@@ -119,7 +119,6 @@ Modo_protegido:
     imprimir_texto_mp iniciando_mp_msg, iniciando_mp_len, 0x07, 4, 3
 
     call screen_en_negro
-    ;breakpoint
     call inicializar_pantalla
     ;call load_pantalla
     ;breakpoint
@@ -143,7 +142,6 @@ Modo_protegido:
     ;; imprimir el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
     call inicializar_pantalla_memoria
-    breakpoint
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas
     ;; ---------------------------------------------------------------------- ;;
@@ -157,7 +155,6 @@ Modo_protegido:
     mov eax, cr0
     or eax, 0x80000000
     mov cr0, eax
-    breakpoint;
 
     ; inicializar tarea idle
 
@@ -169,19 +166,12 @@ Modo_protegido:
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
 
-    ; inicializar el scheduler
-    breakpoint
+    ; inicializar el schedule
+ 
     mov eax, [TASK_PAG_DIR+4]
     mov cr3, eax
-    breakpoint
-    breakpoint
-    breakpoint
-    breakpoint
     mov eax, [TASK_PAG_DIR]
     mov cr3, eax
-    breakpoint
-    breakpoint
-    breakpoint
 
 
     CALL sched_inicializar
@@ -195,7 +185,7 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
-    breakpoint
+    
 
     mov ax, GDT_INICIAL
     ltr ax
