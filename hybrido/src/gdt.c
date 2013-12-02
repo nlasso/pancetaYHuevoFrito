@@ -154,9 +154,9 @@ gdt_entry generate_gdt_tss(long unsigned int dir_tss){
     /*  .base_0_15        =   0x0000,   */
     .base_0_15        =   dir_tss & 0xFFFF,
     /*  .base_16_23       =   0x00  , */
-    .base_16_23       =   (dir_tss << 16) & 0xFF  ,
+    .base_16_23       =   (dir_tss >> 16) & 0xFF  ,
     /*  .base_24_31       =   0x00  ,  */
-    .base_24_31       =   (dir_tss << 24)  ,
+    .base_24_31       =   (dir_tss >> 24)  ,
     .limit_0_15       =   0x0067,
     .limit_16_19      =   0x0,             // 0x68
     .type             =   0x9,             //tss no busy             
