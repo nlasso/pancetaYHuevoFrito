@@ -163,12 +163,17 @@ Modo_protegido:
     call gdt_set_tss
     call tss_inicializar
 
+
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
 
     ; inicializar el scheduler
     mov eax, [TASK_PAG_DIR+4]
     mov cr3, eax
+    breakpoint
+    mov eax, [TASK_PAG_DIR]
+    mov cr3, eax
+    breakpoint
 
 
     CALL sched_inicializar

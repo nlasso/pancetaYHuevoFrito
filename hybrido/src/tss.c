@@ -80,19 +80,19 @@ void tss_tareas_inicializar(){
     long unsigned int pos_codigo; 
     long unsigned int pos_pila0;
     while(num_task - 1 < CANT_TAREAS){
-    	tss task = tss_navios[num_task-1];
-    	tss bandera = tss_banderas[num_task-1];
+    	tss* task = &(tss_navios[num_task-1]);
+    	tss* bandera = &(tss_banderas[num_task-1]);
 
         pos_dir = TASK_PAG_DIR[num_task];
         pos_codigo = POSVIRTUAL_TAREAS; 
         pos_pila0 = POSVIRTUAL_TAREAS + (TAMANO_PAGINA * 3);
 
-        definir_tss(  &task , pos_dir, pos_pila0, pos_codigo, 3);
+        definir_tss(task , pos_dir, pos_pila0, pos_codigo, 3);
 
         pos_codigo += TAMANO_PAGINA;
         pos_pila0  += (TAMANO_PAGINA/2);
 
-        definir_tss(&bandera, pos_dir, pos_pila0, pos_codigo, 3);
+        definir_tss(bandera, pos_dir, pos_pila0, pos_codigo, 3);
 
         num_task++;
     }
