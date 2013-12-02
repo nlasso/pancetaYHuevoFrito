@@ -92,7 +92,7 @@ void inicializar_pantalla(){
 	x1 = 0; x2 = 79; y1= 0; y2 = 2;
 	print_cuadrado(buffer, (C_FG_BLACK | C_BG_GREEN), x1, y1, x2, y2);
 	x1 = 0; x2 = 79; y1= 3; y2 = 24;
-	print_cuadrado(buffer, (C_FG_BLACK | C_BG_BLUE), x1, y1, x2, y2);
+	print_cuadrado(buffer, (C_FG_RED | C_BG_BLUE), x1, y1, x2, y2);
 	x1 = 0; x2 = 15; y1= 3; y2 = 3;
 	print_cuadrado(buffer, (C_FG_BLACK | C_BG_GREEN), x1, y1, x2, y2);
 
@@ -101,7 +101,7 @@ void inicializar_pantalla(){
 	print_missil_cord(257);
 	print_missil_cord(258);
 
-	//cambiar_pantalla(SCREENMAPA);
+	cambiar_pantalla(SCREENMAPA);
 	load_pantalla();
 
 	/*cambiar_pantalla(SCREENMAPA);
@@ -128,6 +128,8 @@ void inicializar_pantalla_memoria(){ //NECESITA QUE ESTE DEFINIDA LA GDT PARA FU
 	print_mapa_from_gdt(6);
 	print_mapa_from_gdt(7);
 	print_mapa_from_gdt(8);
+
+	load_pantalla();
 
 }
 
@@ -287,9 +289,9 @@ void print_tablatar(int tarea, int pg1, int pg2, int pg3){
 }
 
 void print_tablatar_from_gdt(int tarea){
-	int pg0 = get_pagina_fisica(tarea,0);
-	int pg1 = get_pagina_fisica(tarea,1);
-	int pg2 = get_pagina_fisica(tarea,2);
+	int pg0 = get_pagina_fisica_tarea(tarea,0);
+	int pg1 = get_pagina_fisica_tarea(tarea,1);
+	int pg2 = get_pagina_fisica_tarea(tarea,2);
 	print_tablatar(tarea,pg0,pg1,pg2);
 
 };
@@ -309,9 +311,9 @@ void print_tablatar_error(int tarea, int num_error){
 ////// Mapa 
 
 void print_mapa_from_gdt(int tarea){
-	int pg0 = get_pagina_fisica(tarea,0);
-	int pg1 = get_pagina_fisica(tarea,1);
-	int pg2 = get_pagina_fisica(tarea,2);
+	int pg0 = get_pagina_fisica_tarea(tarea,0);
+	int pg1 = get_pagina_fisica_tarea(tarea,1);
+	int pg2 = get_pagina_fisica_tarea(tarea,2);
 	print_pg_mapa(tarea, pg0);
 	print_pg_mapa(tarea, pg1);
 	print_pg_mapa(tarea, pg2);
@@ -336,7 +338,7 @@ void print_numero_mapa_cord(int cordenada){
 void print_numero_mapa(int x, int y){print_numero_mapa_cord(pos(x,y));};
 
 void unprint_pg_mapa_from_gdt(int tarea, int pagina){
-	int pgdir = get_pagina_fisica(tarea,pagina);
+	int pgdir = get_pagina_fisica_tarea(tarea,pagina);
 	int pgcord = dir_a_cord(pgdir);
 	char uso = (* map_uses)[pgcord];
 	if(uso > 0 ){ //Este IF nos permite unprint si no hubo prints
