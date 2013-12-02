@@ -40,7 +40,7 @@ void sched_inicializar() {
 		tarea_struct.indice = i + 1;
 		sched.tareas[i + 1] = tarea_struct;
 	}
-	sched.QUANTUM_RESTANTE = QUANTUM_TAREA;
+	sched.QUANTUM_RESTANTE = QUANTUM_TAREA + 1;
 	sched.TAREA_ACTUAL = INDICE_IDLE;
 	sched.CONTEXTO = 0;
 	sched.BANDERA_ACTUAL = 0;
