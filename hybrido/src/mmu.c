@@ -123,13 +123,13 @@ void mmu_inicializar_tareas(){
 		
 
 		long unsigned int mapeo = TASK_CODE_SRC_ARRAY[cont];
-		clonar_pagina(mapeo, mar);
+		//clonar_pagina(mapeo, mar);
 		define_pagetab_entry(&pgtab3[0], _writable, _priviledge, mar );
 		mar += TAMANO_PAGINA; 
 		mapeo += TAMANO_PAGINA;
-		clonar_pagina(mapeo, mar);
-		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mar);
-		mar += TAMANO_PAGINA; 
+		//clonar_pagina(mapeo, mar);
+		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, 0x101000);
+		//mar += TAMANO_PAGINA; 
 		define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
 		define_pagetab_entry(&pgtab3[3], _writable, _priviledge, _pila0);
 
@@ -155,7 +155,7 @@ void define_pagetab_entry(pagetab_entry * tabla, unsigned char escritura,
 	    unsigned char privilegio, unsigned long base){  
 	    (*tabla).present = 1;       
 	    //NOTA: NO SE UQE VA EN PAGE_ATTRIBUTE_INDEX NI EN GLOBAL
-	    (*tabla).dirbase_12_31 = base >> 12;
+	    (*tabla).dirbase_12_31 = (base >> 12);
 	    (*tabla).priviledge = privilegio;             
 	    (*tabla).writable = escritura;
 }

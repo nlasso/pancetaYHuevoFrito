@@ -165,6 +165,7 @@ Modo_protegido:
     call gdt_set_tss
     call tss_inicializar
 
+
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
 
@@ -174,6 +175,14 @@ Modo_protegido:
     mov cr3, eax
     breakpoint
     breakpoint
+    breakpoint
+    breakpoint
+    mov eax, [TASK_PAG_DIR]
+    mov cr3, eax
+    breakpoint
+    breakpoint
+    breakpoint
+
 
     CALL sched_inicializar
 
