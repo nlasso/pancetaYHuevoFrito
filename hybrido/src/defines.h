@@ -75,6 +75,7 @@
 
 #define BUFFERESTADO			0X0002E000
 #define BUFFERMAPA				0X0002F000
+#define BUFFERUSOS				0x00090000 
 
 #define MAINPAGEDIR 			0x00027000   /* direccion fisica del primer page dir */
 #define FIRSTPAGETAB 			0x00028000   /* direccion fisica del primer page tab */

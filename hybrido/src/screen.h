@@ -18,7 +18,7 @@ typedef struct str_estado_de_tarea{
 screen* DISPLAY = (screen *)(VIDEO);
 screen* ESTADO = (screen *)(BUFFERESTADO);
 screen* MAPA = (screen*)(BUFFERMAPA);
-mpus* map_uses = (mpus*) (BUFFERMAPA + (80*25*2));
+mpus* map_uses = (mpus*) (BUFFERUSOS);
 pixel* ultimo_missil = (pixel*) (0x0);
 char pantalla_actual = 1 ;
 estado_task estado_error;

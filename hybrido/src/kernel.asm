@@ -167,13 +167,12 @@ Modo_protegido:
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
 
-    ; inicializar el scheduler
+    ; inicializar el schedule
+ 
     mov eax, [TASK_PAG_DIR+4]
     mov cr3, eax
-    breakpoint
     mov eax, [TASK_PAG_DIR]
     mov cr3, eax
-    breakpoint
 
 
     CALL sched_inicializar
@@ -187,7 +186,7 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
-    breakpoint
+    
 
     mov ax, GDT_INICIAL
     ltr ax

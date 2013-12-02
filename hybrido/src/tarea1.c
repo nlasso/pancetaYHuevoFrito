@@ -34,6 +34,7 @@ unsigned char * bandera();
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
+    while(1){}    
     /* Tarea 1 */
     unsigned int i=0;
     while(1) {
