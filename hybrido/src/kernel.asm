@@ -17,6 +17,7 @@ extern GDT_DESC
 ;; MMU
 extern mmu_inicializar
 extern mmu_primeraPagina
+extern mmu_tareas_a_mar
 
 ;; IDT
 extern IDT_DESC
@@ -172,10 +173,6 @@ Modo_protegido:
     mov eax, [TASK_PAG_DIR+4]
     mov cr3, eax
     breakpoint
-    push 0x00103000
-    push 0x00000000
-    push 0x00000001
-    call reubicar_pagina;
     breakpoint
 
     CALL sched_inicializar

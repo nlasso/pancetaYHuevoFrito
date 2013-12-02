@@ -57,7 +57,7 @@ void navegar(unsigned int, unsigned int);
 void anclar(unsigned int);
 void reubicar_pagina(unsigned int, unsigned int, unsigned int);
 void clonar_pagina(unsigned int, unsigned int);
-
+void mmu_tareas_a_mar();
 
 //NECESITO REPETIR LA ESTRUCTURA DEL SCHEDULE_T PARA QUE ME PERMITA TRAER LA VARIALBE DE OTRO LADO
 

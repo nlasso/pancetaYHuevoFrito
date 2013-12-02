@@ -95,6 +95,7 @@ void mmu_inicializar_tareas(){
 	unsigned int i = 0;
 	unsigned char _writable = 0; 
 	unsigned char _priviledge = 1;
+	int mar = 0x100000;
 	while(cont < CANT_TAREAS + 1){
 		//DEFINO PAGINAS
 		pagedir_entry * pgdir  = (pagedir_entry *)  LAST_MEMORY_FREE; 	
@@ -119,9 +120,16 @@ void mmu_inicializar_tareas(){
 		while(i < CANT_ENTRADAS + 1){bleach_pagetab_entry(&pgtab3[i]);i++;}
 		//defino la entrada
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
+		
+
 		long unsigned int mapeo = TASK_CODE_SRC_ARRAY[cont];
-		define_pagetab_entry(&pgtab3[0], _writable, _priviledge, mapeo );
-		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mapeo + TAMANO_PAGINA );
+		clonar_pagina(mapeo, mar);
+		define_pagetab_entry(&pgtab3[0], _writable, _priviledge, mar );
+		mar += TAMANO_PAGINA; 
+		mapeo += TAMANO_PAGINA;
+		clonar_pagina(mapeo, mar);
+		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mar);
+		mar += TAMANO_PAGINA; 
 		define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
 		define_pagetab_entry(&pgtab3[3], _writable, _priviledge, _pila0);
 
@@ -250,6 +258,7 @@ void navegar(unsigned int destino1, unsigned int destino2){
 
 void reubicar_pagina(unsigned int tarea, unsigned int numero_pagina, unsigned int destino){
 	//varialbes
+
 	unsigned int cr3 = TASK_PAG_DIR[tarea];
 	int pg =  0x40000000 + 0x1000 * numero_pagina; 
 	int temp= 0x40004000;
