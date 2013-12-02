@@ -123,7 +123,7 @@ void mmu_inicializar_tareas(){
 		i = 1;
 		while(i < CANT_ENTRADAS + 1){bleach_pagetab_entry(&pgtab3[i]);i++;}
 		//defino la entrada
-		unsigned char _priviledge = 3;
+		_priviledge = 3;
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
 		
 
