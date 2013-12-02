@@ -85,12 +85,16 @@ void tss_tareas_inicializar(){
 
         pos_dir = TASK_PAG_DIR[num_task];
         pos_codigo = POSVIRTUAL_TAREAS; 
-        pos_pila0 = POSVIRTUAL_TAREAS + (TAMANO_PAGINA * 3);
+        //ESTO PUEDE ESTAR MAL
+        //ESTO PUEDE ESTAR MAL
+        //ESTO PUEDE ESTAR MAL
+        //ESTO PUEDE ESTAR MAL
+        pos_pila0 = POSVIRTUAL_TAREAS + (TAMANO_PAGINA * 4);
 
         definir_tss(task , pos_dir, pos_pila0, pos_codigo, 3);
 
         pos_codigo += TAMANO_PAGINA;
-        pos_pila0  += (TAMANO_PAGINA/2);
+        pos_pila0  -= (TAMANO_PAGINA/2);
 
         definir_tss(bandera, pos_dir, pos_pila0, pos_codigo, 3);
 
@@ -107,7 +111,7 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
     (*task).esp0 = _esp0;
 
     //CONSTANTES
-    (*task).ss0 = GDT_IDX_DATA_0 * 8;
+    (*task).ss0 = GDT_IDX_DATA_0 << 3; 
     (*task).esp = POSVIRTUAL_TAREAS + 0X1C00;//la catedra lo define asi
     (*task).ebp = (*task).esp;
 

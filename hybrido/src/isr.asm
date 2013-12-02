@@ -46,7 +46,8 @@ global _isr%1
 _isr%1:
     ;cli
     pushad
-    ;breakpoint
+    breakpoint
+    mov cx, %1
     mov eax, 1
     mov [estado_error], eax
     mov ax, 2
@@ -122,8 +123,8 @@ jump_idle:
     pushad
     mov ax, GDT_IDLE
     mov [selector], ax
-    jmp far [offset]
     popad
+    jmp far [offset]
     iret
 
 
@@ -176,12 +177,11 @@ screen_proximo_reloj:
     pushad
     CALL fin_intr_pic1
     CALL proximo_reloj
-    breakpoint
     CALL clock
     breakpoint
     mov [selector], ax
-    jmp far [offset]
     popad
+    jmp far [offset]
     sti
     ret
 

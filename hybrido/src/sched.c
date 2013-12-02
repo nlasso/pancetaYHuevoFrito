@@ -111,7 +111,6 @@ unsigned int sched_proximo_indice() {
 	unsigned int tarea_actual = sched.TAREA_ACTUAL;
 	tarea_actual++;
 	unsigned int siguiente_indice = siguiente_indice_posible(tarea_actual);
-	saltar_a_tarea(siguiente_indice);			//VERIFICAR: Tengo que saltar si o si??
     return siguiente_indice;
 }
 
@@ -120,7 +119,6 @@ unsigned int sched_proxima_bandera(){
 	unsigned int bandera_actual = sched.BANDERA_ACTUAL;
 	bandera_actual++;
 	unsigned int siguiente_indice = siguiente_indice_posible(bandera_actual);
-	saltar_a_bandera(siguiente_indice);
 	return siguiente_indice;
 }
 
@@ -132,23 +130,24 @@ unsigned short clock(){
 			if(sched.QUANTUM_RESTANTE == 0){
 				NEXT_INDEX = sched_proxima_bandera();
 				sched.CONTEXTO = 1;
-				sched.BANDERA_ACTUAL = NEXT_INDEX;
+				saltar_a_bandera(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].bandera;
 			}else{
 				NEXT_INDEX = sched_proximo_indice();
-				sched.TAREA_ACTUAL = NEXT_INDEX;
+				saltar_a_tarea(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].tarea;
 			}
 		}else{
 			if(sched_proxima_bandera() == sched.BANDERA_ACTUAL){
 				NEXT_INDEX = sched_proximo_indice();
-				sched.TAREA_ACTUAL = NEXT_INDEX;
+				saltar_a_tarea(NEXT_INDEX);
 				sched.CONTEXTO = 0;
+				sched.BANDERA_ACTUAL = 0;
 				restaurar_quantum();
 				return sched.tareas[NEXT_INDEX].tarea;
 			}else{
 				NEXT_INDEX = sched_proxima_bandera();
-				sched.BANDERA_ACTUAL =  NEXT_INDEX;
+				saltar_a_bandera(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].bandera;
 			}
 		}		
