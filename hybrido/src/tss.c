@@ -115,11 +115,16 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
     long unsigned int DATA;
     long unsigned int CODE;
 
-    if(_priviledge == 3){   DATA = GDT_IDX_DATA_3; CODE = GDT_IDX_CODE_3;
-    }else{                  DATA = GDT_IDX_DATA_0; CODE = GDT_IDX_CODE_0;}
+    if(_priviledge == 3){   
+        DATA = (GDT_IDX_DATA_3 << 3) + 0x03; 
+        CODE = (GDT_IDX_CODE_3 << 3) + 0x03;
+    }else{                  
+        DATA = (GDT_IDX_DATA_0 << 3); 
+        CODE = (GDT_IDX_CODE_0 << 3);
+    }
  //   DATA = GDT_IDX_DATA_0; 
  //   CODE = GDT_IDX_CODE_0;
-    DATA *= 8; CODE *= 8;
+    //DATA *= 8; CODE *= 8;
 
     (*task).cs = CODE;
     (*task).ds = DATA;
