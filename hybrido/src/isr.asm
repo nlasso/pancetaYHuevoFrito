@@ -122,8 +122,8 @@ jump_idle:
     pushad
     mov ax, GDT_IDLE
     mov [selector], ax
-    jmp far [offset]
     popad
+    jmp far [offset]
     iret
 
 
@@ -176,12 +176,11 @@ screen_proximo_reloj:
     pushad
     CALL fin_intr_pic1
     CALL proximo_reloj
-    breakpoint
     CALL clock
     breakpoint
     mov [selector], ax
-    jmp far [offset]
     popad
+    jmp far [offset]
     sti
     ret
 

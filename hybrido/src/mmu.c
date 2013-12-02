@@ -97,9 +97,10 @@ void mmu_identity_maping() {
 void mmu_inicializar_tareas(){
 	unsigned int cont = 1;
 	unsigned int i = 0;
-	unsigned char _writable = 0; 
+	unsigned char _writable; 
 	unsigned char _priviledge;
 	while(cont < CANT_TAREAS + 1){
+		_writable = 0; 
 		//DEFINO PAGINAS
 		pagedir_entry * pgdir  = (pagedir_entry *)  LAST_MEMORY_FREE; 	
 		TASK_PAG_DIR[cont] = LAST_MEMORY_FREE;
@@ -112,13 +113,12 @@ void mmu_inicializar_tareas(){
 		LAST_MEMORY_FREE += TAMANO_PAGINA;
 
 		//IDENTITY MAPPING YA DEFINIDO
-		_priviledge = 0;
 		i = 1;
 		while(i < CANT_ENTRADAS){
 			bleach_pagedir_entry(&pgdir[i]); 
 			i++;
 		}
-		
+		_priviledge = 0;
 		define_pagedir_entry(&pgdir[0], _writable, _priviledge, (long unsigned int) pgtab);//Defino pagedir apuntando a la primera pagina
 		define_pagedir_entry(&pgdir[1], _writable, _priviledge, (long unsigned int) pgtab2);//Defino pagedir apuntando a la segunda pagina
 
@@ -130,7 +130,7 @@ void mmu_inicializar_tareas(){
 			i++;
 		}
 		//defino la entrada
-		_priviledge = 3;
+		_priviledge = 1;
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
 		
 
@@ -144,6 +144,7 @@ void mmu_inicializar_tareas(){
 		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mar);
 		//mar += TAMANO_PAGINA; 
 		define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
+		_priviledge = 0;
 		define_pagetab_entry(&pgtab3[3], _writable, _priviledge, _pila0);
 
 		//FIN LOOP
