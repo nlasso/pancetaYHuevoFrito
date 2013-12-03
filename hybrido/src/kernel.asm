@@ -45,7 +45,7 @@ extern sched_inicializar
 
 ;;TEST  STUFF
 extern reubicar_pagina;
-extern TASK_PAG_DIR;
+extern TASK_CR3;
 
 ;; Saltear seccion de datos
 jmp start
@@ -150,7 +150,7 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
     ;; ---------------------------------------------------------------------- ;;
-    mov eax, [TASK_PAG_DIR]
+    mov eax, [TASK_CR3]
     mov cr3, eax
     mov eax, cr0
     or eax, 0x80000000
@@ -168,9 +168,9 @@ Modo_protegido:
 
     ; inicializar el schedule
  
-    mov eax, [TASK_PAG_DIR+4]
+    mov eax, [TASK_CR3+4]
     mov cr3, eax
-    mov eax, [TASK_PAG_DIR]
+    mov eax, [TASK_CR3]
     mov cr3, eax
 
 

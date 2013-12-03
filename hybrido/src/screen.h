@@ -83,7 +83,7 @@ void inicializar_pantalla_memoria();
 
 void print_tablaerror();
 void print_tablatar(int, int, int, int);
-void print_tablatar_from_gdt(int);
+void print_tablatar_tarea(int);
 void print_tablatar_error(int, int);
 
 void print_texto_cord(screen *, char *, int );
@@ -100,8 +100,8 @@ void print_estado_bandera(int, char *);
 int bandera_posicion_y(int);*/
 void print_mapa_mem(long, char, char);
 void print_error(char);
-void print_mapa_from_gdt(int);
-void print_pg_mapa(int, int);
+void print_mapa_tarea(int);
+void print_pg_en_mapa(int, int);
 void unprint_pg_mapa_from_gdt(int, int);
 void print_numero_mapa_cord(int);
 //void print_bandera(int tarea, char * origen);

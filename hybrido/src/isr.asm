@@ -93,6 +93,7 @@ _isr%1:
     call print_error
     pop  ax
     call desalojar_tarea
+    call saltar_idle        ;VERIFICAR: esto. Debería saltar en cualquier error a IDLE.
     popad
     CALL load_pantalla;
     sti
@@ -177,15 +178,12 @@ screen_proximo_reloj:
     CALL fin_intr_pic1
     CALL proximo_reloj
     CALL clock
-    cmp eax, 0
-    je .fin
     breakpoint
     mov [selector], ax
     jmp far [offset]
-.fin
     popad
     sti
-    iret
+    ret
 
 ;;
 ;; Rutina de atención del TECLADO
@@ -264,7 +262,7 @@ fin_teclado:
     call fin_intr_pic1
     popad
     sti
-    iret
+    ret
 
 
 ;;
@@ -274,34 +272,33 @@ global int_servicios
 int_servicios:
     cli 
     push edx
+    call fin_intr_pic1
+    call desalojar_tarea
     cmp eax, ANCLA
     je .SYSTEM_ANCLA
     cmp eax, MISIL
     je .SYSTEM_MISIL
     cmp eax, NAVEGAR
     je .SYSTEM_NAVEGAR
-    jmp .fin
+
     .SYSTEM_ANCLA:
         push ebx
         call anclar
-        call desalojar_tarea
         jmp .fin
+
     .SYSTEM_MISIL:
         push ecx
         push ebx
         call canionear
-        call desalojar_tarea
-        jmp .fin
     .SYSTEM_NAVEGAR:
         push ecx
         push ebx
         call navegar
-        call desalojar_tarea
 .fin: 
-    call fin_intr_pic1
+    call saltar_idle
     pop edx
     sti
-    iret
+    ret
 
 ;;
 ;;Rutina de atencion de interrupcion de bandera
@@ -310,12 +307,11 @@ global int_bandera
 int_bandera:
     cli 
     pushad
-    breakpoint
     call fin_intr_pic1
     call bandera
     popad
     sti
-    iret
+    ret
 
 
 ;; Funciones Auxiliares

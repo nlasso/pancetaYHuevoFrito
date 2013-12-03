@@ -120,8 +120,8 @@
 #define TASK_IDLE_CODE_SRC_ADDR 0x00020000
 
 /* INTERRUPCIONES */
-#define INTCLOCK 32 	
-#define INTKEYBOARD 33 	
+#define INTCLOCK 32 	//NOTA: ESTO ESTA MAL !!!!!!!  	/ NICO: Segun las diapos el clock va a la 32.
+#define INTKEYBOARD 33 	//NOTA: ESTO ESTA MAL !!!!!!!	/ NICO: Segun las diapos el teclado va a la 33.
 #define INTSERVICIOS 0x50
 	 //Definiciones de int servicios 
 	#define ANCLA 	0x923

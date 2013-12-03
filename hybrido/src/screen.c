@@ -1,6 +1,9 @@
 #include "screen.h"
 #include "colors.h"
 #include "defines.h"
+extern unsigned int TASK_PAG_1[];
+extern unsigned int TASK_PAG_2[];
+extern unsigned int TASK_PAG_3[];
 
 void screen_en_negro(){
 	pixel pixel_negro;
@@ -109,25 +112,25 @@ void inicializar_pantalla(){
 }
 
 void inicializar_pantalla_memoria(){ //NECESITA QUE ESTE DEFINIDA LA GDT PARA FUNCIONAR
-	print_tablatar_from_gdt(1);
-	print_tablatar_from_gdt(2);
-	print_tablatar_from_gdt(3);
-	print_tablatar_from_gdt(4);
-	print_tablatar_from_gdt(5);
-	print_tablatar_from_gdt(6);
-	print_tablatar_from_gdt(7);
-	print_tablatar_from_gdt(8);
+	print_tablatar_tarea(1);
+	print_tablatar_tarea(2);
+	print_tablatar_tarea(3);
+	print_tablatar_tarea(4);
+	print_tablatar_tarea(5);
+	print_tablatar_tarea(6);
+	print_tablatar_tarea(7);
+	print_tablatar_tarea(8);
 
 	print_tablatar_error(3,10); //ESTO NO IRIA
 
-	print_mapa_from_gdt(1);
-	print_mapa_from_gdt(2);
-	print_mapa_from_gdt(3);
-	print_mapa_from_gdt(4);
-	print_mapa_from_gdt(5);
-	print_mapa_from_gdt(6);
-	print_mapa_from_gdt(7);
-	print_mapa_from_gdt(8);
+	print_mapa_tarea(1);
+	print_mapa_tarea(2);
+	print_mapa_tarea(3);
+	print_mapa_tarea(4);
+	print_mapa_tarea(5);
+	print_mapa_tarea(6);
+	print_mapa_tarea(7);
+	print_mapa_tarea(8);
 
 	load_pantalla();
 
@@ -288,10 +291,10 @@ void print_tablatar(int tarea, int pg1, int pg2, int pg3){
 	print_texto(ESTADO, string, x, y);
 }
 
-void print_tablatar_from_gdt(int tarea){
-	int pg0 = get_pagina_fisica_tarea(tarea,0);
-	int pg1 = get_pagina_fisica_tarea(tarea,1);
-	int pg2 = get_pagina_fisica_tarea(tarea,2);
+void print_tablatar_tarea(int tarea){
+	int pg0 = TASK_PAG_1[tarea];
+	int pg1 = TASK_PAG_2[tarea];
+	int pg2 = TASK_PAG_3[tarea];
 	print_tablatar(tarea,pg0,pg1,pg2);
 
 };
@@ -310,13 +313,13 @@ void print_tablatar_error(int tarea, int num_error){
 
 ////// Mapa 
 
-void print_mapa_from_gdt(int tarea){
-	int pg0 = get_pagina_fisica_tarea(tarea,0);
-	int pg1 = get_pagina_fisica_tarea(tarea,1);
-	int pg2 = get_pagina_fisica_tarea(tarea,2);
-	print_pg_mapa(tarea, pg0);
-	print_pg_mapa(tarea, pg1);
-	print_pg_mapa(tarea, pg2);
+void print_mapa_tarea(int tarea){
+	int pg0 = TASK_PAG_1[tarea];
+	int pg1 = TASK_PAG_2[tarea];
+	int pg2 = TASK_PAG_3[tarea];
+	print_pg_en_mapa(tarea, pg0);
+	print_pg_en_mapa(tarea, pg1);
+	print_pg_en_mapa(tarea, pg2);
 }
 
 void print_numero_mapa_cord(int cordenada){
@@ -338,7 +341,10 @@ void print_numero_mapa_cord(int cordenada){
 void print_numero_mapa(int x, int y){print_numero_mapa_cord(pos(x,y));};
 
 void unprint_pg_mapa_from_gdt(int tarea, int pagina){
-	int pgdir = get_pagina_fisica_tarea(tarea,pagina);
+	int pgdir; 
+	if(pagina == 0){pgdir = TASK_PAG_1[tarea];}
+	if(pagina == 1){pgdir = TASK_PAG_2[tarea];}
+	if(pagina == 2){pgdir = TASK_PAG_3[tarea];}
 	int pgcord = dir_a_cord(pgdir);
 	char uso = (* map_uses)[pgcord];
 	if(uso > 0 ){ //Este IF nos permite unprint si no hubo prints
@@ -348,7 +354,7 @@ void unprint_pg_mapa_from_gdt(int tarea, int pagina){
 	print_numero_mapa_cord(pgcord);
 }
 
-void print_pg_mapa(int tarea, int direccion){
+void print_pg_en_mapa(int tarea, int direccion){
 	int cordenada = dir_a_cord(direccion);
 	char uso = (* map_uses)[cordenada];
 	if( uso != 0) { uso += 10;} uso += tarea;
