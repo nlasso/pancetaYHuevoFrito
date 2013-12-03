@@ -108,9 +108,9 @@ void mmu_inicializar_tareas(){
 		pagetab_entry * pgtab  = (pagetab_entry *)  FIRSTPAGETAB;	//ESTAS PAGINAS YA ESTAN DEFINIDAS POR EL IDENTITY MAPPING
 		pagetab_entry * pgtab2 = (pagetab_entry *)  SECONDPAGETAB; //ESTAS PAGINAS YA ESTAN DEFINIDAS POR EL IDENTITY MAPPING
 		pagetab_entry * pgtab3 = (pagetab_entry *)  LAST_MEMORY_FREE;
-		LAST_MEMORY_FREE += TAMANO_PAGINA;
+		LAST_MEMORY_FREE += TAMANO_PAGINA * 2; 		//Es la pila que sigue no debería ser mas 2 ya que se mueve al 0??
 		long unsigned int _pila0  = LAST_MEMORY_FREE;	
-		LAST_MEMORY_FREE += TAMANO_PAGINA;
+		//LAST_MEMORY_FREE += TAMANO_PAGINA;
 
 		//IDENTITY MAPPING YA DEFINIDO
 		i = 1;
@@ -131,6 +131,7 @@ void mmu_inicializar_tareas(){
 		}
 		//defino la entrada
 		_priviledge = 1;
+		_writable = 1;
 		define_pagedir_entry(&pgdir[0x100], _writable, _priviledge, (long unsigned int) pgtab3);
 		
 
@@ -143,8 +144,10 @@ void mmu_inicializar_tareas(){
 		clonar_pagina(mapeo, mar);
 		define_pagetab_entry(&pgtab3[1], _writable, _priviledge, mar);
 		//mar += TAMANO_PAGINA; 
+		_writable = 0;
 		define_pagetab_entry(&pgtab3[2], _writable, _priviledge, 0X0 );
 		_priviledge = 0;
+		_writable = 1;
 		define_pagetab_entry(&pgtab3[3], _writable, _priviledge, _pila0);
 
 		//FIN LOOP

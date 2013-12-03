@@ -35,24 +35,24 @@ unsigned char * bandera();
 
 void task() {
     /* Tarea 5 */
-    //while(1) {
-        //// TODO: Implementar.
-    //};
+    while(1) {
+        // TODO: Implementar.
+    };
 }
 
 unsigned char * bandera() {
-    //ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
-    //int *b = (int*)(var_B);
-    //unsigned int fil;
-    //unsigned int col;
-    //(*b)++; if (*b == 3) *b = 0;
-    //for (fil = 0; fil < 5; fil++) {
-        //for (col = 0; col < 10; col++) {
-            //buffer[fil][col].c = 176+(*b) ;
-            //buffer[fil][col].a = C_BG_BLACK | C_FG_LIGHT_CYAN;
-        //}
-    //}
-    //syscall_bandera_fin((unsigned int) buffer);
-    ///* Para que el compilador no tire warning... */
+    ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
+    int *b = (int*)(var_B);
+    unsigned int fil;
+    unsigned int col;
+    (*b)++; if (*b == 3) *b = 0;
+    for (fil = 0; fil < 5; fil++) {
+        for (col = 0; col < 10; col++) {
+            buffer[fil][col].c = 176+(*b) ;
+            buffer[fil][col].a = C_BG_BLACK | C_FG_LIGHT_CYAN;
+        }
+    }
+    syscall_bandera_fin((unsigned int) buffer);
+    /* Para que el compilador no tire warning... */
     return 0;
 }
