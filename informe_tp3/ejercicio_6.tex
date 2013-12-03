@@ -1,1 +1,6 @@
+Para que el procesador pueda despachar, ejecutar o suspender una tarea, es necesario salvar el estado de la misma. La arquitectura provee mecanismos para esto. El segmento de estado (TSS, Task State Segment), es el que se encarga de almacenar la informaci\'on del estado de una tarea.\\
+Una tarea est\'a identificada por el selector de segmento de su TSS. Y a su vez la TSS es un segmento, por lo tanto debe estar descripto en la GDT junto con los descriptores de segmento de c\'odigo y datos.\\
+Tenemos 8 tareas y definimos un total de 18 TSS, uno para cada tarea, uno para cada bandera de tarea, uno para la tarea Idle, y otro lo dejamos en blanco para la tarea inicial donde se hace el primer salto.\\
+Las entradas de tss idle y la que est\'a en blanco tienen privilegio de kernel, mientras que las dem\'as est\'an configuradas con privilegios de usuario.\\
+La tarea y la de su flag tienen TSS muy similares, exceptuando por cosas como el eip o donde empiezan las pilas, pero en el resto son iguales ya que comparten casi todo.\\
 

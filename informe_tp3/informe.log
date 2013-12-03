@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.10.21)  5 NOV 2013 01:31
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.10.21)  3 DEC 2013 14:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -707,10 +707,8 @@ ations.code.tex
 \tikz@lib@dec@box=\box39
 )
 (/usr/share/texmf/tex/generic/pgf/libraries/decorations/pgflibrarydecorations.p
-athreplacing.code.tex)) (./informe.aux
-LaTeX Info: Redefining \. on input line 3.
-LaTeX Info: Redefining \% on input line 3.
-)
+athreplacing.code.tex))
+No file informe.aux.
 \openout1 = `informe.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 162.
@@ -725,7 +723,6 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 162.
 LaTeX Font Info:    ... okay on input line 162.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 162.
 LaTeX Font Info:    ... okay on input line 162.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -852,26 +849,33 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 209.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
-) [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./DC.png> <./UBA.jpg>] (./
-informe.toc
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
 )
+
+LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 221.
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./DC.png> <./UBA.jpg>]
+No file informe.toc.
 \tf@toc=\write4
 \openout4 = `informe.toc'.
 
 LaTeX Info: Redefining \. on input line 231.
 LaTeX Info: Redefining \% on input line 231.
 
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.07225pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2] [3] (./ejercicio_1.tex
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 231.
+
+[2]
+
+LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 250.
+
+[3] (./ejercicio_1.tex
 Underfull \hbox (badness 10000) in paragraph at lines 2--7
 
  []
@@ -897,39 +901,121 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
  []
 
 )
-LaTeX Info: Redefining \. on input line 254.
-LaTeX Info: Redefining \% on input line 254.
- [4]
-LaTeX Info: Redefining \. on input line 258.
-LaTeX Info: Redefining \% on input line 258.
- [5]
-LaTeX Info: Redefining \. on input line 269.
-LaTeX Info: Redefining \% on input line 269.
- [6] AED: lastpage setting LastPage [7] (./informe.aux
+LaTeX Info: Redefining \. on input line 256.
+LaTeX Info: Redefining \% on input line 256.
+
+
+LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 256.
+
+[4] (./ejercicio_2.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--7
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--13
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--22
+
+ []
+
+)
+LaTeX Info: Redefining \. on input line 260.
+LaTeX Info: Redefining \% on input line 260.
+
+
+LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 260.
+
+[5] (./ejercicio_3.tex
+<imagenes/identity_mapping_kernel.png, id=33, 691.83469pt x 378.66469pt>
+File: imagenes/identity_mapping_kernel.png Graphic file (type png)
+
+<use imagenes/identity_mapping_kernel.png>
+Package pdftex.def Info: imagenes/identity_mapping_kernel.png used on input lin
+e 6.
+(pdftex.def)             Requested size: 415.104pt x 227.20056pt.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 9--264
+
+ []
+
+LaTeX Info: Redefining \. on input line 264.
+LaTeX Info: Redefining \% on input line 264.
+
+LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 264.
+
+[6 <./imagenes/identity_mapping_kernel.png>] (./ejercicio_4.tex
+<imagenes/paginacion_tareas.png, id=37, 703.87968pt x 402.75468pt>
+File: imagenes/paginacion_tareas.png Graphic file (type png)
+
+<use imagenes/paginacion_tareas.png>
+Package pdftex.def Info: imagenes/paginacion_tareas.png used on input line 3.
+(pdftex.def)             Requested size: 422.33107pt x 241.65466pt.
+)
+LaTeX Info: Redefining \. on input line 268.
+LaTeX Info: Redefining \% on input line 268.
+
+
+LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 268.
+
+[7 <./imagenes/paginacion_tareas.png>] (./ejercicio_6.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--6
+
+ []
+
+)
+LaTeX Info: Redefining \. on input line 272.
+LaTeX Info: Redefining \% on input line 272.
+
+
+LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 272.
+
+[8] (./ejercicio_7.tex) AED: lastpage setting LastPage
+LaTeX Info: Redefining \. on input line 282.
+LaTeX Info: Redefining \% on input line 282.
+
+
+LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 282.
+
+[9] (./informe.aux
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
-) ) 
+)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 12704 strings out of 493485
- 230290 string characters out of 3143525
- 287351 words of memory out of 3000000
- 15709 multiletter control sequences out of 15000+200000
+ 12722 strings out of 493485
+ 230765 string characters out of 3143525
+ 287345 words of memory out of 3000000
+ 15713 multiletter control sequences out of 15000+200000
  7509 words of font info for 29 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  56i,12n,57p,419b,428s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsl10.pfb>
-Output written on informe.pdf (7 pages, 887962 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsl10.pfb>
+Output written on informe.pdf (9 pages, 908573 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 75 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

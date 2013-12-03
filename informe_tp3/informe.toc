@@ -3,6 +3,9 @@
 \contentsline {section}{\numberline {2}Desarrollo y Resultados}{4}
 \contentsline {subsection}{\numberline {2.1}Ejercicio 1. GDT}{4}
 \contentsline {subsubsection}{\numberline {2.1.1}Global Descriptor Table}{4}
-\contentsline {subsection}{\numberline {2.2}Ejercicio 2. IDT}{5}
+\contentsline {subsection}{\numberline {2.2}Ejercicio 2 y 5. IDT}{5}
+\contentsline {subsubsection}{\numberline {2.2.1}Interrupt Descriptor Table}{5}
 \contentsline {subsection}{\numberline {2.3}Ejercicio 3. Paginaci\'on}{6}
-\contentsline {section}{\numberline {3}Conclusi\IeC {\'o}n}{7}
+\contentsline {subsection}{\numberline {2.4}Ejercicio 4. Paginaci\'on de tareas}{7}
+\contentsline {subsection}{\numberline {2.5}Ejercicio 6. TSS}{8}
+\contentsline {subsection}{\numberline {2.6}Ejercicio 7. Scheduller}{9}
