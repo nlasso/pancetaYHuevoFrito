@@ -46,8 +46,8 @@ global _isr%1
 _isr%1:
     ;cli
     pushad
-    ;breakpoint
-    ;mov cx, %1
+    breakpoint
+    mov cx, %1
     ;mov eax, eax
     ;mov [estado_error], eax
     mov [estado_error], eax
@@ -125,8 +125,8 @@ jump_idle:
     pushad
     mov ax, GDT_IDLE
     mov [selector], ax
-    popad
     jmp far [offset]
+    popad
     iret
 
 

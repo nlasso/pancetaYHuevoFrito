@@ -46,6 +46,7 @@ void sched_inicializar() {
 	sched.BANDERA_ACTUAL = 0;
 	sched.TASKS_UP = CANT_TAREAS;
 	sched.IDLE_ON = 1;
+	tss_reset_flags();
 }
 
 // Desalojo Tarea y bandera, es decir los borro de sus respectivos arrays.
@@ -174,6 +175,7 @@ unsigned short clock(){
 				sched.CONTEXTO = 0;
 				sched.BANDERA_ACTUAL = 0;
 				restaurar_quantum();
+				tss_reset_flags();
 				return sched.tareas[NEXT_INDEX].tarea;
 			}else{
 				NEXT_INDEX = sched_proxima_bandera();

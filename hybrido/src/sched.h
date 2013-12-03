@@ -11,6 +11,7 @@
 #include "defines.h"
 #include "isr.h"
 #include "schedule_structure.h"
+#include "tss.h"
 
 /*-----------ESTRUCTURAS DE SCHEDULING-----------*/
 

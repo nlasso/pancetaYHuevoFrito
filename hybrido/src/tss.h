@@ -61,5 +61,6 @@ void tss_inicializar();
 void bleach_tss(tss *);
 void tss_tareas_inicializar();
 void definir_tss(tss *,long unsigned int, long unsigned int, long unsigned int, char);
+void tss_reset_flags();
 
 #endif  /* !__TSS_H__ */

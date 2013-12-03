@@ -1,3 +1,6 @@
+#ifndef __SCCHEEDSTRUCT_H__
+#define __SCCHEEDSTRUCT_H__
+
 /*Struct de cada tarea*/
 struct tarea_t
 {
@@ -21,3 +24,5 @@ struct sched_t
 
 /*DESALOJAR_TAREA: Desaloja la tarea actual y salta a la tarea IDLE.*/
 void desalojar_tarea();
+
+#endif        /* !__SCCHEEDSTRUCT_H__ */
