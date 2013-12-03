@@ -2,6 +2,7 @@
 #define __SCREEEEN_H__
 
 #include "defines.h"
+#include "schedule_structure.h"
 extern int get_pagina_fisica_tarea(int, int);
 
 
@@ -35,8 +36,11 @@ int pos( int, int);
 char * nametxt = "Palito Peron Helado/Best Name Ever";
 char * naviotxt = "Navio ?";
 char * errortxt = "Ningun Error ";
-char string_errores[21][10] = {"Error 0", "Error 1","Error 2","Error 3","Error 4","Error 5","Error 6","Error 7","Error 8","Error 9","Error 10",
-"Error 11","Error 12","Error 13","Error 14","Error 15","Error 16","Error 17","Error 18","Error 19","Error 20" };
+//char string_errores[21][10] = {"Error 0", "Error 1","Error 2","Error 3","Error 4","Error 5","Error 6","Error 7","Error 8","Error 9","Error 10",
+char string_errores[21][15] = {"Divide Errror", "Debugger","Nonmask Int","Breakpoint",
+"Overflow","Bounds Check","Invalid Op","No CoPrcssr","Double Fault","Over CoPrcssr",
+"Invalid TSS","No Segment","Stack excptn","Gen Protect","Page Fault","Er CoPrcssr",
+"Error 16","Error 17","Error 18","Error 19","Error 20" };
 
 int bandera_x[8] = {1,13,25,37,1,13,25,37};
 int bandera_long_x = 10;
@@ -80,7 +84,6 @@ void inicializar_pantalla_memoria();
 
 void print_tablaerror();
 void print_tablatar(int, int, int, int);
-void print_tablatar_from_gdt(int);
 void print_tablatar_error(int, int);
 
 void print_texto_cord(screen *, char *, int );
@@ -92,17 +95,17 @@ void print_clock();
 
 
 
-void print_estado_bandera(int, char *);
-/*int bandera_posicion_x(int);
-int bandera_posicion_y(int);*/
-void print_mapa_mem(long, char, char);
+void print_bandera(int);
+void print_tablatar_tarea(int);
+void print_mapa_tarea(int);
 void print_error(char);
-void print_mapa_from_gdt(int);
-void print_pg_mapa(int, int);
-void unprint_pg_mapa_from_gdt(int, int);
+
+
+void print_mapa_mem(long, char, char);
+void print_pg_en_mapa(int, int);
+void unprint_mapa_tarea(int);
+void unprint_pg_mapa(int, int);
 void print_numero_mapa_cord(int);
-//void print_bandera(int tarea, char * origen);
-void print_bandera();
 
 
 void reg_a_string(int , char *, int);

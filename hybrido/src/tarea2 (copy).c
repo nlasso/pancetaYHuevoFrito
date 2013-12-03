@@ -34,24 +34,39 @@ unsigned char * bandera();
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
-    int j;
-    while(1){ j = 27;
-        j = 10;
-        j = 30;
-        j = j;}    
-    /* Tarea 1 */
-    unsigned int i=0;
+    /* Tarea 2 */    
+    unsigned int s=0;
     while(1) {
-      for(i=0;i<0x000FF000;i=i+0x1000){
-        syscall_fondear(i);
-      }
+       if( s == 0 )
+       {
+           syscall_navegar(0x00350000,0x00351000);
+           s = 1;
+       }
+       else
+       {
+           syscall_navegar(0x00680000,0x00681000);
+           s = 0;
+       }
     };
 }
 
 unsigned char * bandera() {
-    int a = 90;
-    a = 91;
-    a = 92;
-    a = a;
+    ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
+    int *b = (int*)(var_B);
+    unsigned int fil;
+    unsigned int col;
+    (*b)++; if (*b == 11) *b = 0;
+    for (fil = 0; fil < 5; fil++) {
+        for (col = 0; col < 10; col++) {
+            buffer[fil][col].c = ' ';
+
+            if( col < *b )
+                buffer[fil][col].a = C_BG_GREEN | C_FG_GREEN;
+            else
+                buffer[fil][col].a = C_BG_BLUE | C_FG_BLUE;
+        }
+    }
+    syscall_bandera_fin((unsigned int) buffer);
+    /* Para que el compilador no tire warning... */
     return 0;
 }

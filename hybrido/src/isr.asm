@@ -46,45 +46,47 @@ global _isr%1
 _isr%1:
     ;cli
     pushad
-    breakpoint
-    mov cx, %1
-    mov eax, 1
+    ;breakpoint
+    ;mov cx, %1
+    ;mov eax, eax
+    ;mov [estado_error], eax
     mov [estado_error], eax
-    mov ax, 2
+    mov eax, esp
     mov [estado_error+4], eax
-    mov ax, 3
+    mov eax, ecx
     mov [estado_error+8], eax
-    mov ax, 4
+    mov eax, edx    
     mov [estado_error+12], eax
-    mov ax, 5
+    mov eax, esi
     mov [estado_error+16], eax
-    mov ax, 6
+    mov eax, edi
     mov [estado_error+20], eax
-    mov ax, 7
+    mov eax, ebp
     mov [estado_error+24], eax
-    mov ax, 8
+    mov eax, esp
+    add eax, 0x2C ;; ESTO LO OBTUVE EXPERIMENTALMENTE
     mov [estado_error+28], eax
-    mov ax, 9
+    mov eax, [esp+32]
     mov [estado_error+32], eax
-    mov ax, 10
+    mov eax, cr0
     mov [estado_error+36], eax
-    mov ax, 11
+    mov eax, cr2
     mov [estado_error+40], eax
-    mov ax, 12
+    mov eax, cr3
     mov [estado_error+44], eax
-    mov ax, 13
+    mov eax, cs
     mov [estado_error+48], eax
-    mov ax, 14
+    mov eax, ds
     mov [estado_error+52], eax
-    mov ax, 15
+    mov eax, es
     mov [estado_error+56], eax
-    mov ax, 16
+    mov eax, fs
     mov [estado_error+60], eax
-    mov ax, 17
+    mov eax, gs
     mov [estado_error+64], eax
-    mov ax, 18
+    mov ax, [esp+28]     ;mov eax, ss
     mov [estado_error+68], eax
-    mov ax, 19
+    mov ax, [esp+40] 
     mov [estado_error+72], eax
     call print_tablaerror;
     xor ax, ax
@@ -92,12 +94,13 @@ _isr%1:
     push ax
     call print_error
     pop  ax
-    call desalojar_tarea
-    call saltar_idle        ;VERIFICAR: esto. Debería saltar en cualquier error a IDLE.
     popad
     CALL load_pantalla;
-    sti
     breakpoint
+    call desalojar_tarea
+    call saltar_idle        ;VERIFICAR: esto. Debería saltar en cualquier error a IDLE.
+    
+    sti
     ; To Infinity And Beyond!!
     iret
     ;jmp $

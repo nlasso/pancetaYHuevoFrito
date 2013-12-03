@@ -7,7 +7,10 @@
 
 #include "tss.h"
 extern unsigned int TASK_CODE_SRC_ARRAY[] ;
-extern unsigned int TASK_PAG_DIR[] ;
+extern unsigned int TASK_CR3[] ;
+extern unsigned int  TASK_PAG_2[];
+extern struct sched_t sched;
+
 
 tss tarea_inicial;
 tss tarea_idle;
@@ -83,7 +86,7 @@ void tss_tareas_inicializar(){
     	tss* task = &(tss_navios[num_task-1]);
     	tss* bandera = &(tss_banderas[num_task-1]);
 
-        pos_dir = TASK_PAG_DIR[num_task];
+        pos_dir = TASK_CR3[num_task];
         pos_codigo = POSVIRTUAL_TAREAS; 
         //ESTO PUEDE ESTAR MAL
         //ESTO PUEDE ESTAR MAL
@@ -126,9 +129,6 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
         DATA = (GDT_IDX_DATA_0 << 3); 
         CODE = (GDT_IDX_CODE_0 << 3);
     }
- //   DATA = GDT_IDX_DATA_0; 
- //   CODE = GDT_IDX_CODE_0;
-    //DATA *= 8; CODE *= 8;
 
     (*task).cs = CODE;
     (*task).ds = DATA;
@@ -137,3 +137,24 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
     (*task).gs = DATA;
     (*task).ss = DATA; 
 };
+
+
+void tss_reset_eip_flag(int tarea){ //REVISAR
+    int pg2 = TASK_PAG_2[tarea];
+    tss* tss_actual = (tss*) (&tss_banderas[tarea]);
+    int* pointer_flag = (int *) ((pg2 + 0x1000) - 4);
+    int _eip = (*pointer_flag) + 0x40000000;
+    (* tss_actual).eip = _eip;
+}
+
+
+void tss_reset_flags(){ //necesita schedule
+    tss_reset_eip_flag(1);
+    tss_reset_eip_flag(2);
+    tss_reset_eip_flag(3);
+    tss_reset_eip_flag(4);
+    tss_reset_eip_flag(5);
+    tss_reset_eip_flag(6);
+    tss_reset_eip_flag(7);
+    tss_reset_eip_flag(8);
+}

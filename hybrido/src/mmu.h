@@ -40,25 +40,36 @@ typedef struct str_pagetab_entry {
 } __attribute__((__packed__, aligned (4))) pagetab_entry;
 
 
-
+// CREACION DIRS
 void bleach_pagedir_entry(pagedir_entry *);
 void define_pagedir_entry(pagedir_entry *, unsigned char,unsigned char, unsigned long);
-unsigned int get_pagedir_entry_fisica(long unsigned int, long unsigned int);
-pagetab_entry * get_descriptor(unsigned int, unsigned int);
-int get_pagina_fisica(int, int);
-int get_pagina_fisica_tarea(int, int);
 void bleach_pagetab_entry(pagetab_entry *);
 void define_pagetab_entry(pagetab_entry *, unsigned char,unsigned char, unsigned long);
+// 
+unsigned int get_pagedir_entry_fisica(long unsigned int, long unsigned int);
+pagetab_entry * get_descriptor(unsigned int, unsigned int);
+
+//
+int get_pagina_fisica(int, int);
+int get_pagina_fisica_tarea(int, int);
+
+// INICIALIZACION
 void mmu_inicializar();
 void mmu_identity_maping();
 void mmu_inicializar_tareas();
+void mmu_tareas_a_mar();
+// SYSCALLS
 void canionear(unsigned int, unsigned int*);
 void navegar(unsigned int, unsigned int);
-//void navegar(unsigned int);
 void anclar(unsigned int);
+
 void reubicar_pagina(unsigned int, unsigned int, unsigned int);
 void clonar_pagina(unsigned int, unsigned int);
-void mmu_tareas_a_mar();
+
+void mmu_mapear_pagina(unsigned int, unsigned int, unsigned int);
+void mmu_unmapear_pagina(unsigned int, unsigned int);
+void mmu_backdoor_mapping_task(unsigned int, int);
+void mmu_backdoor_unmapping(unsigned int, int);
 
 //NECESITO REPETIR LA ESTRUCTURA DEL SCHEDULE_T PARA QUE ME PERMITA TRAER LA VARIALBE DE OTRO LADO
 

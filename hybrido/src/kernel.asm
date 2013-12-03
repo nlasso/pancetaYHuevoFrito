@@ -45,7 +45,7 @@ extern sched_inicializar
 
 ;;TEST  STUFF
 extern reubicar_pagina;
-extern TASK_PAG_DIR;
+extern TASK_CR3;
 
 ;; Saltear seccion de datos
 jmp start
@@ -145,12 +145,10 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas
     ;; ---------------------------------------------------------------------- ;;
- 
-
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
     ;; ---------------------------------------------------------------------- ;;
-    mov eax, [TASK_PAG_DIR]
+    mov eax, [TASK_CR3]
     mov cr3, eax
     mov eax, cr0
     or eax, 0x80000000
@@ -162,15 +160,14 @@ Modo_protegido:
     call gdt_set_tss
     call tss_inicializar
 
-
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
 
     ; inicializar el schedule
  
-    mov eax, [TASK_PAG_DIR+4]
+    mov eax, [TASK_CR3+4]
     mov cr3, eax
-    mov eax, [TASK_PAG_DIR]
+    mov eax, [TASK_CR3]
     mov cr3, eax
 
 
@@ -185,7 +182,10 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
-    
+    ;mov eax, ss
+    ;cmp eax, 1
+    ;int 1
+    ;breakpoint
 
     mov ax, GDT_INICIAL
     ltr ax
