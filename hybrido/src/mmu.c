@@ -266,11 +266,17 @@ void anclar(unsigned int destino){
 }
 
 void navegar(unsigned int destino1, unsigned int destino2){
-	if((destino1 > 0x100000) && (destino2 > 0x100000)){
+	if((destino1 >= AREA_MAR_INICIO) 
+		&& (destino2 >= AREA_MAR_INICIO) 
+		&& (destino1 <= AREA_MAR_FIN) 
+		&& (destino2 <= AREA_MAR_FIN))
+	{
 		int tarea_actual = sched.TAREA_ACTUAL;
 		reubicar_pagina(tarea_actual, 0, destino1);
 		reubicar_pagina(tarea_actual, 1, destino2);
-	}		
+	}else{
+		desalojar_tarea();
+	}
 }
 
 void reubicar_pagina(unsigned int tarea, unsigned int numero_pagina, unsigned int destino){
