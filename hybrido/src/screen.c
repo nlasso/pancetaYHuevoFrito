@@ -27,7 +27,7 @@ void inicializar_pantalla(){
 
 	//pongo todo de blanco
 	pixel_actual.letra = *((char *) " ");
-	pixel_actual.formato = (C_FG_BLACK | C_BG_LIGHT_GREY);
+	pixel_actual.formato = (C_FG_BLACK | C_BG_CYAN);
 	x = 0;
 	while(x<(1920)){(*buffer)[x] = pixel_actual; x++;}
 	
@@ -51,7 +51,7 @@ void inicializar_pantalla(){
 	//creo franja azul de tabla de errores
 	x1 = tablaerror_x; x2 = tablaerror_long_x + x1;
 	y1 = tablaerror_y - 1; y2 = y1;
-	print_cuadrado(buffer, (C_FG_BLACK | C_BG_CYAN),x1,y1,x2,y2);
+	print_cuadrado(buffer, (C_FG_BLACK | C_BG_BLUE),x1,y1,x2,y2);
 	print_texto(buffer, errortxt,x1, y1 );
 
 	//creo tabla de errores
@@ -68,7 +68,7 @@ void inicializar_pantalla(){
 
 	// creo el resto de la tablas de tarea
 	x1 = tablatar_x; x2 = tablatar_long_x + x1;
-	print_cuadrado(buffer, (C_FG_WHITE | C_BG_CYAN), x1, y1, x2, y2);
+	print_cuadrado(buffer, (C_FG_WHITE | C_BG_BLUE), x1, y1, x2, y2);
 
 	// Imprime ejemplo de errores
 	//int b = 0xA1020B01;
@@ -101,7 +101,7 @@ void inicializar_pantalla(){
 	print_missil_cord(257);
 	print_missil_cord(258);
 
-	cambiar_pantalla(SCREENMAPA);
+	//cambiar_pantalla(SCREENMAPA);
 	load_pantalla();
 
 	/*cambiar_pantalla(SCREENMAPA);
@@ -369,6 +369,28 @@ void print_missil_cord(int cordenada){
 	(* ultimo_missil).letra = * (char*) "#";
 
 };
+
+//void print_bandera(int tarea, char * origen){
+void print_bandera(){
+	int tarea = 1;
+	//char:char* origen = &ejemplo_bandera2[0];
+	/*pix*/	char* origen = (char *) &ejemplo_bandera[0];
+	//char: no iria nada
+	/*pix*/origen ++;
+	pixel pix;
+	int y = 0; int x;
+	while(y < 5){
+		x = 0;
+		while(x< 10){
+			pix.formato = ((*origen));
+			//char: origen+= 2;
+			/*pix*/origen+= 4;
+			print_pixel(ESTADO, pix, bandera_x[tarea-1] + x, bandera_y[tarea-1] + y);
+			x++;
+		}
+		y++;
+	};
+}
 ///
 /// MISC
 ///
