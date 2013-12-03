@@ -10,7 +10,7 @@
 
 #include "defines.h"
 #include "isr.h"
- #include "schedule_structure.h"
+#include "schedule_structure.h"
 
 /*-----------ESTRUCTURAS DE SCHEDULING-----------*/
 
@@ -28,8 +28,7 @@ struct sched_t sched;
 /*SCHED_INICIALIZAR: inicializa todas las estructuras requeridas por el Kernel para funcionar. array de tareas, QUANTUMS, etc...*/
 void sched_inicializar();
 
-/*DESALOJAR_TAREA: Desaloja la tarea actual y salta a la tarea IDLE.*/
-void desalojar_tarea();
+void desalojar_bandera();
 
 /*SALTAR_IDLE: salta a la tarea IDLE*/
 void saltar_idle();
