@@ -393,7 +393,7 @@ void print_missil_cord(int cordenada){
 };
 
 void print_bandera(int tarea){
-	char * origen = (char *) (0x40001C00);
+	char * origen = (char *) (0x40001000);
 	//char:char* origen = &ejemplo_bandera2[0];
 	/*pix*/	//char* origen = (char *) &ejemplo_bandera[0];
 	//char: no iria nada
@@ -411,6 +411,7 @@ void print_bandera(int tarea){
 		}
 		y++;
 	};
+	load_pantalla();
 }
 ///
 /// MISC

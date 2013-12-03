@@ -118,7 +118,7 @@ void mmu_inicializar_tareas(){
 		pagetab_entry * pgtab3 = (pagetab_entry *)  LAST_MEMORY_FREE;
 		LAST_MEMORY_FREE += TAMANO_PAGINA * 2; 		//Es la pila que sigue no debería ser mas 2 ya que se mueve al 0??
 		long unsigned int _pila0  = LAST_MEMORY_FREE;	
-		//LAST_MEMORY_FREE += TAMANO_PAGINA;
+		LAST_MEMORY_FREE += TAMANO_PAGINA;
 
 		//IDENTITY MAPPING YA DEFINIDO
 		i = 1;

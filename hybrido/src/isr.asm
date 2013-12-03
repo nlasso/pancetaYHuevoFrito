@@ -181,6 +181,7 @@ screen_proximo_reloj:
     CALL clock
     cmp eax, 0
     je .fin
+    ;;breakpoint
     mov [selector], ax
     jmp far [offset]
 .fin
@@ -311,7 +312,7 @@ global int_bandera
 int_bandera:
     cli 
     pushad
-    breakpoint
+    ;breakpoint
     call bandera
     call fin_intr_pic1
     popad

@@ -152,6 +152,12 @@ unsigned short clock(){
 			sched.QUANTUM_RESTANTE--;			//Si estoy en contexto de tareas entonces me interesa saber del quantum restante.
 			if(sched.QUANTUM_RESTANTE == 0){
 				NEXT_INDEX = sched_proxima_bandera();
+				if(NEXT_INDEX == 0 && sched.IDLE_ON == 1){
+					return 0;
+				}
+				if(NEXT_INDEX == sched.BANDERA_ACTUAL){
+					return 0;
+				}
 				sched.CONTEXTO = 1;
 				saltar_a_bandera(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].bandera;
@@ -180,6 +186,12 @@ unsigned short clock(){
 				return sched.tareas[NEXT_INDEX].tarea;
 			}else{
 				NEXT_INDEX = sched_proxima_bandera();
+				if(NEXT_INDEX == 0 && sched.IDLE_ON == 1){
+					return 0;
+				}
+				if(NEXT_INDEX == sched.BANDERA_ACTUAL){
+					return 0;
+				}
 				saltar_a_bandera(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].bandera;
 			}
