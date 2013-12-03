@@ -168,11 +168,11 @@ void tss_reset_eip_task(unsigned int cr3, int tarea){
     mmu_backdoor_unmapping(cr3, 1);
 }
 
-void tss_reset_eip_task_schedule(int tarea){
+void tss_reset_task(int tarea){
     tss_reset_eip_task(TASK_PAG_DIR[tarea], tarea);
 }
 
-void tss_fullreset_no_schedule(){
+void tss_set_flags_ip(){
     int cr3 = MAINPAGEDIR;
     tss_reset_eip_flag(cr3, 1);
     tss_reset_eip_flag(cr3, 2);
@@ -184,7 +184,7 @@ void tss_fullreset_no_schedule(){
     tss_reset_eip_flag(cr3, 8);
 }
 
-void tss_fullreset_flags_schedule(){
+void tss_fullreset_flags(){ //necesita schedule
     int tarea = sched.TAREA_ACTUAL;
     unsigned int cr3 = TASK_PAG_DIR[tarea];
     tss_reset_eip_flag(cr3, 1);
