@@ -4,6 +4,7 @@
 extern unsigned int TASK_PAG_1[];
 extern unsigned int TASK_PAG_2[];
 extern unsigned int TASK_PAG_3[];
+extern struct sched_t sched;
 
 void screen_en_negro(){
 	pixel pixel_negro;
@@ -212,7 +213,16 @@ void print_pixel(screen * pantalla, pixel pix, int x, int y){	(*pantalla)[pos(x,
 ////// Tabla Error
 
 void print_error(char error){
-
+	char * string1 = &(string_errores[(unsigned char)error][0]);
+	char string2[] = "                NAVIO ?";
+	unsigned int number = 22;
+	int i = 0;
+	while((* string1) != 0){
+		string2[i] = (* string1);
+		string1 ++;	i++;
+	}
+	string2[number] = sched.TAREA_ACTUAL + ASCII_first_num + 1;
+	print_texto(ESTADO, string2,tablaerror_x,tablaerror_y -1);
 };
 
 void print_tablaerror(){

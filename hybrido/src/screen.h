@@ -2,6 +2,7 @@
 #define __SCREEEEN_H__
 
 #include "defines.h"
+#include "schedule_structure.h"
 extern int get_pagina_fisica_tarea(int, int);
 
 

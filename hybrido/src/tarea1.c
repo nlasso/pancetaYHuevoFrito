@@ -37,7 +37,8 @@ void task() {
     int j;
     while(1){ j = 27;
         j = 10;
-        j = 30;}    
+        j = 30;
+        j = j;}    
     /* Tarea 1 */
     unsigned int i=0;
     while(1) {
@@ -51,5 +52,6 @@ unsigned char * bandera() {
     int a = 90;
     a = 91;
     a = 92;
+    a = a;
     return 0;
 }
