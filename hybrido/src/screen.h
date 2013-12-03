@@ -43,6 +43,19 @@ int bandera_long_x = 10;
 int bandera_y[8] = {3,3,3,3,10,10,10,10};
 int bandera_long_y = 5;
 
+int ejemplo_bandera[50] = {0xF000, 0xF000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0xF000,
+0XF000, 0X4000, 0X4000, 0XF000, 0XF000, 0XF000, 0XF000, 0X4000, 0X4000, 0XF000,
+0XF000, 0XF000, 0XF000, 0XF000, 0XF000, 0X4000, 0X4000, 0XF000, 0XF000, 0XF000,
+0XF000, 0XF000, 0XF000, 0X4000, 0X4000, 0XF000, 0XF000, 0XF000, 0XF000, 0XF000,
+0XF000, 0X4000, 0X4000, 0X4000, 0X4000, 0X4000, 0X4000, 0X4000, 0X4000, 0XF000};
+
+char ejemplo_bandera2[100] = {0xF0, 0x00, 0xF0, 0x00, 0x40, 0x00, 0x40, 0x00, 0x40, 0x00, 0x40, 0x00, 0x40, 0x00, 0x40, 0x00, 0x40, 0x00, 0xF0, 0x00,
+0XF0, 0x00, 0X40, 0x00, 0X40, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0X40, 0x00, 0X40, 0x00, 0XF0, 0x00,
+0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0X40, 0x00, 0X40, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00,
+0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0X40, 0x00, 0X40, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00, 0XF0, 0x00,
+0XF0, 0x00, 0X40, 0x00, 0X40, 0x00, 0X40, 0x00, 0X40, 0x00, 0X40, 0x00, 0X40, 0x00, 0X40, 0x00, 0X40, 0x00, 0XF0, 0x00};
+
+
 int tablaerror_x = 49;
 int tablaerror_long_x = 29;
 int tablaerror_y = 3;
@@ -88,6 +101,8 @@ void print_mapa_from_gdt(int);
 void print_pg_mapa(int, int);
 void unprint_pg_mapa_from_gdt(int, int);
 void print_numero_mapa_cord(int);
+//void print_bandera(int tarea, char * origen);
+void print_bandera();
 
 
 void reg_a_string(int , char *, int);
