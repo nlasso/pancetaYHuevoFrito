@@ -139,10 +139,10 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
 };
 
 
-void tss_reset_eip_flag(int tarea){
+void tss_reset_eip_flag(int tarea){ //REVISAR
     int pg2 = TASK_PAG_2[tarea];
     tss* tss_actual = (tss*) (&tss_banderas[tarea]);
-    int* pointer_flag = (int *) ((pg2 + 0x1000) - 8);
+    int* pointer_flag = (int *) ((pg2 + 0x1000) - 4);
     int _eip = (*pointer_flag) + 0x40000000;
     (* tss_actual).eip = _eip;
 }

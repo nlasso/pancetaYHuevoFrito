@@ -145,8 +145,6 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; inicializar memoria de tareas
     ;; ---------------------------------------------------------------------- ;;
- 
-
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
     ;; ---------------------------------------------------------------------- ;;
@@ -161,7 +159,6 @@ Modo_protegido:
     ; inicializar todas las tsss
     call gdt_set_tss
     call tss_inicializar
-
 
     ; inicializar entradas de la gdt de las tsss
     ;CALL gdt_set_tss
@@ -185,7 +182,10 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
-    
+    mov eax, ss
+    cmp eax, 1
+    int 1
+    breakpoint
 
     mov ax, GDT_INICIAL
     ltr ax

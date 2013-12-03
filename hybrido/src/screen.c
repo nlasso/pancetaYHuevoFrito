@@ -54,7 +54,7 @@ void inicializar_pantalla(){
 	//creo franja azul de tabla de errores
 	x1 = tablaerror_x; x2 = tablaerror_long_x + x1;
 	y1 = tablaerror_y - 1; y2 = y1;
-	print_cuadrado(buffer, (C_FG_BLACK | C_BG_BLUE),x1,y1,x2,y2);
+	print_cuadrado(buffer, (C_FG_LIGHT_BROWN | C_BG_BLUE),x1,y1,x2,y2);
 	print_texto(buffer, errortxt,x1, y1 );
 
 	//creo tabla de errores
@@ -340,7 +340,13 @@ void print_numero_mapa_cord(int cordenada){
 
 void print_numero_mapa(int x, int y){print_numero_mapa_cord(pos(x,y));};
 
-void unprint_pg_mapa_from_gdt(int tarea, int pagina){
+void unprint_mapa_tarea(int tarea){
+	unprint_pg_mapa(tarea,0);
+	unprint_pg_mapa(tarea,1);
+	unprint_pg_mapa(tarea,2);
+}
+
+void unprint_pg_mapa(int tarea, int pagina){
 	int pgdir; 
 	if(pagina == 0){pgdir = TASK_PAG_1[tarea];}
 	if(pagina == 1){pgdir = TASK_PAG_2[tarea];}
@@ -377,9 +383,7 @@ void print_missil_cord(int cordenada){
 };
 
 void print_bandera(int tarea){
-	int * puntero = (int *)(TASK_PAG_2[tarea] + 0x1000 - 8);
-	int posicion = 0x4000000 + (*puntero);
-	char * origen = (char *) posicion;
+	char * origen = (char *) (0x40001C00);
 	//char:char* origen = &ejemplo_bandera2[0];
 	/*pix*/	//char* origen = (char *) &ejemplo_bandera[0];
 	//char: no iria nada

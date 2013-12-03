@@ -11,9 +11,10 @@ extern char pantalla_actual;
 extern void print_texto(char *, int, int, char *, char);
 extern struct sched_t sched;
 extern void inicializar_pantalla_memoria();
-extern void print_mapa_tarea (int, int);
+extern void print_mapa_tarea (int);
 extern void load_pantalla();
-extern void unprint_pg_mapa_from_gdt(int,int);
+extern void unprint_mapa_tarea(int);
+extern void print_missil(int);
 
 //////////////////////////////////////////////////////////////////////////////////
 //																		//////////
@@ -234,41 +235,49 @@ void mmu_unmapear_pagina(unsigned int virtual, unsigned int cr3){
 };
 
 void canionear(unsigned int posicion_apuntada, unsigned int* buffer){//DONE
-	//varialbes
-	//int tarea = sched.TAREA_ACTUAL;
-	//unsigned int cr3 = TASK_CR3[tarea];
-
-	unsigned int* destino = (unsigned int*) posicion_apuntada;
-	int i = 0;
-	while(i<97){destino[i] = buffer[i]; i++;}
-	load_pantalla();
+	if((posicion_apuntada >= 0x100000)){//varialbes
+		print_missil(posicion_apuntada);
+		load_pantalla();
+		unsigned int* destino = (unsigned int*) posicion_apuntada;
+		int i = 0;
+		while(i<97){destino[i] = buffer[i]; i++;}
+		load_pantalla();
+	}else{
+		//sacar pagina
+	}
 }
 
 void anclar(unsigned int destino){//DONE
-	int tarea = sched.TAREA_ACTUAL;
-	int cr3 = TASK_CR3[tarea];
-	//int origen = TASK_PAG_3[tarea];
-	TASK_PAG_3[tarea] = destino;
-	TASK_PAG_3[tarea] = destino;
-	mmu_mapear_pagina(0x40002000, cr3, destino);
+	if(destino < 0x100000){
+		int tarea = sched.TAREA_ACTUAL;
+		int cr3 = TASK_CR3[tarea];
+		unprint_mapa_tarea(tarea);
+		TASK_PAG_3[tarea] = destino;
+		TASK_PAG_3[tarea] = destino;
+		mmu_mapear_pagina(0x40002000, cr3, destino);
+		print_mapa_tarea(tarea);
+	}else{
+		//scar tarea
+	}
 }
 
 void navegar(unsigned int destino1, unsigned int destino2){ //DONE
-	if((destino1 > 0x100000) && (destino2 > 0x100000)){
+	if((destino1 >= 0x100000) && (destino2 >= 0x100000)){
 		int tarea_actual = sched.TAREA_ACTUAL;
+		unprint_mapa_tarea(tarea_actual);
 		reubicar_pagina(tarea_actual, 0, destino1);
 		reubicar_pagina(tarea_actual, 1, destino2);
+		print_mapa_tarea(tarea_actual);
+	}else{
+		//sacar tarea
 	}		
 }
 
 void reubicar_pagina(unsigned int tarea, unsigned int numero_pagina, unsigned int destino){//DONE
 	int origen;
-
 	if(numero_pagina == 0){origen = TASK_PAG_1[tarea]; TASK_PAG_1[tarea] = destino;}
 	else{origen = TASK_PAG_2[tarea]; TASK_PAG_2[tarea] = destino;};
-
 	clonar_pagina(origen, destino);
-	print_mapa_tarea(tarea,numero_pagina);
 	load_pantalla();
 }
 
