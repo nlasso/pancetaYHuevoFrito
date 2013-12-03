@@ -182,10 +182,10 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
-    mov eax, ss
-    cmp eax, 1
-    int 1
-    breakpoint
+    ;mov eax, ss
+    ;cmp eax, 1
+    ;int 1
+    ;breakpoint
 
     mov ax, GDT_INICIAL
     ltr ax
