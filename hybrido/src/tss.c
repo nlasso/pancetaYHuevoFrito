@@ -144,6 +144,8 @@ void tss_reset_eip_flag(int tarea){ //REVISAR
     tss* tss_actual = (tss*) (&tss_banderas[tarea]);
     int* pointer_flag = (int *) 0x40001FFC;
     int _eip = (*pointer_flag) + 0x40000000;
+    (* tss_actual).esp = 0x40001FFC;
+    (* tss_actual).ebp = 0x40001FFC;
     (* tss_actual).eip = _eip;
 }
 

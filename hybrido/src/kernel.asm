@@ -120,12 +120,6 @@ Modo_protegido:
 
     call screen_en_negro
     call inicializar_pantalla
-    ;call load_pantalla
-    ;breakpoint
-    ;push byte 0 ;PREGUNTAR SI TENGO QUE POPPEAR ESTO
-    ;call cambiar_pantalla
-    ;pop byte eax
-    ;call load_pantalla
     
     
 
@@ -182,31 +176,11 @@ Modo_protegido:
     call resetear_pic
     call habilitar_pic
 
-    ;mov eax, ss
-    ;cmp eax, 1
-    ;int 1
-    ;breakpoint
 
     mov ax, GDT_INICIAL
     ltr ax
     mov ax, ax
     jmp GDT_IDLE:0x0
-    ;breakpoint
-    ;mov eax, 0
-    ;div eax
-    ;breakpoint
-    ;int 12
-    ;breakpoint
-;
-    ;mov eax, 0x00032000
-    ;mov cr3, eax
-;
-    ;breakpoint
-;
-    ;mov eax, 1
-    ;div eax
-;
-;breakpoint
     ; configurar controlador de interrupciones
 
     ; cargar la tarea inicial
