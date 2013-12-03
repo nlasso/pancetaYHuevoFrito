@@ -376,11 +376,12 @@ void print_missil_cord(int cordenada){
 
 };
 
-//void print_bandera(int tarea, char * origen){
-void print_bandera(){
-	int tarea = 1;
+void print_bandera(int tarea){
+	int * puntero = (int *)(TASK_PAG_2[tarea] + 0x1000 - 8);
+	int posicion = 0x4000000 + (*puntero);
+	char * origen = (char *) posicion;
 	//char:char* origen = &ejemplo_bandera2[0];
-	/*pix*/	char* origen = (char *) &ejemplo_bandera[0];
+	/*pix*/	//char* origen = (char *) &ejemplo_bandera[0];
 	//char: no iria nada
 	/*pix*/origen ++;
 	pixel pix;
