@@ -59,6 +59,10 @@ void anclar(unsigned int);
 void reubicar_pagina(unsigned int, unsigned int, unsigned int);
 void clonar_pagina(unsigned int, unsigned int);
 void mmu_tareas_a_mar();
+void mmu_mapear_pagina(unsigned int, unsigned int, unsigned int);
+void mmu_unmapear_pagina(unsigned int, unsigned int);
+void mmu_backdoor_mapping_task(unsigned int, int);
+void mmu_backdoor_unmapping(unsigned int, int);
 
 //NECESITO REPETIR LA ESTRUCTURA DEL SCHEDULE_T PARA QUE ME PERMITA TRAER LA VARIALBE DE OTRO LADO
 

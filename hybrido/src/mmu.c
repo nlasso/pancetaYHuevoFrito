@@ -306,3 +306,21 @@ void clonar_pagina(unsigned int origen, unsigned int destino){
 		pag_destino[i] = pag_origen[i]; 
 		i++;}
 }
+
+void mmu_backdoor_mapping_task(unsigned int cr3, int tarea){
+	int task_cr3 = TASK_PAG_DIR[tarea];
+	int original = 0x40000000; int backdoor = 0x40005000;
+	int dir_fisica = get_pagina_fisica(task_cr3, original);
+	mmu_mapear_pagina(backdoor, cr3, dir_fisica);
+	original += 0x1000; backdoor += 0x1000;
+	dir_fisica = get_pagina_fisica(task_cr3, original);
+	mmu_mapear_pagina(backdoor, cr3, dir_fisica);
+}
+
+void mmu_backdoor_unmapping(unsigned int cr3, int quantity){
+	int temp= 0x40004000;
+	while(quantity > 0){
+		mmu_unmapear_pagina(temp, cr3);
+		temp += 0x1000;	quantity--;
+	}
+}
