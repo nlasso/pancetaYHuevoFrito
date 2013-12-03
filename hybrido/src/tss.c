@@ -8,6 +8,12 @@
 #include "tss.h"
 extern unsigned int TASK_CODE_SRC_ARRAY[] ;
 extern unsigned int TASK_PAG_DIR[] ;
+extern void mmu_mapear_pagina(unsigned int, unsigned int, unsigned int);
+extern void mmu_unmapear_pagina(unsigned int, unsigned int);
+extern void mmu_backdoor_mapping_task(unsigned int, int);
+extern void mmu_backdoor_unmapping(unsigned int, int);
+extern struct sched_t sched;
+
 
 tss tarea_inicial;
 tss tarea_idle;
@@ -137,3 +143,56 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
     (*task).gs = DATA;
     (*task).ss = DATA; 
 };
+
+void mmu_backdoor_mapping_tss(unsigned int cr3, int tarea){
+    int backdoor = 0x40004000;
+    int dir_fisica= (int) (&tss_banderas[tarea]);
+    mmu_mapear_pagina(backdoor, cr3, dir_fisica);
+}
+
+void tss_reset_eip_flag(unsigned int cr3, int tarea){
+    mmu_backdoor_mapping_task(cr3, tarea);
+    mmu_backdoor_mapping_tss(cr3, tarea);
+    tss* tss_actual = (tss*) 0x40004000;
+    int* pointer_flag = (int *) (0x40007000 - 8);
+    int _eip = (*pointer_flag) + 0x40000000;
+    (* tss_actual).eip = _eip;
+    mmu_backdoor_unmapping(cr3, 3);
+}
+
+void tss_reset_eip_task(unsigned int cr3, int tarea){
+    mmu_backdoor_mapping_tss(cr3, tarea);
+    tss* tss_actual = (tss*) 0x40004000;
+    int _eip = 0x4000000;
+    (* tss_actual).eip = _eip;
+    mmu_backdoor_unmapping(cr3, 1);
+}
+
+void tss_reset_task(int tarea){
+    tss_reset_eip_task(TASK_PAG_DIR[tarea], tarea);
+}
+
+void tss_set_flags_ip(){
+    int cr3 = MAINPAGEDIR;
+    tss_reset_eip_flag(cr3, 1);
+    tss_reset_eip_flag(cr3, 2);
+    tss_reset_eip_flag(cr3, 3);
+    tss_reset_eip_flag(cr3, 4);
+    tss_reset_eip_flag(cr3, 5);
+    tss_reset_eip_flag(cr3, 6);
+    tss_reset_eip_flag(cr3, 7);
+    tss_reset_eip_flag(cr3, 8);
+}
+
+void tss_fullreset_flags(){ //necesita schedule
+    int tarea = sched.TAREA_ACTUAL;
+    unsigned int cr3 = TASK_PAG_DIR[tarea];
+    tss_reset_eip_flag(cr3, 1);
+    tss_reset_eip_flag(cr3, 2);
+    tss_reset_eip_flag(cr3, 3);
+    tss_reset_eip_flag(cr3, 4);
+    tss_reset_eip_flag(cr3, 5);
+    tss_reset_eip_flag(cr3, 6);
+    tss_reset_eip_flag(cr3, 7);
+    tss_reset_eip_flag(cr3, 8);
+}

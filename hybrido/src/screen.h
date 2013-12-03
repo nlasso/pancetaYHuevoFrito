@@ -35,8 +35,11 @@ int pos( int, int);
 char * nametxt = "Palito Peron Helado/Best Name Ever";
 char * naviotxt = "Navio ?";
 char * errortxt = "Ningun Error ";
-char string_errores[21][10] = {"Error 0", "Error 1","Error 2","Error 3","Error 4","Error 5","Error 6","Error 7","Error 8","Error 9","Error 10",
-"Error 11","Error 12","Error 13","Error 14","Error 15","Error 16","Error 17","Error 18","Error 19","Error 20" };
+//char string_errores[21][10] = {"Error 0", "Error 1","Error 2","Error 3","Error 4","Error 5","Error 6","Error 7","Error 8","Error 9","Error 10",
+char string_errores[21][15] = {"Divide Errror", "Debugger","Nonmask Int","Breakpoint",
+"Overflow","Bounds Check","Invalid Op","No CoPrcssr","Double Fault","Over CoPrcssr",
+"Invalid TSS","No Segment","Stack excptn","Gen Protect","Page Fault","Er CoPrcssr",
+"Error 16","Error 17","Error 18","Error 19","Error 20" };
 
 int bandera_x[8] = {1,13,25,37,1,13,25,37};
 int bandera_long_x = 10;

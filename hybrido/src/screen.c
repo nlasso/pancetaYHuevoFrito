@@ -118,7 +118,7 @@ void inicializar_pantalla_memoria(){ //NECESITA QUE ESTE DEFINIDA LA GDT PARA FU
 	print_tablatar_from_gdt(7);
 	print_tablatar_from_gdt(8);
 
-	print_tablatar_error(3,5); //ESTO NO IRIA
+	print_tablatar_error(3,10); //ESTO NO IRIA
 
 	print_mapa_from_gdt(1);
 	print_mapa_from_gdt(2);
@@ -304,7 +304,7 @@ void print_tablatar_error(int tarea, int num_error){
 		print_formato(ESTADO, (C_FG_BLACK | C_BG_BROWN),  x, y);
 		x++;
 	}
-	x -= 12;
+	x -= 15;
 	print_texto(ESTADO,string_errores[num_error], x, y);
 }
 
