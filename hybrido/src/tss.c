@@ -19,8 +19,9 @@ tss tss_navios[CANT_TAREAS];
 tss tss_banderas[CANT_TAREAS];
 
 void tss_inicializar() {
+    long unsigned int _pila3_idle = POSVIRTUAL_TAREAS + 0x1C00;
 	bleach_tss(&tarea_inicial);
-    definir_tss(&tarea_idle, MAINPAGEDIR, PILALVLCERO, POSVIRTUAL_TAREAS, 0);
+    definir_tss(&tarea_idle, MAINPAGEDIR, PILALVLCERO, POSVIRTUAL_TAREAS, 0, _pila3_idle);
     tss_tareas_inicializar();
 }
 
@@ -82,6 +83,7 @@ void tss_tareas_inicializar(){
     long unsigned int pos_dir;
     long unsigned int pos_codigo; 
     long unsigned int pos_pila0;
+    long unsigned int pos_pila3;
     while(num_task - 1 < CANT_TAREAS){
     	tss* task = &(tss_navios[num_task-1]);
     	tss* bandera = &(tss_banderas[num_task-1]);
@@ -93,19 +95,18 @@ void tss_tareas_inicializar(){
         //ESTO PUEDE ESTAR MAL
         //ESTO PUEDE ESTAR MAL
         pos_pila0 = POSVIRTUAL_TAREAS + (TAMANO_PAGINA * 4);
+        pos_pila3 = POSVIRTUAL_TAREAS + 0x1C00;
+        definir_tss(task , pos_dir, pos_pila0, pos_codigo, 3, pos_pila3);
 
-        definir_tss(task , pos_dir, pos_pila0, pos_codigo, 3);
-
-        pos_codigo += TAMANO_PAGINA;
         pos_pila0  -= (TAMANO_PAGINA/2);
-
-        definir_tss(bandera, pos_dir, pos_pila0, pos_codigo, 3);
+        pos_pila3 = POSVIRTUAL_TAREAS + 0x1FFC;
+        definir_tss(bandera, pos_dir, pos_pila0, pos_codigo, 3, pos_pila3);
 
         num_task++;
     }
 }
 
-void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, long unsigned int _eip, char _priviledge){
+void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, long unsigned int _eip, char _priviledge,long unsigned int _pila3){
     bleach_tss(task);
 
     //INPUT
@@ -114,8 +115,8 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
     (*task).esp0 = _esp0;
 
     //CONSTANTES
-    (*task).ss0 = GDT_IDX_DATA_0 << 3; 
-    (*task).esp = POSVIRTUAL_TAREAS + 0X1C00;//la catedra lo define asi
+    (*task).ss0 = GDT_IDX_DATA_0 << 3;
+    (*task).esp = _pila3;//la catedra lo define asi
     (*task).ebp = (*task).esp;
 
     //SELECTORES
@@ -140,9 +141,8 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
 
 
 void tss_reset_eip_flag(int tarea){ //REVISAR
-    int pg2 = TASK_PAG_2[tarea];
     tss* tss_actual = (tss*) (&tss_banderas[tarea]);
-    int* pointer_flag = (int *) ((pg2 + 0x1000) - 4);
+    int* pointer_flag = (int *) 0x40001FFC;
     int _eip = (*pointer_flag) + 0x40000000;
     (* tss_actual).eip = _eip;
 }
