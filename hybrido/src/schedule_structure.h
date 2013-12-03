@@ -1,3 +1,6 @@
+#ifndef __SCCHEEDSTRUCT_H__
+#define __SCCHEEDSTRUCT_H__
+
 /*Struct de cada tarea*/
 struct tarea_t
 {
@@ -14,6 +17,12 @@ struct sched_t
     unsigned int QUANTUM_RESTANTE;      // QUANTUMS restantes
     unsigned int TAREA_ACTUAL;          // Indice del array tareas que esta corriendo ahora. CUIDADO: No es un seg sel. es solo un numero indice del array.
     unsigned int BANDERA_ACTUAL;
+    unsigned int IDLE_ON;
     unsigned int CONTEXTO;              // Si el contexto == 0 entonces estoy en tareas de lo contrario estoy en bandera.
     unsigned int TASKS_UP;              // Numero de tareas habilitadas en ese momento. Si el numero es 0 se entiende que solo puede correr la tarea IDLE
 };
+
+/*DESALOJAR_TAREA: Desaloja la tarea actual y salta a la tarea IDLE.*/
+void desalojar_tarea();
+
+#endif        /* !__SCCHEEDSTRUCT_H__ */

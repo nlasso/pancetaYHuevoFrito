@@ -118,7 +118,7 @@ void mmu_inicializar_tareas(){
 		pagetab_entry * pgtab3 = (pagetab_entry *)  LAST_MEMORY_FREE;
 		LAST_MEMORY_FREE += TAMANO_PAGINA * 2; 		//Es la pila que sigue no debería ser mas 2 ya que se mueve al 0??
 		long unsigned int _pila0  = LAST_MEMORY_FREE;	
-		//LAST_MEMORY_FREE += TAMANO_PAGINA;
+		LAST_MEMORY_FREE += TAMANO_PAGINA;
 
 		//IDENTITY MAPPING YA DEFINIDO
 		i = 1;
@@ -262,7 +262,7 @@ void anclar(unsigned int destino){//DONE
 }
 
 void navegar(unsigned int destino1, unsigned int destino2){ //DONE
-	if((destino1 >= 0x100000) && (destino2 >= 0x100000)){
+	if((destino1 >= 0x100000) && (destino2 >= 0x100000) && (destino1 <= AREA_MAR_FIN) && (destino2 <= AREA_MAR_FIN)){
 		int tarea_actual = sched.TAREA_ACTUAL;
 		unprint_mapa_tarea(tarea_actual);
 		reubicar_pagina(tarea_actual, 0, destino1);

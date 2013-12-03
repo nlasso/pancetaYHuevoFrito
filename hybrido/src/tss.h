@@ -60,6 +60,7 @@ extern tss tarea_dibujar;
 void tss_inicializar();
 void bleach_tss(tss *);
 void tss_tareas_inicializar();
-void definir_tss(tss *,long unsigned int, long unsigned int, long unsigned int, char);
+void definir_tss(tss *,long unsigned int, long unsigned int, long unsigned int, char, long unsigned int);
+void tss_reset_flags();
 
 #endif  /* !__TSS_H__ */

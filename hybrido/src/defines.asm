@@ -43,8 +43,8 @@
 %define PILALVLCERO	 			0x00029000 
 
 ;; PANTALLAS
-%define SCREENESTADO			1
-%define SCREENMAPA				0
+%define SCREENESTADO			0
+%define SCREENMAPA				1
 
 
 ;; PAGINAS

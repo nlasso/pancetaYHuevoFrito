@@ -10,6 +10,7 @@
 
 #define INDICE_IDLE		0
 
+extern void print_bandera(int);
 
 // Indice de tareas.
 unsigned int indices_tareas[] = {GDT_TSS_TS1, GDT_TSS_TS2, GDT_TSS_TS3, GDT_TSS_TS4, GDT_TSS_TS5, GDT_TSS_TS6, GDT_TSS_TS7, 
@@ -45,6 +46,8 @@ void sched_inicializar() {
 	sched.CONTEXTO = 0;
 	sched.BANDERA_ACTUAL = 0;
 	sched.TASKS_UP = CANT_TAREAS;
+	sched.IDLE_ON = 1;
+	tss_reset_flags();
 }
 
 // Desalojo Tarea y bandera, es decir los borro de sus respectivos arrays.
@@ -54,9 +57,16 @@ void desalojar_tarea(){
 	sched.TASKS_UP--;
 	saltar_idle(); 
 }
+
+void desalojar_bandera(){
+	unsigned int bandera = sched.BANDERA_ACTUAL;
+	sched.tareas[bandera].estado = 0;
+	//saltar_idle();
+}
+
 void saltar_idle(){
 	// Tengo que saltar a la tarea IDLE y correr hasta que se termine el quantum.
-	sched.TAREA_ACTUAL = 0;
+	sched.IDLE_ON = 1;
 	jump_idle();
 }
 
@@ -74,7 +84,6 @@ void saltar_a_tarea(int indice_siguiente_tarea){
 
 void saltar_a_bandera(int indice_siguiente_bandera){
 	sched.BANDERA_ACTUAL = indice_siguiente_bandera;
-	return;
 }
 
 unsigned int dame_tarea_actual(){
@@ -107,6 +116,20 @@ static unsigned int siguiente_indice_posible(int tarea_siguiente){
 	}
 }
 
+static unsigned int siguiente_bandera_posible(int bandera_siguiente){
+	if(bandera_siguiente == CANT_TAREAS  + 1){
+		bandera_siguiente = 0;
+		return bandera_siguiente;
+	}else{
+		if(sched.tareas[bandera_siguiente].estado != 0){
+			return bandera_siguiente;
+		}else{
+			bandera_siguiente++;
+			return siguiente_indice_posible(bandera_siguiente);
+		}
+	}
+}
+
 unsigned int sched_proximo_indice() {
 	unsigned int tarea_actual = sched.TAREA_ACTUAL;
 	tarea_actual++;
@@ -118,7 +141,7 @@ unsigned int sched_proximo_indice() {
 unsigned int sched_proxima_bandera(){
 	unsigned int bandera_actual = sched.BANDERA_ACTUAL;
 	bandera_actual++;
-	unsigned int siguiente_indice = siguiente_indice_posible(bandera_actual);
+	unsigned int siguiente_indice = siguiente_bandera_posible(bandera_actual);
 	return siguiente_indice;
 }
 
@@ -129,35 +152,64 @@ unsigned short clock(){
 			sched.QUANTUM_RESTANTE--;			//Si estoy en contexto de tareas entonces me interesa saber del quantum restante.
 			if(sched.QUANTUM_RESTANTE == 0){
 				NEXT_INDEX = sched_proxima_bandera();
+				if(NEXT_INDEX == 0 && sched.IDLE_ON == 1){
+					return 0;
+				}
+				if(NEXT_INDEX == sched.BANDERA_ACTUAL){
+					return 0;
+				}
 				sched.CONTEXTO = 1;
 				saltar_a_bandera(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].bandera;
 			}else{
 				NEXT_INDEX = sched_proximo_indice();
+				if(NEXT_INDEX == sched.TAREA_ACTUAL){
+					return 0;	
+				}
 				saltar_a_tarea(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].tarea;
 			}
 		}else{
-			if(sched_proxima_bandera() == sched.BANDERA_ACTUAL){
+			if(sched.IDLE_ON == 0){
+				desalojar_tarea();
+			}
+			if(sched_proxima_bandera() == sched.BANDERA_ACTUAL || sched_proxima_bandera() == 0){
 				NEXT_INDEX = sched_proximo_indice();
+				if(NEXT_INDEX == sched.TAREA_ACTUAL){
+					return 0;
+				}
 				saltar_a_tarea(NEXT_INDEX);
 				sched.CONTEXTO = 0;
 				sched.BANDERA_ACTUAL = 0;
 				restaurar_quantum();
+				tss_reset_flags();
 				return sched.tareas[NEXT_INDEX].tarea;
 			}else{
 				NEXT_INDEX = sched_proxima_bandera();
+				if(NEXT_INDEX == 0 && sched.IDLE_ON == 1){
+					return 0;
+				}
+				if(NEXT_INDEX == sched.BANDERA_ACTUAL){
+					return 0;
+				}
 				saltar_a_bandera(NEXT_INDEX);
 				return sched.tareas[NEXT_INDEX].bandera;
 			}
 		}		
 	}else{
-		return sched.tareas[INDICE_IDLE].tarea;
+		if(sched.IDLE_ON == 0){
+			sched.TAREA_ACTUAL = 0;
+			sched.BANDERA_ACTUAL = 0;
+			return sched.tareas[INDICE_IDLE].tarea;	
+		}else{
+			return 0;
+		}
 	}
 }
 
 void bandera(){
 	if(sched.CONTEXTO == 1){
+		print_bandera(sched.BANDERA_ACTUAL);
 		saltar_idle();
 	}else{
 		desalojar_tarea();

@@ -46,8 +46,8 @@ global _isr%1
 _isr%1:
     ;cli
     pushad
-    ;breakpoint
-    ;mov cx, %1
+    breakpoint
+    mov cx, %1
     ;mov eax, eax
     ;mov [estado_error], eax
     mov [estado_error], eax
@@ -98,7 +98,6 @@ _isr%1:
     CALL load_pantalla;
     breakpoint
     call desalojar_tarea
-    call saltar_idle        ;VERIFICAR: esto. Debería saltar en cualquier error a IDLE.
     
     sti
     ; To Infinity And Beyond!!
@@ -126,8 +125,8 @@ jump_idle:
     pushad
     mov ax, GDT_IDLE
     mov [selector], ax
-    popad
     jmp far [offset]
+    popad
     iret
 
 
@@ -166,7 +165,6 @@ int_invalida:
     CALL fin_intr_pic1
     CALL print_error
     CALL desalojar_tarea
-    CALL saltar_idle
     popad
     sti
     iret
@@ -181,12 +179,15 @@ screen_proximo_reloj:
     CALL fin_intr_pic1
     CALL proximo_reloj
     CALL clock
-    breakpoint
+    cmp eax, 0
+    je .fin
+    ;;breakpoint
     mov [selector], ax
     jmp far [offset]
+.fin
     popad
     sti
-    ret
+    iret
 
 ;;
 ;; Rutina de atención del TECLADO
@@ -265,7 +266,7 @@ fin_teclado:
     call fin_intr_pic1
     popad
     sti
-    ret
+    iret
 
 
 ;;
@@ -275,33 +276,34 @@ global int_servicios
 int_servicios:
     cli 
     push edx
-    call fin_intr_pic1
-    call desalojar_tarea
     cmp eax, ANCLA
     je .SYSTEM_ANCLA
     cmp eax, MISIL
     je .SYSTEM_MISIL
     cmp eax, NAVEGAR
     je .SYSTEM_NAVEGAR
-
+    jmp .fin
     .SYSTEM_ANCLA:
         push ebx
         call anclar
+        call desalojar_tarea
         jmp .fin
-
     .SYSTEM_MISIL:
         push ecx
         push ebx
         call canionear
+        call desalojar_tarea
+        jmp .fin
     .SYSTEM_NAVEGAR:
         push ecx
         push ebx
         call navegar
+        call desalojar_tarea
 .fin: 
-    call saltar_idle
+    call fin_intr_pic1
     pop edx
     sti
-    ret
+    iret
 
 ;;
 ;;Rutina de atencion de interrupcion de bandera
@@ -310,11 +312,12 @@ global int_bandera
 int_bandera:
     cli 
     pushad
-    call fin_intr_pic1
+    ;breakpoint
     call bandera
+    call fin_intr_pic1
     popad
     sti
-    ret
+    iret
 
 
 ;; Funciones Auxiliares
