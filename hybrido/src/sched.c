@@ -10,6 +10,7 @@
 
 #define INDICE_IDLE		0
 
+extern void print_bandera(int);
 
 // Indice de tareas.
 unsigned int indices_tareas[] = {GDT_TSS_TS1, GDT_TSS_TS2, GDT_TSS_TS3, GDT_TSS_TS4, GDT_TSS_TS5, GDT_TSS_TS6, GDT_TSS_TS7, 
@@ -196,6 +197,7 @@ unsigned short clock(){
 
 void bandera(){
 	if(sched.CONTEXTO == 1){
+		print_bandera(sched.BANDERA_ACTUAL);
 		saltar_idle();
 	}else{
 		desalojar_tarea();

@@ -262,7 +262,7 @@ void anclar(unsigned int destino){//DONE
 }
 
 void navegar(unsigned int destino1, unsigned int destino2){ //DONE
-	if((destino1 >= 0x100000) && (destino2 >= 0x100000)){
+	if((destino1 >= 0x100000) && (destino2 >= 0x100000) && (destino1 <= AREA_MAR_FIN) && (destino2 <= AREA_MAR_FIN)){
 		int tarea_actual = sched.TAREA_ACTUAL;
 		unprint_mapa_tarea(tarea_actual);
 		reubicar_pagina(tarea_actual, 0, destino1);
