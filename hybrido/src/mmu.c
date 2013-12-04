@@ -262,21 +262,31 @@ void anclar(unsigned int destino){//DONE
 }
 
 void navegar(unsigned int destino1, unsigned int destino2){ //DONE
-	if((destino1 >= 0x100000) && (destino2 >= 0x100000) && (destino1 <= AREA_MAR_FIN) && (destino2 <= AREA_MAR_FIN)){
+	if((destino1 >= 0x100000) && 
+		(destino2 >= 0x100000) && 
+		(destino1 <= AREA_MAR_FIN) && 
+		(destino2 <= AREA_MAR_FIN))
+	{
 		int tarea_actual = sched.TAREA_ACTUAL;
 		unprint_mapa_tarea(tarea_actual);
 		reubicar_pagina(tarea_actual, 0, destino1);
 		reubicar_pagina(tarea_actual, 1, destino2);
 		print_mapa_tarea(tarea_actual);
 	}else{
-		//sacar tarea
+		desalojar_tarea();
 	}		
 }
 
 void reubicar_pagina(unsigned int tarea, unsigned int numero_pagina, unsigned int destino){//DONE
 	int origen;
-	if(numero_pagina == 0){origen = TASK_PAG_1[tarea]; TASK_PAG_1[tarea] = destino;}
-	else{origen = TASK_PAG_2[tarea]; TASK_PAG_2[tarea] = destino;};
+	if(numero_pagina == 0){
+		origen = TASK_PAG_1[tarea]; 
+		TASK_PAG_1[tarea] = destino;
+	}
+	else{
+		origen = TASK_PAG_2[tarea]; 
+		TASK_PAG_2[tarea] = destino;
+	}
 	clonar_pagina(origen, destino);
 	load_pantalla();
 }
@@ -287,5 +297,6 @@ void clonar_pagina(unsigned int origen, unsigned int destino){ //DONE
 	int i = 0;
 	while(i < 1024){
 		pag_destino[i] = pag_origen[i]; 
-		i++;}
+		i++;
+	}
 }

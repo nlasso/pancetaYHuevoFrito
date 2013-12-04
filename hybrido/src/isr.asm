@@ -181,7 +181,7 @@ screen_proximo_reloj:
     CALL clock
     cmp eax, 0
     je .fin
-    ;;breakpoint
+    ;breakpoint
     mov [selector], ax
     jmp far [offset]
 .fin
@@ -276,6 +276,7 @@ global int_servicios
 int_servicios:
     cli 
     push edx
+    breakpoint
     cmp eax, ANCLA
     je .SYSTEM_ANCLA
     cmp eax, MISIL
@@ -286,19 +287,16 @@ int_servicios:
     .SYSTEM_ANCLA:
         push ebx
         call anclar
-        call desalojar_tarea
         jmp .fin
     .SYSTEM_MISIL:
         push ecx
         push ebx
         call canionear
-        call desalojar_tarea
         jmp .fin
     .SYSTEM_NAVEGAR:
         push ecx
         push ebx
         call navegar
-        call desalojar_tarea
 .fin: 
     call fin_intr_pic1
     pop edx
