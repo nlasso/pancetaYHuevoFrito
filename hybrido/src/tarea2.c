@@ -49,7 +49,7 @@ void task() {
            //syscall_navegar(0x00680000,0x00681000);
            s = 0;
        }
-    };
+    }
 }
 
 unsigned char * bandera() {

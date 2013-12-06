@@ -122,7 +122,7 @@ void inicializar_pantalla_memoria(){ //NECESITA QUE ESTE DEFINIDA LA GDT PARA FU
 	print_tablatar_tarea(7);
 	print_tablatar_tarea(8);
 
-	print_tablatar_error(3,10); //ESTO NO IRIA
+	//print_tablatar_error(3,10); //ESTO NO IRIA
 
 	print_mapa_tarea(1);
 	print_mapa_tarea(2);
@@ -320,6 +320,8 @@ void print_tablatar_error(int tarea, int num_error){
 	x -= 15;
 	print_texto(ESTADO,string_errores[num_error], x, y);
 }
+
+void print_tablatar_actual_error(int num_error){print_tablatar_error(sched.TAREA_ACTUAL, num_error);}
 
 ////// Mapa 
 

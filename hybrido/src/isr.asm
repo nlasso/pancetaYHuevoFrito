@@ -38,6 +38,7 @@ extern print_tablaerror
 extern estado_error
 extern print_bandera
 extern print_banderines
+extern print_tablatar_actual_error
 
 ;;
 ;; Definición de MACROS
@@ -92,10 +93,10 @@ _isr%1:
     mov ax, [esp+40] 
     mov [estado_error+72], eax
     call print_tablaerror;
-    xor ax, ax
     mov ax, %1
     push ax
     call print_error
+    call print_tablatar_actual_error
     pop  ax
     popad
     CALL load_pantalla;
@@ -130,7 +131,7 @@ jump_idle:
     mov [selector], ax
     jmp far [offset]
     popad
-    iret
+    ret
 
 
 ;;
@@ -280,7 +281,7 @@ global int_servicios
 int_servicios:
     cli 
     push edx
-    breakpoint
+    ;breakpoint
     cmp eax, ANCLA
     je .SYSTEM_ANCLA
     cmp eax, MISIL
@@ -290,19 +291,25 @@ int_servicios:
     jmp .fin
     .SYSTEM_ANCLA:
         push ebx
-        call anclar
+        call anclar        
+        pop ebx
         jmp .fin
     .SYSTEM_MISIL:
         push ecx
         push ebx
         call canionear
+        pop ecx
+        pop ebx
         jmp .fin
     .SYSTEM_NAVEGAR:
         push ecx
         push ebx
         call navegar
+        pop ecx
+        pop ebx
 .fin: 
     call fin_intr_pic1
+    call saltar_idle
     pop edx
     sti
     iret
@@ -314,8 +321,10 @@ global int_bandera
 int_bandera:
     cli 
     pushad
-    call bandera
+    breakpoint
+    mov ax, 27
     call fin_intr_pic1
+    call bandera
     popad
     sti
     iret

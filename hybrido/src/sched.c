@@ -141,6 +141,7 @@ unsigned short continuo_corrida_flags(){
 	sched.BANDERA_ACTUAL = NEXT_INDEX;
 	if(NEXT_INDEX == 0){
 		// Si no quedan banderas, salto a una tarea 
+		tss_reset_flags();
 		sched.QUANTUM_RESTANTE = 3;
 		respuesta = continuo_corrida_tareas();
 	}else{
