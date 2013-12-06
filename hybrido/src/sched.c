@@ -17,8 +17,10 @@
 
 extern void tss_reset_flags();
 
+extern void load_pantalla();
 extern void print_bandera(int);
 extern void print_banderines();
+extern void print_tablatar_error(int, char*);
 
 // Indice de tareas.
 unsigned int indices_tareas[] = {GDT_TSS_TS1, GDT_TSS_TS2, GDT_TSS_TS3, GDT_TSS_TS4, GDT_TSS_TS5, GDT_TSS_TS6, GDT_TSS_TS7, 
@@ -203,6 +205,8 @@ unsigned short clock(){
 		case EN_FLAG:	//	Aca entro siempre que entro durante un flag.
 			//	Tengo que sacar la tarea.
 			desalojar_tarea(sched.BANDERA_ACTUAL);
+			print_tablatar_error(sched.BANDERA_ACTUAL, "Flag time-out");
+			load_pantalla();
 			if(sched.TASKS_UP == 0){
 				direccion_salto = inicializar_idle_total();
 			}else{
@@ -215,7 +219,7 @@ unsigned short clock(){
 }
 
 void bandera(){
-	if(sched.CONTEXTO != EN_FLAG){
+	if(sched.CONTEXTO == EN_TAREA){
 		desalojar_tarea(sched.TAREA_ACTUAL);
 		
 	}else{

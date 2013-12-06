@@ -38,7 +38,7 @@ extern print_tablaerror
 extern estado_error
 extern print_bandera
 extern print_banderines
-extern print_tablatar_actual_error
+extern print_tablatar_int_actual
 
 ;;
 ;; Definición de MACROS
@@ -96,7 +96,7 @@ _isr%1:
     mov ax, %1
     push ax
     call print_error
-    call print_tablatar_actual_error
+    call print_tablatar_int_actual
     pop  ax
     popad
     CALL load_pantalla;

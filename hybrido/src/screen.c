@@ -309,8 +309,7 @@ void print_tablatar_tarea(int tarea){
 
 };
 
-
-void print_tablatar_error(int tarea, int num_error){
+void print_tablatar_error(int tarea, char* string){
 	int x = tablatar_x;
 	int y = tablatar_y + tarea - 1;
 	while (x <= 78){
@@ -318,10 +317,15 @@ void print_tablatar_error(int tarea, int num_error){
 		x++;
 	}
 	x -= 15;
-	print_texto(ESTADO,string_errores[num_error], x, y);
+	print_texto(ESTADO,string, x, y);
 }
 
-void print_tablatar_actual_error(int num_error){print_tablatar_error(sched.TAREA_ACTUAL, num_error);}
+void print_tablatar_int(int tarea, int num_error){
+	char * string = string_errores[num_error];
+	print_tablatar_error(tarea, string);
+}
+
+void print_tablatar_int_actual(int num_error){print_tablatar_int(sched.TAREA_ACTUAL, num_error);}
 
 ////// Mapa 
 

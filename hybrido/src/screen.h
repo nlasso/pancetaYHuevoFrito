@@ -86,7 +86,9 @@ void inicializar_pantalla_memoria();
 
 void print_tablaerror();
 void print_tablatar(int, int, int, int);
-void print_tablatar_error(int, int);
+void print_tablatar_error(int, char*);
+void print_tablatar_int(int, int);
+void print_tablatar_int_actual(int);
 
 void print_texto_cord(screen *, char *, int );
 void print_formato_cord(screen *, char , int);
