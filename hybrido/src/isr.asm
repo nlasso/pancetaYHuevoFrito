@@ -127,7 +127,7 @@ jump_idle:
     mov [selector], ax
     jmp far [offset]
     popad
-    iret
+    ret
 
 
 ;;
@@ -276,7 +276,7 @@ global int_servicios
 int_servicios:
     cli 
     push edx
-    breakpoint
+    ;breakpoint
     cmp eax, ANCLA
     je .SYSTEM_ANCLA
     cmp eax, MISIL
@@ -286,19 +286,25 @@ int_servicios:
     jmp .fin
     .SYSTEM_ANCLA:
         push ebx
-        call anclar
+        call anclar        
+        pop ebx
         jmp .fin
     .SYSTEM_MISIL:
         push ecx
         push ebx
         call canionear
+        pop ecx
+        pop ebx
         jmp .fin
     .SYSTEM_NAVEGAR:
         push ecx
         push ebx
         call navegar
+        pop ecx
+        pop ebx
 .fin: 
     call fin_intr_pic1
+    call saltar_idle
     pop edx
     sti
     iret
