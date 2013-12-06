@@ -4,7 +4,7 @@
 /*Struct de cada tarea*/
 struct tarea_t
 {
-    unsigned short tarea;           // TSS Segment Selector para la tarea.
+    unsigned short tarea;       // TSS Segment Selector para la tarea.
     unsigned short bandera;     // TSS Segment Selector para la bandera de la tarea.
     unsigned int estado;        // Estado: si el estado == 1 entonces puedo acceder a la tarea. Si estado == 0 la tarea fue desalojada.
     unsigned int indice;

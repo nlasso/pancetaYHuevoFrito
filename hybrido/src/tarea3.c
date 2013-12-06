@@ -40,6 +40,8 @@ void task() {
     //for(i=0;i<96 ;i=i+2) { buffer[i] = 0x0F; buffer[i+1] = 0x0B; } // instruccion: UD2
     //buffer[96] = 0x0B;
     while(1) {
+        int s = 0;
+        s = s/s;
       //for(i=0;i<100;i++) {
         //syscall_canonear((unsigned int)(buffer), (unsigned int)(0x00666666+i*97));
         //syscall_canonear((unsigned int)(buffer), (unsigned int)(0x00676666+i*97));

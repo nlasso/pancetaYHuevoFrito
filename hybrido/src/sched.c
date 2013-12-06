@@ -8,26 +8,31 @@
 #include "sched.h"
 #include "isr.h"
 
-#define INDICE_IDLE		0
+#define INDICE_IDLE 0
+#define EN_IDLE_TOTAL 0
+#define EN_IDLE_TAREA 1
+#define EN_IDLE_FLAG 2
+#define EN_TAREA 3
+#define EN_FLAG 4
+
+extern void tss_reset_flags();
 
 extern void print_bandera(int);
+extern void print_banderines();
 
 // Indice de tareas.
 unsigned int indices_tareas[] = {GDT_TSS_TS1, GDT_TSS_TS2, GDT_TSS_TS3, GDT_TSS_TS4, GDT_TSS_TS5, GDT_TSS_TS6, GDT_TSS_TS7, 
 								GDT_TSS_TS8};
 
 // Indice de banderas.
-unsigned int indices_banderas[] = {GDT_TSS_FG1, GDT_TSS_FG2, GDT_TSS_FG3, GDT_TSS_FG4, GDT_TSS_FG5, GDT_TSS_FG6, GDT_TSS_FG7,
-								GDT_TSS_FG8};
+unsigned int indices_banderas[] = {GDT_TSS_FG1, GDT_TSS_FG2, GDT_TSS_FG3, GDT_TSS_FG4, GDT_TSS_FG5, GDT_TSS_FG6, GDT_TSS_FG7, GDT_TSS_FG8};
 
 void sched_inicializar() {
 	// Carlo la tarea idle.
 	struct tarea_t tarea_idle;
 	tarea_idle.tarea = (GDT_TSS_IDLE << 3) + 0x00;
 	tarea_idle.bandera = (GDT_TSS_IDLE << 3) + 0x00;	//Por precaucion pongo la misma tarea. pero IDLE no tiene bandera!
-
 	tarea_idle.estado = 1;
-
 	sched.tareas[0] = tarea_idle;
 
 	// Cargo los selectores de segmentos en mi estructura de scheduling.
@@ -43,175 +48,176 @@ void sched_inicializar() {
 	}
 	sched.QUANTUM_RESTANTE = QUANTUM_TAREA + 1;
 	sched.TAREA_ACTUAL = INDICE_IDLE;
-	sched.CONTEXTO = 0;
+	sched.CONTEXTO = EN_IDLE_TAREA;
 	sched.BANDERA_ACTUAL = 0;
 	sched.TASKS_UP = CANT_TAREAS;
-	sched.IDLE_ON = 1;
+	//sched.IDLE_ON = 1;
 	tss_reset_flags();
 }
 
-// Desalojo Tarea y bandera, es decir los borro de sus respectivos arrays.
-void desalojar_tarea(){
-	unsigned int _tarea_actual = sched.TAREA_ACTUAL;
-	sched.tareas[_tarea_actual].estado = 0;
-	sched.TASKS_UP--;
-	saltar_idle(); 
+void desalojar_tarea_actual(){
+	desalojar_tarea(sched.TAREA_ACTUAL);	
 }
 
-void desalojar_bandera(){
-	unsigned int bandera = sched.BANDERA_ACTUAL;
-	sched.tareas[bandera].estado = 0;
-	//saltar_idle();
+void desalojar_tarea(int tarea){
+	sched.tareas[tarea].estado = 0;
+	sched.TASKS_UP--;
 }
 
 void saltar_idle(){
-	// Tengo que saltar a la tarea IDLE y correr hasta que se termine el quantum.
-	sched.IDLE_ON = 1;
+	cambiar_contexto_idle();	
 	jump_idle();
 }
 
-void restaurar_quantum(){
-	sched.QUANTUM_RESTANTE = QUANTUM_TAREA;
-}
-
-void restar_quantum(){
-	sched.QUANTUM_RESTANTE--;
-}
-
-void saltar_a_tarea(int indice_siguiente_tarea){
-	sched.TAREA_ACTUAL = indice_siguiente_tarea;
-}
-
-void saltar_a_bandera(int indice_siguiente_bandera){
-	sched.BANDERA_ACTUAL = indice_siguiente_bandera;
-}
-
-unsigned int dame_tarea_actual(){
-	return sched.TAREA_ACTUAL;
-}
-
-unsigned int dame_tarea(int indice_tarea){
-	return sched.tareas[indice_tarea].tarea;
-}
-
-unsigned int dame_bandera(int bandera){
-	return sched.tareas[bandera].bandera;
-}
-
-void cambiar_contexto(int _contexto){
-	sched.CONTEXTO = _contexto;
-}
-
-static unsigned int siguiente_indice_posible(int tarea_siguiente){
-	if(tarea_siguiente == CANT_TAREAS  + 1){
-		tarea_siguiente = 1;
-		return siguiente_indice_posible(tarea_siguiente);
-	}else{
-		if(sched.tareas[tarea_siguiente].estado != 0){
-			return tarea_siguiente;
-		}else{
-			tarea_siguiente++;
-			return siguiente_indice_posible(tarea_siguiente);
-		}
+unsigned int sched_proxima_tarea(){
+	int task = sched.TAREA_ACTUAL;
+	int intentos = 8;
+	char found = 0;
+	task ++;
+	while(intentos > 0){
+		intentos--;
+		// Si hay overflow termino
+		if(task == CANT_TAREAS+ 1){ task = 1;}
+		// Si es esta tarea termino de buscar
+		if(sched.tareas[task].estado != 0){ intentos = 0; found = task;}
+		// Su no es esta tarea siguo buscando
+		else{task++;}
 	}
+	return found;
 }
-
-static unsigned int siguiente_bandera_posible(int bandera_siguiente){
-	if(bandera_siguiente == CANT_TAREAS  + 1){
-		bandera_siguiente = 0;
-		return bandera_siguiente;
-	}else{
-		if(sched.tareas[bandera_siguiente].estado != 0){
-			return bandera_siguiente;
-		}else{
-			bandera_siguiente++;
-			return siguiente_indice_posible(bandera_siguiente);
-		}
-	}
-}
-
-unsigned int sched_proximo_indice() {
-	unsigned int tarea_actual = sched.TAREA_ACTUAL;
-	tarea_actual++;
-	unsigned int siguiente_indice = siguiente_indice_posible(tarea_actual);
-    return siguiente_indice;
-}
-
 
 unsigned int sched_proxima_bandera(){
-	unsigned int bandera_actual = sched.BANDERA_ACTUAL;
-	bandera_actual++;
-	unsigned int siguiente_indice = siguiente_bandera_posible(bandera_actual);
-	return siguiente_indice;
+	int task = sched.BANDERA_ACTUAL;
+	int intentos = 8;
+	char found = 0;
+	task ++;
+	while(intentos > 0){
+		intentos--;
+		// Si hay overflow termino
+		if(task == CANT_TAREAS + 1){ intentos = 0; found = 0;}
+		// Si es esta tarea termino de buscar
+		else if(sched.tareas[task].estado != 0){ intentos = 0; found = task;}
+		// Su no es esta tarea siguo buscando
+		else{task++;}
+	}
+	return found;
+}
+
+void cambiar_contexto_idle(){
+	switch (sched.CONTEXTO){
+		case EN_TAREA:
+		case EN_IDLE_TAREA:
+			sched.CONTEXTO = EN_IDLE_TAREA;
+			break;
+		case EN_FLAG:
+		case EN_IDLE_FLAG:
+			sched.CONTEXTO = EN_IDLE_FLAG;
+			break;
+		default:
+			sched.CONTEXTO = EN_IDLE_TOTAL;
+			break;
+		};
+}
+
+unsigned short inicializar_idle_total(){
+	unsigned short respuesta = sched.tareas[INDICE_IDLE].tarea ;
+	sched.TAREA_ACTUAL   = 0;
+	sched.BANDERA_ACTUAL = 0;
+	sched.CONTEXTO = EN_IDLE_TOTAL;
+	return respuesta;
+}
+
+unsigned short inicializar_corrida_flags(){
+	sched.BANDERA_ACTUAL = 0;
+	sched.BANDERA_ACTUAL = sched_proxima_bandera();
+	unsigned short respuesta = sched.tareas[sched.BANDERA_ACTUAL].bandera;
+	sched.CONTEXTO = EN_FLAG;
+	return respuesta;
+}
+
+unsigned short continuo_corrida_flags(){
+	unsigned short respuesta;
+	unsigned int NEXT_INDEX = sched_proxima_bandera();
+	sched.BANDERA_ACTUAL = NEXT_INDEX;
+	if(NEXT_INDEX == 0){
+		// Si no quedan banderas, salto a una tarea 
+		sched.QUANTUM_RESTANTE = 3;
+		respuesta = continuo_corrida_tareas();
+	}else{
+		// Si quedan banderas, salto a una tarea 
+		sched.CONTEXTO = EN_FLAG;
+		respuesta = sched.tareas[sched.BANDERA_ACTUAL].bandera;
+	}
+	return respuesta;
+}
+
+
+unsigned short continuo_corrida_tareas(){
+	int respuesta;
+	int TEMP = sched_proxima_tarea();
+	if((sched.CONTEXTO != EN_TAREA) || (TEMP != sched.TAREA_ACTUAL) ){
+		sched.TAREA_ACTUAL = TEMP;
+		respuesta = sched.tareas[sched.TAREA_ACTUAL].tarea;
+	}else{
+		respuesta = 0;
+	}
+	
+	sched.CONTEXTO = EN_TAREA;
+	return respuesta;
 }
 
 unsigned short clock(){
-	int NEXT_INDEX = 0;
-	if(sched.TASKS_UP > 0){
-		if(sched.CONTEXTO == 0){
-			sched.QUANTUM_RESTANTE--;			//Si estoy en contexto de tareas entonces me interesa saber del quantum restante.
-			if(sched.QUANTUM_RESTANTE == 0){
-				NEXT_INDEX = sched_proxima_bandera();
-				if(NEXT_INDEX == 0 && sched.IDLE_ON == 1){
-					return 0;
-				}
-				if(NEXT_INDEX == sched.BANDERA_ACTUAL){
-					return 0;
-				}
-				sched.CONTEXTO = 1;
-				saltar_a_bandera(NEXT_INDEX);
-				return sched.tareas[NEXT_INDEX].bandera;
+	// VARIABLES
+	//unsigned short NEXT_INDEX;
+	unsigned short direccion_salto = 0;
+	//MODIFICACIONES 
+	if(sched.QUANTUM_RESTANTE > 0 ){sched.QUANTUM_RESTANTE--;}
+	/*CREO QUE ESTO NO HACE FALTA, LO AGREGO SOLO POR SEGURIDAD */
+	if(sched.TASKS_UP == 0){sched.CONTEXTO = EN_IDLE_TOTAL;}; 
+	/*															*/
+	//CLOCK
+	switch (sched.CONTEXTO){
+
+		case EN_IDLE_TOTAL://Este es el idle eterno donde ya no quedan tareas
+			if(sched.TAREA_ACTUAL != 0){//CREO QUE ESTO NO HACE FALTA, LO AGREGO SOLO POR SEGURIDAD
+				inicializar_idle_total();
+			};
+			break;
+
+		case EN_TAREA: //Aca entro si estoy en una tarea. (identico al tarea idle)
+		case EN_IDLE_TAREA:	//	Aca entro siempre que una tarea termino,ya sea por que llamo a 
+			//	un syscall o por que fue despejada por una interrupcion
+			if(sched.QUANTUM_RESTANTE == 0){	// Si tengo que saltar a las banderas
+				direccion_salto = inicializar_corrida_flags();
+			}else{								// Si tengo que seguir corriendo tareas
+				direccion_salto = continuo_corrida_tareas();
+			}
+			break;
+
+		case EN_IDLE_FLAG:	//	Aca entro siempre que una flag termino, ya sea por que llamo a 
+			//  int 66 o por que fue despejada por una interrupcion
+			direccion_salto = continuo_corrida_flags();
+			break;
+
+		case EN_FLAG:	//	Aca entro siempre que entro durante un flag.
+			//	Tengo que sacar la tarea.
+			desalojar_tarea(sched.BANDERA_ACTUAL);
+			if(sched.TASKS_UP == 0){
+				direccion_salto = inicializar_idle_total();
 			}else{
-				NEXT_INDEX = sched_proximo_indice();
-				if(NEXT_INDEX == sched.TAREA_ACTUAL){
-					return 0;	
-				}
-				saltar_a_tarea(NEXT_INDEX);
-				return sched.tareas[NEXT_INDEX].tarea;
-			}
-		}else{
-			if(sched.IDLE_ON == 0){
-				desalojar_tarea();
-			}
-			if(sched_proxima_bandera() == sched.BANDERA_ACTUAL || sched_proxima_bandera() == 0){
-				NEXT_INDEX = sched_proximo_indice();
-				if(NEXT_INDEX == sched.TAREA_ACTUAL){
-					return 0;
-				}
-				saltar_a_tarea(NEXT_INDEX);
-				sched.CONTEXTO = 0;
-				sched.BANDERA_ACTUAL = 0;
-				restaurar_quantum();
-				tss_reset_flags();
-				return sched.tareas[NEXT_INDEX].tarea;
-			}else{
-				NEXT_INDEX = sched_proxima_bandera();
-				if(NEXT_INDEX == 0 && sched.IDLE_ON == 1){
-					return 0;
-				}
-				if(NEXT_INDEX == sched.BANDERA_ACTUAL){
-					return 0;
-				}
-				saltar_a_bandera(NEXT_INDEX);
-				return sched.tareas[NEXT_INDEX].bandera;
-			}
-		}		
-	}else{
-		if(sched.IDLE_ON == 0){
-			sched.TAREA_ACTUAL = 0;
-			sched.BANDERA_ACTUAL = 0;
-			return sched.tareas[INDICE_IDLE].tarea;	
-		}else{
-			return 0;
-		}
-	}
+				direccion_salto = continuo_corrida_flags();
+			};
+			break;
+	};
+	print_banderines();
+	return direccion_salto;
 }
 
 void bandera(){
-	if(sched.CONTEXTO == 1){
-		print_bandera(sched.BANDERA_ACTUAL);
-		saltar_idle();
+	if(sched.CONTEXTO != EN_FLAG){
+		desalojar_tarea(sched.TAREA_ACTUAL);
+		
 	}else{
-		desalojar_tarea();
 	}
+	saltar_idle();
 }

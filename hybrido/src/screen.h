@@ -29,7 +29,9 @@ void print_cuadrado(screen *, char, int, int , int, int );
 void print_texto(screen *, char *, int, int );
 void print_formato(screen *, char, int, int);
 void print_pixel(screen *, pixel, int, int);
+void print_banderines();
 int pos( int, int);
+
 
 ////Prints en pantalla
 //ESTADO

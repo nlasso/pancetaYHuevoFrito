@@ -27,6 +27,7 @@ extern anclar
 extern restar_quantum
 extern dame_tarea_actual
 extern desalojar_tarea
+extern desalojar_tarea_actual
 extern saltar_idle
 extern clock
 extern bandera
@@ -35,6 +36,8 @@ extern bandera
 extern print_error
 extern print_tablaerror
 extern estado_error
+extern print_bandera
+extern print_banderines
 
 ;;
 ;; Definición de MACROS
@@ -97,12 +100,12 @@ _isr%1:
     popad
     CALL load_pantalla;
     breakpoint
-    call desalojar_tarea
+    call desalojar_tarea_actual
     
     sti
     ; To Infinity And Beyond!!
+    jmp $
     iret
-    ;jmp $
 %endmacro
 
 ;;
@@ -177,13 +180,14 @@ screen_proximo_reloj:
     cli
     pushad
     CALL fin_intr_pic1
-    CALL proximo_reloj
+    ;;CALL print_banderines
+    ;CALL proximo_reloj
     CALL clock
     cmp eax, 0
     je .fin
-    ;breakpoint
+    breakpoint
     mov [selector], ax
-    jmp far [offset]
+    jmp far [offset] ;; REVISAR ESTO
 .fin
     popad
     sti
@@ -310,7 +314,6 @@ global int_bandera
 int_bandera:
     cli 
     pushad
-    ;breakpoint
     call bandera
     call fin_intr_pic1
     popad
@@ -331,7 +334,7 @@ proximo_reloj:
         mov ebx, 0
     .ok:
         add ebx, reloj
+        ;call load_pantalla;
         imprimir_texto_mp ebx, 1, 0x0f, 24, 79
-
     popad
     ret

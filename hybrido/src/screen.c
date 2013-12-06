@@ -107,7 +107,7 @@ void inicializar_pantalla(){
 
 	//cambiar_pantalla(SCREENMAPA);
 	load_pantalla();
-
+	print_banderines();
 	/*cambiar_pantalla(SCREENMAPA);
 	load_pantalla();*/
 }
@@ -221,7 +221,7 @@ void print_error(char error){
 		string2[i] = (* string1);
 		string1 ++;	i++;
 	}
-	string2[number] = sched.TAREA_ACTUAL + ASCII_first_num + 1;
+	string2[number] = sched.TAREA_ACTUAL + ASCII_first_num;
 	print_texto(ESTADO, string2,tablaerror_x,tablaerror_y -1);
 };
 
@@ -393,25 +393,68 @@ void print_missil_cord(int cordenada){
 };
 
 void print_bandera(int tarea){
-	char * origen = (char *) (0x40001000);
+	tarea = sched.TAREA_ACTUAL;
+	//char * origen = (char *) (0x40001000);
 	//char:char* origen = &ejemplo_bandera2[0];
 	/*pix*/	//char* origen = (char *) &ejemplo_bandera[0];
 	//char: no iria nada
-	/*pix*/origen ++;
+	/*pix*///origen ++;
 	pixel pix;
 	int y = 0; int x;
 	while(y < 5){
 		x = 0;
 		while(x< 10){
-			pix.formato = ((*origen));
+			//pix.formato = ((*origen));
+			pix.formato = 0XF;
 			//char: origen+= 2;
-			/*pix*/origen+= 4;
+			/*pix*///origen+= 4;
+			//print_pixel(ESTADO, pix, bandera_x[tarea-1] + x, bandera_y[tarea-1] + y);
 			print_pixel(ESTADO, pix, bandera_x[tarea-1] + x, bandera_y[tarea-1] + y);
 			x++;
 		}
 		y++;
 	};
 	load_pantalla();
+}
+
+void print_banderines(){
+	pixel pix1;
+	pixel pix2;
+	screen* pantalla = DISPLAY;
+	int y = 24;
+	int x = 3;
+	int z = 1;
+	while(z <= 8){
+		pix1.formato = (C_FG_WHITE | C_BG_BLACK);
+		//pix1.formato = (C_FG_WHITE | C_BG_GREEN);
+		pix2.formato = (C_FG_WHITE | C_BG_BLACK);
+		//pix2.formato = (C_FG_WHITE | C_BG_CYAN);
+		if(sched.tareas[z].estado == 0){
+			pix1.formato = (C_FG_DARK_GREY | C_BG_BLACK);
+			pix2.formato = (C_FG_DARK_GREY | C_BG_BLACK);
+		}else{ 
+			if(sched.TAREA_ACTUAL == z){
+				pix1.formato = (C_FG_WHITE | C_BG_GREEN);
+			}
+
+			if(sched.BANDERA_ACTUAL == z){
+				pix2.formato = (C_FG_WHITE | C_BG_CYAN);
+			}
+		}
+		// PRINT TAREA
+		pix1.letra = *(char*)"T";
+		print_pixel(pantalla, pix1, x, y);
+		pix1.letra = ASCII_first_num + z;
+		print_pixel(pantalla, pix1, x+1, y);
+		//PRINT FLAG
+		pix2.letra = *(char*)"F";
+		print_pixel(pantalla, pix2, x+3, y);
+		pix2.letra = ASCII_first_num + z;
+		print_pixel(pantalla, pix2, x+4, y);
+
+		x += 7;
+		z++;
+	}
 }
 ///
 /// MISC

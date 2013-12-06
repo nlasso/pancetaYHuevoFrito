@@ -120,7 +120,7 @@ Modo_protegido:
 
     call screen_en_negro
     call inicializar_pantalla
-    
+    breakpoint
     
 
     ;; ---------------------------------------------------------------------- ;;
@@ -131,7 +131,6 @@ Modo_protegido:
     ;; inicializar el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
     call mmu_inicializar
-    call inicializar_pantalla
     ;; ---------------------------------------------------------------------- ;;
     ;; imprimir el directorio de paginas
     ;; ---------------------------------------------------------------------- ;;
@@ -142,7 +141,8 @@ Modo_protegido:
     ;; ---------------------------------------------------------------------- ;;
     ;; habilitar paginacion
     ;; ---------------------------------------------------------------------- ;;
-    mov eax, [TASK_CR3]
+    ;;mov eax, [TASK_CR3+8]
+    mov eax, MAINPAGEDIR
     mov cr3, eax
     mov eax, cr0
     or eax, 0x80000000
@@ -159,11 +159,10 @@ Modo_protegido:
 
     ; inicializar el schedule
  
-    mov eax, [TASK_CR3+4]
-    mov cr3, eax
-    mov eax, [TASK_CR3]
-    mov cr3, eax
-
+   ; mov eax, [TASK_CR3+4]
+   ; mov cr3, eax
+   ; mov eax, [TASK_CR3]
+   ; mov cr3, eax
 
     CALL sched_inicializar
 
