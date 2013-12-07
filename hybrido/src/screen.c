@@ -400,9 +400,9 @@ void print_missil_cord(int cordenada){
 
 };
 
-void print_bandera(int tarea){
+void print_bandera(int tarea, unsigned char* dir_buffer){
 	//tarea = sched.TAREA_ACTUAL;
-	char * origen = (char *) (0x40001000);
+	unsigned char * origen = dir_buffer;//(char *) (0x40001000);
 	////char:char* origen = &ejemplo_bandera2[0];
 	/*pix*/	//char* origen = (char *) &ejemplo_bandera[0];
 	//char: no iria nada
