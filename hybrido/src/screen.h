@@ -99,7 +99,7 @@ void print_clock();
 
 
 
-void print_bandera(int);
+void print_bandera(int, unsigned char*);
 void print_tablatar_tarea(int);
 void print_mapa_tarea(int);
 void print_error(char);

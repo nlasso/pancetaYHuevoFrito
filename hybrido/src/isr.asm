@@ -185,6 +185,7 @@ screen_proximo_reloj:
     CALL clock 
     cmp eax, 0
     je .fin
+    ;breakpoint
     mov [selector], ax
     breakpoint
 
@@ -328,10 +329,16 @@ int_servicios:
 global int_bandera
 int_bandera:
     cli 
-    pushad
-    call fin_intr_pic1
+    push ecx
+    push ebx
+    push edx
+    push eax
     call bandera
-    popad
+    pop eax
+    call fin_intr_pic1
+    pop edx
+    pop ebx
+    pop ecx
     sti
     iret
 

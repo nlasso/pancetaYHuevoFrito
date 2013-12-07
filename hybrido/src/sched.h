@@ -46,6 +46,6 @@ unsigned short revisar_no_GPF(unsigned short);
 unsigned short clock();
 
 /*BANDERA: Código de la interrupcion de bandera*/
-void bandera();
+void bandera(unsigned char*);
 
 #endif	/* !__SCHED_H__ */

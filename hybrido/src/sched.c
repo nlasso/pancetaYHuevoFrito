@@ -18,7 +18,7 @@
 //extern void tss_reset_flags();
 
 extern void load_pantalla();
-extern void print_bandera(int);
+extern void print_bandera(int, unsigned char*);
 extern void print_banderines();
 extern void print_tablatar_error(int, char*);
 //extern void tss_fetch_eip_banderas();
@@ -231,7 +231,7 @@ unsigned short clock(){
 	return direccion_salto;
 }
 
-void bandera(){
+void bandera(unsigned char* dir_buffer){
 	if(sched.CONTEXTO == EN_TAREA){
 		desalojar_tarea(sched.TAREA_ACTUAL);
 		//DESACTIVAR PARA TESTEAR
@@ -239,7 +239,7 @@ void bandera(){
 		print_tablatar_error(sched.BANDERA_ACTUAL, "Int66 in task");
 		load_pantalla();
 	}else{
-		print_bandera(sched.BANDERA_ACTUAL);
+		print_bandera(sched.BANDERA_ACTUAL, dir_buffer);
 	}
 	//DESACTIVAR PARA TESTEAR
 	//print_tablatar_error(sched.BANDERA_ACTUAL, "Llamo bandera");
