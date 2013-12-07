@@ -11,12 +11,19 @@ extern unsigned int TASK_CR3[] ;
 extern unsigned int  TASK_PAG_2[];
 extern struct sched_t sched;
 
-
 tss tarea_inicial;
 tss tarea_idle;
 
 tss tss_navios[CANT_TAREAS];
 tss tss_banderas[CANT_TAREAS];
+int eip_bandera[] = {TASK_1_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_2_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_3_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_4_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_5_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_6_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_7_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_8_CODE_SRC_ADDR + 0x1FFC};
 
 void tss_inicializar() {
     long unsigned int _pila3_idle = POSVIRTUAL_TAREAS + 0x1C00;
@@ -100,10 +107,14 @@ void tss_tareas_inicializar(){
 
         pos_pila0  -= (TAMANO_PAGINA/2);
         pos_pila3 = POSVIRTUAL_TAREAS + 0x1FFC;
+        pos_codigo = POSVIRTUAL_TAREAS;
+        pos_codigo += (*(int *)(0x11FFC));
         definir_tss(bandera, pos_dir, pos_pila0, pos_codigo, 3, pos_pila3);
+
 
         num_task++;
     }
+    tss_reset_flags();
 }
 
 void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, long unsigned int _eip, char _priviledge,long unsigned int _pila3){
@@ -140,17 +151,45 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
 };
 
 
+void tss_incializar_eip_banderas(){
+  /*  int point = TASK_1_CODE_SRC_ADDR;
+    point += 0x1FFC;
+    int contador = 1;
+    int * puntero;
+    while(contador <= CANT_TAREAS){
+        puntero = (int *) point;
+        eip_bandera[contador] = *(puntero);
+        point += 0x2000;
+        contador++;
+    }*/
+}
+
+/*void tss_fetch_eip_banderas(){
+    int point = TASK_1_CODE_SRC_ADDR;
+    int contador = 1;
+    int offset;
+    while(contador <= CANT_TAREAS){
+        offset =  (*(int *)(point + 0x1FFC));
+        eip_bandera[contador] = offset;
+        point += 0x2000;
+        contador++;
+    }
+}*/
+
+
 void tss_reset_eip_flag(int tarea){ //REVISAR
     tss* tss_actual = (tss*) (&tss_banderas[tarea]);
-    int* pointer_flag = (int *) 0x40001FFC;
-    int _eip = (*pointer_flag) + 0x40000000;
     (* tss_actual).esp = 0x40001FFC;
     (* tss_actual).ebp = 0x40001FFC;
-    (* tss_actual).eip = _eip;
+    (* tss_actual).eip = 0x40000000;
+
+    (* tss_actual).eip += *((int *)eip_bandera[tarea]);
 }
 
 
 void tss_reset_flags(){ //necesita schedule
+    //tss_fetch_eip_banderas();
+    tss_reset_eip_flag(0);
     tss_reset_eip_flag(1);
     tss_reset_eip_flag(2);
     tss_reset_eip_flag(3);
@@ -158,5 +197,4 @@ void tss_reset_flags(){ //necesita schedule
     tss_reset_eip_flag(5);
     tss_reset_eip_flag(6);
     tss_reset_eip_flag(7);
-    tss_reset_eip_flag(8);
 }

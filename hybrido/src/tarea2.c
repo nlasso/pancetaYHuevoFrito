@@ -39,8 +39,8 @@ void task() {
     while(1) {
        if( s == 0 )
        {
-           s = 0;
-           s = s/s;
+           s = 57;
+           //s = s/s;
            //syscall_navegar(0x00350000,0x00351000);
            s = 1;
        }
@@ -53,6 +53,7 @@ void task() {
 }
 
 unsigned char * bandera() {
+    int cd;
     ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
     int *b = (int*)(var_B);
     unsigned int fil;
@@ -60,15 +61,18 @@ unsigned char * bandera() {
     (*b)++; if (*b == 11) *b = 0;
     for (fil = 0; fil < 5; fil++) {
         for (col = 0; col < 10; col++) {
+            cd = 5;
+            cd = cd;
             buffer[fil][col].c = ' ';
-
             if( col < *b )
                 buffer[fil][col].a = C_BG_GREEN | C_FG_GREEN;
             else
                 buffer[fil][col].a = C_BG_BLUE | C_FG_BLUE;
         }
+
     }
-    syscall_bandera_fin((unsigned int) buffer);
+   // syscall_bandera_fin((unsigned int) buffer);
+    while(1){};
     /* Para que el compilador no tire warning... */
     return 0;
 }

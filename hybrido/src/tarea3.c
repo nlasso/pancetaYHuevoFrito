@@ -40,8 +40,10 @@ void task() {
     //for(i=0;i<96 ;i=i+2) { buffer[i] = 0x0F; buffer[i+1] = 0x0B; } // instruccion: UD2
     //buffer[96] = 0x0B;
     while(1) {
-        int s = 0;
-        s = s/s;
+        // ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
+       // syscall_bandera_fin((unsigned int) buffer);
+        //int s = 0;
+       // s = s/s;
       //for(i=0;i<100;i++) {
         //syscall_canonear((unsigned int)(buffer), (unsigned int)(0x00666666+i*97));
         //syscall_canonear((unsigned int)(buffer), (unsigned int)(0x00676666+i*97));
@@ -66,7 +68,8 @@ unsigned char * bandera() {
                 buffer[fil][col].a = C_BG_MAGENTA | C_FG_BLUE;
         }
     }
-    syscall_bandera_fin((unsigned int) buffer);
+    //syscall_bandera_fin((unsigned int) buffer);
+    while(1){}
     /* Para que el compilador no tire warning... */
     return 0;
 }

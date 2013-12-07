@@ -39,7 +39,7 @@ void sched_inicializar() {
 
 	// Cargo los selectores de segmentos en mi estructura de scheduling.
 	int i = 0;
-	for (i = 0; i < CANT_TAREAS; i++)
+	for (i = 0; i < CANT_TAREAS; i++) 
 	{
 		struct tarea_t tarea_struct;
 		tarea_struct.tarea = (indices_tareas[i] << 3) + 0x03;
@@ -54,6 +54,7 @@ void sched_inicializar() {
 	sched.BANDERA_ACTUAL = 0;
 	sched.TASKS_UP = CANT_TAREAS;
 	//sched.IDLE_ON = 1;
+	//DESACTIVAR PARA TESTEAR
 	tss_reset_flags();
 }
 
@@ -68,6 +69,7 @@ void desalojar_tarea(int tarea){
 
 void saltar_idle(){
 	cambiar_contexto_idle();	
+	//DESACTIVAR PARA TESTEAR
 	jump_idle();
 }
 
@@ -143,7 +145,7 @@ unsigned short continuo_corrida_flags(){
 	sched.BANDERA_ACTUAL = NEXT_INDEX;
 	if(NEXT_INDEX == 0){
 		// Si no quedan banderas, salto a una tarea 
-		tss_reset_flags();
+		tss_reset_flags();//DESACTIVAR PARA TESTEAR
 		sched.QUANTUM_RESTANTE = 3;
 		respuesta = continuo_corrida_tareas();
 	}else{
@@ -204,16 +206,17 @@ unsigned short clock(){
 
 		case EN_FLAG:	//	Aca entro siempre que entro durante un flag.
 			//	Tengo que sacar la tarea.
-			desalojar_tarea(sched.BANDERA_ACTUAL);
+			/*desalojar_tarea(sched.BANDERA_ACTUAL);
 			print_tablatar_error(sched.BANDERA_ACTUAL, "Flag time-out");
 			load_pantalla();
 			if(sched.TASKS_UP == 0){
 				direccion_salto = inicializar_idle_total();
-			}else{
+			}else{*/
 				direccion_salto = continuo_corrida_flags();
-			};
+			//};
 			break;
 	};
+	//DESACTIVAR PARA TESTEAR
 	print_banderines();
 	return direccion_salto;
 }
@@ -221,8 +224,15 @@ unsigned short clock(){
 void bandera(){
 	if(sched.CONTEXTO == EN_TAREA){
 		desalojar_tarea(sched.TAREA_ACTUAL);
-		
+		//DESACTIVAR PARA TESTEAR
+		//print_tablatar_error(sched.BANDERA_ACTUAL, "Int66 in task");
+		//load_pantalla();
 	}else{
 	}
-	saltar_idle();
+	//DESACTIVAR PARA TESTEAR
+	//print_tablatar_error(sched.BANDERA_ACTUAL, "Llamo bandera");
+	//load_pantalla();
+
+	//while(1){};
+	//saltar_idle();
 }

@@ -181,14 +181,21 @@ screen_proximo_reloj:
     cli
     pushad
     CALL fin_intr_pic1
-    ;;CALL print_banderines
-    ;CALL proximo_reloj
     CALL clock
     cmp eax, 0
     je .fin
-    breakpoint
     mov [selector], ax
+    breakpoint
+
+    ;; NOTA: LOS POPAD Y LOS STI SE DEBEN A QUE LAS BANDERAS
+    ;; NO VAN A VOLVER A LA INTERUPCION DE RELOJ, LES RESETEAMOS EL
+    ;; EIP. ES NECESARIO ENTONCES TENER TODOS LOS VALORES CARGADOS
+    ;; NUEVAMENTE. ESTO INCLUYE A LAS INTERRUPCIONES
+    popad;;     VER NOTA
+    sti;;       VER NOTA
     jmp far [offset] ;; REVISAR ESTO
+    cli;;       VER NOTA
+    pushad;;    VER NOTA
 .fin
     popad
     sti

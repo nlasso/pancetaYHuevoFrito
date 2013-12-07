@@ -57,7 +57,8 @@ unsigned char * bandera() {
             }
         }
     }
-    syscall_bandera_fin((unsigned int) buffer);
+    //syscall_bandera_fin((unsigned int) buffer);
+    while(1){}
     /* Para que el compilador no tire warning... */
     return 0;
 }

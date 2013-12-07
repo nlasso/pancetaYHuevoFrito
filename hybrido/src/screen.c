@@ -24,6 +24,8 @@ void inicializar_pantalla(){
 		(*map_uses)[x] = 0; x++;
 	}
 
+	print_cuadrado(DISPLAY, (C_FG_WHITE | C_BG_BLACK),0, 24, 79, 24);
+
 	//////
 	/// GENERO BUFFER ESTADO
 	/////
@@ -424,12 +426,41 @@ void print_bandera(int tarea){
 }
 
 void print_banderines(){
+	int y = 20;
+	int x = 3;
+	screen* pantalla = DISPLAY;
 	pixel pix1;
 	pixel pix2;
-	screen* pantalla = DISPLAY;
-	int y = 24;
-	int x = 3;
+	//
+	char s0[] = "[ ----- ]";
+	char s1_2[] = "[ ----- ]";
+	char s3[] = "[ TAREA ]";
+	char s4[] = "[ FLAG  ]";
+	char * answer;
+	switch(sched.CONTEXTO){
+		case 0:
+			answer = &s0[0];
+			break;
+		case 1:
+		case 2:
+			answer = &s1_2[0];
+			break;
+
+		case 3:
+			answer = &s3[0];
+			break;
+		case 4:
+			answer = &s4[0];
+			break;
+		default:
+			answer = &s0[0];
+			break;
+	}
+	print_texto(DISPLAY, answer, 3, 24);
+	//
 	int z = 1;
+	x = x + 9 + 2;
+	y = 24;
 	while(z <= 8){
 		pix1.formato = (C_FG_WHITE | C_BG_BLACK);
 		//pix1.formato = (C_FG_WHITE | C_BG_GREEN);

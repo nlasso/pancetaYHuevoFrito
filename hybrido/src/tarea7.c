@@ -55,7 +55,8 @@ unsigned char * bandera() {
                buffer[fil][col].a = C_BG_GREEN | C_FG_RED;
         }
     }
-    syscall_bandera_fin((unsigned int) buffer);
+    //syscall_bandera_fin((unsigned int) buffer);
+    while(1){}
     /* Para que el compilador no tire warning... */
     return 0;
 }

@@ -62,5 +62,8 @@ void bleach_tss(tss *);
 void tss_tareas_inicializar();
 void definir_tss(tss *,long unsigned int, long unsigned int, long unsigned int, char, long unsigned int);
 void tss_reset_flags();
+void tss_fetch_eip_banderas();
+void tss_incializar_eip_banderas();
+void tss_reset_eip_flag(int);
 
 #endif  /* !__TSS_H__ */
