@@ -110,8 +110,8 @@ void inicializar_pantalla(){
 	//cambiar_pantalla(SCREENMAPA);
 	load_pantalla();
 	print_banderines();
-	/*cambiar_pantalla(SCREENMAPA);
-	load_pantalla();*/
+	//cambiar_pantalla(SCREENMAPA);
+	load_pantalla();
 }
 
 void inicializar_pantalla_memoria(){ //NECESITA QUE ESTE DEFINIDA LA GDT PARA FUNCIONAR
@@ -432,10 +432,10 @@ void print_banderines(){
 	pixel pix1;
 	pixel pix2;
 	//
-	char s0[] = "[ ----- ]";
-	char s1_2[] = "[ ----- ]";
-	char s3[] = "[ TAREA ]";
-	char s4[] = "[ FLAG  ]";
+	char s0[] =   "[ ----- ]";
+	char s1_2[] = "[ IDLE  ]";
+	char s3[] =   "[ TAREA ]";
+	char s4[] =   "[ FLAG  ]";
 	char * answer;
 	switch(sched.CONTEXTO){
 		case 0:

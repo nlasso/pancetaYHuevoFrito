@@ -39,14 +39,12 @@ void task() {
     while(1) {
        if( s == 0 )
        {
-           s = 57;
-           //s = s/s;
-           //syscall_navegar(0x00350000,0x00351000);
            s = 1;
+           syscall_navegar(0x00350000,0x00351000);
        }
        else
        {
-           //syscall_navegar(0x00680000,0x00681000);
+           syscall_navegar(0x00680000,0x00681000);
            s = 0;
        }
     }
@@ -71,8 +69,8 @@ unsigned char * bandera() {
         }
 
     }
-   // syscall_bandera_fin((unsigned int) buffer);
-    while(1){};
+    syscall_bandera_fin((unsigned int) buffer);
+    //while(1){};
     /* Para que el compilador no tire warning... */
     return 0;
 }

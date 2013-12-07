@@ -97,10 +97,6 @@ void tss_tareas_inicializar(){
 
         pos_dir = TASK_CR3[num_task];
         pos_codigo = POSVIRTUAL_TAREAS; 
-        //ESTO PUEDE ESTAR MAL
-        //ESTO PUEDE ESTAR MAL
-        //ESTO PUEDE ESTAR MAL
-        //ESTO PUEDE ESTAR MAL
         pos_pila0 = POSVIRTUAL_TAREAS + (TAMANO_PAGINA * 4);
         pos_pila3 = POSVIRTUAL_TAREAS + 0x1C00;
         definir_tss(task , pos_dir, pos_pila0, pos_codigo, 3, pos_pila3);
@@ -188,7 +184,6 @@ void tss_reset_eip_flag(int tarea){ //REVISAR
 
 
 void tss_reset_flags(){ //necesita schedule
-    //tss_fetch_eip_banderas();
     tss_reset_eip_flag(0);
     tss_reset_eip_flag(1);
     tss_reset_eip_flag(2);

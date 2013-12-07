@@ -257,7 +257,7 @@ void anclar(unsigned int destino){//DONE
 		mmu_mapear_pagina(0x40002000, cr3, destino);
 		print_mapa_tarea(tarea);
 	}else{
-		//scar tarea
+		//sacar tarea
 	}
 }
 
@@ -275,6 +275,7 @@ void navegar(unsigned int destino1, unsigned int destino2){ //DONE
 	}else{
 		desalojar_tarea();
 	}		
+	load_pantalla();
 }
 
 void reubicar_pagina(unsigned int tarea, unsigned int numero_pagina, unsigned int destino){//DONE

@@ -69,6 +69,7 @@ void desalojar_tarea(int tarea){
 
 void saltar_idle(){
 	cambiar_contexto_idle();	
+	print_banderines();
 	//DESACTIVAR PARA TESTEAR
 	jump_idle();
 }
@@ -206,14 +207,14 @@ unsigned short clock(){
 
 		case EN_FLAG:	//	Aca entro siempre que entro durante un flag.
 			//	Tengo que sacar la tarea.
-			/*desalojar_tarea(sched.BANDERA_ACTUAL);
+			desalojar_tarea(sched.BANDERA_ACTUAL);
 			print_tablatar_error(sched.BANDERA_ACTUAL, "Flag time-out");
 			load_pantalla();
 			if(sched.TASKS_UP == 0){
 				direccion_salto = inicializar_idle_total();
-			}else{*/
+			}else{
 				direccion_salto = continuo_corrida_flags();
-			//};
+			};
 			break;
 	};
 	//DESACTIVAR PARA TESTEAR
@@ -225,14 +226,13 @@ void bandera(){
 	if(sched.CONTEXTO == EN_TAREA){
 		desalojar_tarea(sched.TAREA_ACTUAL);
 		//DESACTIVAR PARA TESTEAR
-		//print_tablatar_error(sched.BANDERA_ACTUAL, "Int66 in task");
-		//load_pantalla();
+		//
+		print_tablatar_error(sched.BANDERA_ACTUAL, "Int66 in task");
+		load_pantalla();
 	}else{
 	}
 	//DESACTIVAR PARA TESTEAR
-	//print_tablatar_error(sched.BANDERA_ACTUAL, "Llamo bandera");
-	//load_pantalla();
-
-	//while(1){};
-	//saltar_idle();
+	print_tablatar_error(sched.BANDERA_ACTUAL, "Llamo bandera");
+	load_pantalla();
+	saltar_idle();
 }

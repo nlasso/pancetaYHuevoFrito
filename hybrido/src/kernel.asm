@@ -151,11 +151,10 @@ Modo_protegido:
     ; inicializar tarea idle
 
     ; inicializar todas las tsss
-    call gdt_set_tss
-    call tss_inicializar
+      call tss_inicializar
 
     ; inicializar entradas de la gdt de las tsss
-    ;CALL gdt_set_tss
+      call gdt_set_tss
 
     ; inicializar el schedule
  
@@ -163,10 +162,8 @@ Modo_protegido:
    ; mov cr3, eax
    ; mov eax, [TASK_CR3]
    ; mov cr3, eax
-
+    
     CALL sched_inicializar
-
-    ;breakpoint
 
     ; inicializar la IDT
     call idt_inicializar

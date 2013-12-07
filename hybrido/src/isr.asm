@@ -48,7 +48,7 @@ extern print_tablatar_int_actual
 global _isr%1
 
 _isr%1:
-    ;cli
+    cli
     pushad
     breakpoint
     mov cx, %1
@@ -181,7 +181,7 @@ screen_proximo_reloj:
     cli
     pushad
     CALL fin_intr_pic1
-    CALL clock
+    CALL clock ESTO PUEDE SER QUE ESTE MAL, REVISAR
     cmp eax, 0
     je .fin
     mov [selector], ax
@@ -328,8 +328,6 @@ global int_bandera
 int_bandera:
     cli 
     pushad
-    breakpoint
-    mov ax, 27
     call fin_intr_pic1
     call bandera
     popad
@@ -339,18 +337,18 @@ int_bandera:
 
 ;; Funciones Auxiliares
 ;; -------------------------------------------------------------------------- ;;
-proximo_reloj:
-    pushad
+;proximo_reloj:
+    ;pushad
 
-    inc DWORD [reloj_numero]
-    mov ebx, [reloj]
-    cmp ebx, 0x4
-    jl .ok
-        mov DWORD [reloj_numero], 0x0
-        mov ebx, 0
-    .ok:
-        add ebx, reloj
+    ;inc DWORD [reloj_numero]
+    ;mov ebx, [reloj]
+    ;cmp ebx, 0x4
+    ;jl .ok
+    ;    mov DWORD [reloj_numero], 0x0
+    ;    mov ebx, 0
+    ;.ok:
+    ;    add ebx, reloj
         ;call load_pantalla;
-        imprimir_texto_mp ebx, 1, 0x0f, 24, 79
-    popad
-    ret
+    ;    imprimir_texto_mp ebx, 1, 0x0f, 24, 79
+    ;popad
+    ;ret
