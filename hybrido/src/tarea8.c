@@ -36,7 +36,9 @@ unsigned char * bandera();
 void task() {
     /* Tarea 8 */
     while(1) {
-        // TODO: Implementar.
+        int s = 0;
+        s = 50/s;
+                // TODO: Implementar.
     };
 }
 

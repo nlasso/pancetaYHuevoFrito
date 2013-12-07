@@ -41,6 +41,7 @@ unsigned short continuo_corrida_flags();
 unsigned short continuo_corrida_tareas();
 unsigned short inicializar_idle_total();
 void cambiar_contexto_idle();
+unsigned short revisar_no_GPF(unsigned short);
 /*CLOCK: código de la interrupcion de reloj*/
 unsigned short clock();
 

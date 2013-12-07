@@ -15,6 +15,8 @@ extern void print_mapa_tarea (int);
 extern void load_pantalla();
 extern void unprint_mapa_tarea(int);
 extern void print_missil(int);
+extern void print_tablatar_tarea(int);
+extern void print_tablatar_error(int, char *);
 
 //////////////////////////////////////////////////////////////////////////////////
 //																		//////////
@@ -32,6 +34,8 @@ unsigned int TASK_CODE_SRC_ARRAY[] = {TASK_IDLE_CODE_SRC_ADDR, TASK_1_CODE_SRC_A
 										TASK_6_CODE_SRC_ADDR, TASK_7_CODE_SRC_ADDR, TASK_8_CODE_SRC_ADDR};
 
 unsigned int TASK_CR3[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+
+
 
 unsigned int TASK_PAG_1[] = { 0, 0X100000, 0X102000, 
 							0X104000, 0X106000, 0X108000, 
@@ -235,45 +239,51 @@ void mmu_unmapear_pagina(unsigned int virtual, unsigned int cr3){
 };
 
 void canionear(unsigned int posicion_apuntada, unsigned int* buffer){//DONE
-	if((posicion_apuntada >= 0x100000)){//varialbes
+	int tarea_actual = sched.TAREA_ACTUAL;
+	if((posicion_apuntada >= 0x100000)&& 
+		(posicion_apuntada <= AREA_MAR_FIN) ){//varialbes
 		print_missil(posicion_apuntada);
-		load_pantalla();
 		unsigned int* destino = (unsigned int*) posicion_apuntada;
 		int i = 0;
 		while(i<97){destino[i] = buffer[i]; i++;}
-		load_pantalla();
 	}else{
-		//sacar pagina
+		desalojar_tarea(tarea_actual);
+		print_tablatar_error(tarea_actual, "Invalid Canion");
 	}
+	load_pantalla();
 }
 
 void anclar(unsigned int destino){//DONE
+	int tarea = sched.TAREA_ACTUAL;
 	if(destino < 0x100000){
-		int tarea = sched.TAREA_ACTUAL;
 		int cr3 = TASK_CR3[tarea];
 		unprint_mapa_tarea(tarea);
 		TASK_PAG_3[tarea] = destino;
-		TASK_PAG_3[tarea] = destino;
 		mmu_mapear_pagina(0x40002000, cr3, destino);
 		print_mapa_tarea(tarea);
+		print_tablatar_tarea(tarea);
 	}else{
-		//sacar tarea
+		desalojar_tarea(tarea);
+		print_tablatar_error(tarea, "Invalid Ancla");
 	}
+	load_pantalla();
 }
 
 void navegar(unsigned int destino1, unsigned int destino2){ //DONE
+	int tarea_actual = sched.TAREA_ACTUAL;
 	if((destino1 >= 0x100000) && 
 		(destino2 >= 0x100000) && 
 		(destino1 <= AREA_MAR_FIN) && 
 		(destino2 <= AREA_MAR_FIN))
 	{
-		int tarea_actual = sched.TAREA_ACTUAL;
 		unprint_mapa_tarea(tarea_actual);
 		reubicar_pagina(tarea_actual, 0, destino1);
 		reubicar_pagina(tarea_actual, 1, destino2);
 		print_mapa_tarea(tarea_actual);
+		print_tablatar_tarea(tarea_actual);
 	}else{
-		desalojar_tarea();
+		desalojar_tarea(tarea_actual);
+		print_tablatar_error(tarea_actual, "Invalid Navegar");
 	}		
 	load_pantalla();
 }

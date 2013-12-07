@@ -401,21 +401,27 @@ void print_missil_cord(int cordenada){
 };
 
 void print_bandera(int tarea){
-	tarea = sched.TAREA_ACTUAL;
-	//char * origen = (char *) (0x40001000);
-	//char:char* origen = &ejemplo_bandera2[0];
+	//tarea = sched.TAREA_ACTUAL;
+	char * origen = (char *) (0x40001000);
+	////char:char* origen = &ejemplo_bandera2[0];
 	/*pix*/	//char* origen = (char *) &ejemplo_bandera[0];
 	//char: no iria nada
-	/*pix*///origen ++;
+	/*pix*///
+	//origen ++;
 	pixel pix;
+	pix.letra = *(char *)" ";
 	int y = 0; int x;
 	while(y < 5){
 		x = 0;
 		while(x< 10){
-			//pix.formato = ((*origen));
-			pix.formato = 0XF;
-			//char: origen+= 2;
-			/*pix*///origen+= 4;
+			pix.letra = ((*origen));
+			origen++;
+			pix.formato = ((*origen));
+			origen++;  
+			//pix.formato = 0XF;
+			//char: 
+			//origen+= 2;
+			/*pix*///
 			//print_pixel(ESTADO, pix, bandera_x[tarea-1] + x, bandera_y[tarea-1] + y);
 			print_pixel(ESTADO, pix, bandera_x[tarea-1] + x, bandera_y[tarea-1] + y);
 			x++;

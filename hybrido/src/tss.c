@@ -146,20 +146,6 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
     (*task).ss = DATA; 
 };
 
-
-void tss_incializar_eip_banderas(){
-  /*  int point = TASK_1_CODE_SRC_ADDR;
-    point += 0x1FFC;
-    int contador = 1;
-    int * puntero;
-    while(contador <= CANT_TAREAS){
-        puntero = (int *) point;
-        eip_bandera[contador] = *(puntero);
-        point += 0x2000;
-        contador++;
-    }*/
-}
-
 /*void tss_fetch_eip_banderas(){
     int point = TASK_1_CODE_SRC_ADDR;
     int contador = 1;

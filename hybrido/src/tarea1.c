@@ -34,10 +34,6 @@ unsigned char * bandera();
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
-    int cd = 0;
-    cd = cd;
-    cd = 90;
-    while(1){}    
     /* Tarea 1 */
     unsigned int i=0;
     while(1) {
@@ -48,9 +44,6 @@ void task() {
 }
 
 unsigned char * bandera() {
-    int cd = 0;
-    cd = cd;
-    cd = 150;
     ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
     int *b = (int*)(var_B);
     unsigned int fil;

@@ -35,7 +35,9 @@ unsigned char * bandera();
 
 void task() {
     /* Tarea 4 */
+    int * supererror = (int *) 0x0;
     while(1) {
+        *(supererror) = 5;
         // TODO: Implementar.
     };
 }

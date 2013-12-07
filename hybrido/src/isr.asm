@@ -52,8 +52,9 @@ _isr%1:
     pushad
     breakpoint
     mov cx, %1
-    ;mov eax, eax
-    ;mov [estado_error], eax
+    mov eax, 0x0a 
+    ;mov ds, ax
+    mov eax, eax
     mov [estado_error], eax
     mov eax, esp
     mov [estado_error+4], eax
@@ -80,8 +81,8 @@ _isr%1:
     mov [estado_error+44], eax
     mov eax, cs
     mov [estado_error+48], eax
-    mov eax, ds
-    mov [estado_error+52], eax
+    ;mov eax, ds
+    ;mov [estado_error+52], eax
     mov eax, es
     mov [estado_error+56], eax
     mov eax, fs
@@ -181,11 +182,11 @@ screen_proximo_reloj:
     cli
     pushad
     CALL fin_intr_pic1
-    CALL clock ESTO PUEDE SER QUE ESTE MAL, REVISAR
+    CALL clock 
     cmp eax, 0
     je .fin
     mov [selector], ax
-    breakpoint
+    ;breakpoint
 
     ;; NOTA: LOS POPAD Y LOS STI SE DEBEN A QUE LAS BANDERAS
     ;; NO VAN A VOLVER A LA INTERUPCION DE RELOJ, LES RESETEAMOS EL
@@ -302,8 +303,8 @@ int_servicios:
         pop ebx
         jmp .fin
     .SYSTEM_MISIL:
-        push ecx
         push ebx
+        push ecx
         call canionear
         pop ecx
         pop ebx
