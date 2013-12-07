@@ -15,12 +15,15 @@
 #define EN_TAREA 3
 #define EN_FLAG 4
 
-extern void tss_reset_flags();
+//extern void tss_reset_flags();
 
 extern void load_pantalla();
 extern void print_bandera(int);
 extern void print_banderines();
 extern void print_tablatar_error(int, char*);
+//extern void tss_fetch_eip_banderas();
+extern void tss_fetch_eip_flag(int);
+extern void tss_reset_eip_flag(int);
 
 // Indice de tareas.
 unsigned int indices_tareas[] = {GDT_TSS_TS1, GDT_TSS_TS2, GDT_TSS_TS3, GDT_TSS_TS4, GDT_TSS_TS5, GDT_TSS_TS6, GDT_TSS_TS7, 
@@ -55,7 +58,7 @@ void sched_inicializar() {
 	sched.TASKS_UP = CANT_TAREAS;
 	//sched.IDLE_ON = 1;
 	//DESACTIVAR PARA TESTEAR
-	tss_reset_flags();
+	//tss_reset_flags();
 }
 
 void desalojar_tarea_actual(){
@@ -135,6 +138,8 @@ unsigned short inicializar_idle_total(){
 unsigned short inicializar_corrida_flags(){
 	sched.BANDERA_ACTUAL = 0;
 	sched.BANDERA_ACTUAL = sched_proxima_bandera();
+	tss_fetch_eip_flag(sched.BANDERA_ACTUAL);
+	tss_reset_eip_flag(sched.BANDERA_ACTUAL);
 	unsigned short respuesta = sched.tareas[sched.BANDERA_ACTUAL].bandera;
 	sched.CONTEXTO = EN_FLAG;
 	return respuesta;
@@ -146,12 +151,15 @@ unsigned short continuo_corrida_flags(){
 	sched.BANDERA_ACTUAL = NEXT_INDEX;
 	if(NEXT_INDEX == 0){
 		// Si no quedan banderas, salto a una tarea 
-		tss_reset_flags();//DESACTIVAR PARA TESTEAR
+		//tss_fetch_eip_bandera();
+		//tss_reset_flags();//DESACTIVAR PARA TESTEAR
 		sched.QUANTUM_RESTANTE = 3;
 		respuesta = continuo_corrida_tareas();
 	}else{
 		// Si quedan banderas, salto a una tarea 
 		sched.CONTEXTO = EN_FLAG;
+		tss_fetch_eip_flag(sched.BANDERA_ACTUAL);
+		tss_reset_eip_flag(sched.BANDERA_ACTUAL);
 		respuesta = sched.tareas[sched.BANDERA_ACTUAL].bandera;
 	}
 	return respuesta;
