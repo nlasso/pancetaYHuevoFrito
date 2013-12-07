@@ -35,6 +35,12 @@
 /* SCHED */
 /* -------------------------------------------------------------------------- */
 #define QUANTUM_TAREA			3
+#define INDICE_IDLE 0
+#define EN_IDLE_TOTAL 0
+#define EN_IDLE_TAREA 1
+#define EN_IDLE_FLAG 2
+#define EN_TAREA 3
+#define EN_FLAG 4
 
 /* Indices en la gdt */
 /* -------------------------------------------------------------------------- */

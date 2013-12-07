@@ -31,6 +31,7 @@ extern desalojar_tarea_actual
 extern saltar_idle
 extern clock
 extern bandera
+extern saltar_idle
 
 ;;SCREEN ERROR RELATED
 extern print_error
@@ -48,7 +49,42 @@ extern print_tablatar_int_actual
 global _isr%1
 
 _isr%1:
+    jmp GDT_CODE_0:.fix_segments; ME ASEGURO DE TENER EL CS DESEADO
+.fix_segments:   
     cli
+    ;; Aca solo hay 2 segmentos que me importan, ds y ss.
+    ;; Si ss es el segmento corrompido, guardo ax en una posicion de memoria
+    ;; Si ds es el segmento corrompido, pusheo ax
+    ;cmp ds, GDT_DATA_0 
+    ;jne .modificar_ss
+
+.modificar_ds:
+    ;push eax
+    ;mov gs, eax
+    mov eax, GDT_DATA_0 
+    mov ds, eax
+    mov ss, eax
+    ;mov eax, gs
+    ;push eax
+    mov eax, GDT_DATA_0 
+    mov fs, eax
+    mov es, eax
+    mov gs, eax
+    ;pop eax
+  ;  pop eax
+  ;  jmp .empieza_interrupcion
+
+.modificar_ss:
+  ;  mov [estado_error], eax
+  ;  mov eax, GDT_DATA_0 
+  ;  mov ds, eax
+  ;  mov fs, eax
+  ;  mov es, eax
+  ;  mov gs, eax
+  ;  mov ss, eax
+  ;  mov eax, [estado_error]
+
+.empieza_interrupcion:
     pushad
     breakpoint
     mov cx, %1
@@ -103,7 +139,7 @@ _isr%1:
     CALL load_pantalla;
     breakpoint
     call desalojar_tarea_actual
-    
+    call saltar_idle
     sti
     ; To Infinity And Beyond!!
     jmp $
@@ -178,7 +214,7 @@ int_invalida:
 ;; Rutina de atención del RELOJ
 ;; -------------------------------------------------------------------------- ;;
 global screen_proximo_reloj
-screen_proximo_reloj:
+screen_proximo_reloj: 
     cli
     pushad
     CALL fin_intr_pic1

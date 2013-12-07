@@ -8,13 +8,6 @@
 #include "sched.h"
 #include "isr.h"
 
-#define INDICE_IDLE 0
-#define EN_IDLE_TOTAL 0
-#define EN_IDLE_TAREA 1
-#define EN_IDLE_FLAG 2
-#define EN_TAREA 3
-#define EN_FLAG 4
-
 //extern void tss_reset_flags();
 
 extern void load_pantalla();
@@ -62,7 +55,10 @@ void sched_inicializar() {
 }
 
 void desalojar_tarea_actual(){
-	desalojar_tarea(sched.TAREA_ACTUAL);	
+	int actual;
+	if(sched.CONTEXTO == EN_FLAG){actual = sched.BANDERA_ACTUAL;}
+	if(sched.CONTEXTO == EN_TAREA){actual = sched.TAREA_ACTUAL;}
+	desalojar_tarea(actual);	
 }
 
 void desalojar_tarea(int tarea){

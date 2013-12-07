@@ -223,7 +223,11 @@ void print_error(char error){
 		string2[i] = (* string1);
 		string1 ++;	i++;
 	}
-	string2[number] = sched.TAREA_ACTUAL + ASCII_first_num;
+
+	int actual;
+	if(sched.CONTEXTO == EN_FLAG){actual = sched.BANDERA_ACTUAL;}
+	if(sched.CONTEXTO == EN_TAREA){actual = sched.TAREA_ACTUAL;}
+	string2[number] = actual + ASCII_first_num;
 	print_texto(ESTADO, string2,tablaerror_x,tablaerror_y -1);
 };
 
@@ -327,7 +331,12 @@ void print_tablatar_int(int tarea, int num_error){
 	print_tablatar_error(tarea, string);
 }
 
-void print_tablatar_int_actual(int num_error){print_tablatar_int(sched.TAREA_ACTUAL, num_error);}
+void print_tablatar_int_actual(int num_error){
+	int actual;
+	if(sched.CONTEXTO == EN_FLAG ){actual = sched.BANDERA_ACTUAL;}
+	if(sched.CONTEXTO == EN_TAREA){actual = sched.TAREA_ACTUAL;}
+	print_tablatar_int(actual, num_error);
+}
 
 ////// Mapa 
 
