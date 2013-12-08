@@ -155,7 +155,7 @@ void tss_fetch_eip_flag(int tarea){
 
 void tss_reset_eip_flag(int tarea){ //REVISAR
     tss* tss_actual = (tss*) (&tss_banderas[tarea-1]);
-    (* tss_actual).esp = 0x40001FF0;
+    (* tss_actual).esp = 0x40001FFC;
     (* tss_actual).ebp = 0x40001FFC;
     (* tss_actual).eip = 0x40000000;
 

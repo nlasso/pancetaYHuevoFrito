@@ -16,7 +16,7 @@ extern fin_intr_pic1
 ;; SCREEN 
 extern load_pantalla
 extern cambiar_pantalla
-
+extern print_error_code
 ;; MMU
 extern mmu_mapear_pagina
 extern canionear
@@ -52,10 +52,67 @@ extern print_tablatar_int_actual
 global _isr%1
 
 _isr%1:
-    ;breakpoint
-    cli
+    jmp GDT_CODE_0:.fix_segments; ME ASEGURO DE TENER UN CS VALIDO
+.fix_segments: 
+    cli  
+    push eax
     mov eax, 0xa0
     mov ds, eax
+    ;; Aca solo hay 2 segmentos que me importan, ds y ss.
+    ;; Si ss es el segmento corrompido, guardo ax en una posicion de memoria
+    ;; Si ds es el segmento corrompido, pusheo ax
+
+    pop eax
+    mov [estado_error], eax ; EAX
+    mov eax, 0xAB;; al menos que haya habido un errorcode, son todas 90
+    mov [estado_error+52], eax; DS
+
+    mov eax, %1 
+    push eax
+    call print_error_code
+    cmp eax, 1
+    pop eax
+    jne .no_errorcode
+    pop eax
+    shr eax, 3
+    mov [estado_error+52], eax; DS
+.no_errorcode:    
+    pop eax
+    mov [estado_error+32], eax;; eip
+    pop eax
+    mov [estado_error+48], eax; CS
+    pop eax
+    mov [estado_error+72], eax; eflags
+    
+    
+    mov eax, ebx
+    mov [estado_error+4], eax
+    mov eax, ecx
+    mov [estado_error+8], eax
+    mov eax, edx    
+    mov [estado_error+12], eax
+    mov eax, esi
+    mov [estado_error+16], eax
+    mov eax, edi
+    mov [estado_error+20], eax
+    mov eax, ebp
+    mov [estado_error+24], eax
+    mov eax, esp
+    mov [estado_error+28], eax
+    mov eax, cr0
+    mov [estado_error+36], eax
+    mov eax, cr2
+    mov [estado_error+40], eax
+    mov eax, cr3
+    mov [estado_error+44], eax
+    mov eax, es
+    mov [estado_error+56], eax
+    mov eax, fs
+    mov [estado_error+60], eax
+    mov eax, gs
+    mov [estado_error+64], eax
+    mov eax, ss    ;mov eax, ss
+    mov [estado_error+68], eax
     
 
 
@@ -65,9 +122,7 @@ _isr%1:
     call print_tablatar_int_actual
     call print_error
     pop  eax
-    ;popad
     CALL load_pantalla;
-    ;breakpoint
     breakpoint
     call desalojar_tarea_actual
     call saltar_idle

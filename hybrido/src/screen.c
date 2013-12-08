@@ -6,6 +6,15 @@ extern unsigned int TASK_PAG_2[];
 extern unsigned int TASK_PAG_3[];
 extern struct sched_t sched;
 
+//Esto se encuetnra aca por que ayuda a imprimir interrupciones, nada mas.
+//Nos dice si una interrupcion es trampa
+int hay_errorcode []= {0,0,0,0,0,0,0,0,
+						1,1,1,1,1,1,1,
+						0,0,
+						1,
+						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,} ;
+
+
 void screen_en_negro(){
 	pixel pixel_negro;
 	pixel_negro.letra = *((char *) " ");
@@ -541,3 +550,7 @@ void reg_a_string(int registro, char * txt, int inicio){
 
 int dir_a_cord(int dir_fisica){return dir_fisica/ 0x1000;};
 int cord_a_dir(int cordenada ){return cordenada * 0x1000;};
+
+int print_error_code(int interrupcion){
+	return hay_errorcode[interrupcion];
+}
