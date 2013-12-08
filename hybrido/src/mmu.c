@@ -182,7 +182,6 @@ void define_pagedir_entry(pagedir_entry * directorio, unsigned char escritura,
 
 void define_pagetab_entry(pagetab_entry * tabla, unsigned char escritura,
 	    unsigned char privilegio, unsigned long base){  
-		//tlbflush();
 	    (*tabla).present = 1;       
 	    //NOTA: NO SE UQE VA EN PAGE_ATTRIBUTE_INDEX NI EN GLOBAL
 	    (*tabla).dirbase_12_31 = (base >> 12);
