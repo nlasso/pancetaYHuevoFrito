@@ -161,7 +161,7 @@ screen_proximo_reloj:
     ;; NUEVAMENTE. ESTO INCLUYE A LAS INTERRUPCIONES
     popad;;     VER NOTA
     sti;;       VER NOTA
-    breakpoint
+    ;breakpoint
     jmp far [offset] ;; REVISAR ESTO
     cli;;       VER NOTA
     pushad;;    VER NOTA
@@ -276,11 +276,11 @@ int_servicios:
         pop ebx
         jmp .fin
     .SYSTEM_MISIL:
-        push ebx
         push ecx
+        push ebx
         call canionear
-        pop ecx
         pop ebx
+        pop ecx
         jmp .fin
     .SYSTEM_NAVEGAR:
         push ecx

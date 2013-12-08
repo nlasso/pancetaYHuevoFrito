@@ -267,11 +267,11 @@ scheduller.
 \newpage
 \subsection{Ejercicio 4. Paginaci\'on de tareas}
 
-\input{ejercicio_4}
+\input{ejercicio_5}
 \newpage
 \subsection{Ejercicio 5 IDT / Clocks, Teclados, Syscalls y Banderas}
 
-\input{ejercicio_5}
+\input{ejercicio_4}
 \newpage
 \subsection{Ejercicio 6. TSS}
 
