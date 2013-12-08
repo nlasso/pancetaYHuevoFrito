@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.7)  8 DEC 2013 18:01
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.7)  8 DEC 2013 18:18
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -874,12 +874,7 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 13.
 ) [9] (./ejercicio_6.tex
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
+Underfull \hbox (badness 10000) in paragraph at lines 1--4
 
  []
 
@@ -889,26 +884,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--7
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
+Underfull \hbox (badness 10000) in paragraph at lines 8--12
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 11--12
+Underfull \hbox (badness 10000) in paragraph at lines 13--17
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 13--14
+Underfull \hbox (badness 10000) in paragraph at lines 18--20
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--16
+)
+Underfull \hbox (badness 10000) in paragraph at lines 29--279
 
  []
 
-) [10] (./ejercicio_7.tex
+[10] (./ejercicio_7.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--7
 
  []
@@ -928,13 +923,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 54--57
 ) AED: lastpage setting LastPage [12 <./imagenes/corridaFlags.png (PNG copy)>]
 (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 12104 strings out of 495061
- 220250 string characters out of 1182621
+ 12108 strings out of 495061
+ 220301 string characters out of 1182621
  268618 words of memory out of 3000000
- 14982 multiletter control sequences out of 15000+50000
+ 14986 multiletter control sequences out of 15000+50000
  10955 words of font info for 42 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 56i,12n,57p,431b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,12n,57p,419b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
 /share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texm
@@ -946,7 +941,7 @@ s/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb
 texmf-texlive/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texli
 ve/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/ty
 pe1/public/amsfonts/cm/cmti10.pfb>
-Output written on informe.pdf (12 pages, 1000605 bytes).
+Output written on informe.pdf (12 pages, 1002594 bytes).
 PDF statistics:
  101 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
