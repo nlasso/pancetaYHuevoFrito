@@ -274,9 +274,7 @@ void navegar(unsigned int destino1, unsigned int destino2){ //DONE
 	int tarea_actual = sched.TAREA_ACTUAL;
 
 	int origen1 = TASK_PAG_1[tarea_actual];
-	TASK_PAG_1[tarea_actual] = destino1;
 	int origen2 = TASK_PAG_2[tarea_actual];
-	TASK_PAG_2[tarea_actual] = destino2;
 
 	if((destino1 >= 0x100000) && 
 		(destino2 >= 0x100000) && 
@@ -285,11 +283,14 @@ void navegar(unsigned int destino1, unsigned int destino2){ //DONE
 	{
 		int cr3 = TASK_CR3[tarea_actual];
 		cr3 = cr3;
-
 		unprint_mapa_tarea(tarea_actual);
 		
 		clonar_pagina(origen1, destino1);
 		clonar_pagina(origen2, destino2);
+
+		TASK_PAG_1[tarea_actual] = destino1;
+		TASK_PAG_2[tarea_actual] = destino2;
+
 
 		print_mapa_tarea(tarea_actual);
 		print_tablatar_tarea(tarea_actual);
@@ -299,7 +300,8 @@ void navegar(unsigned int destino1, unsigned int destino2){ //DONE
 	}else{
 		desalojar_tarea(tarea_actual);
 		print_tablatar_error(tarea_actual, "Invalid Navegar");
-	}		
+	}	
+
 	load_pantalla();
 }
 
