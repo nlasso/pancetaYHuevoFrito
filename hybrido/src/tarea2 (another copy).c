@@ -30,15 +30,20 @@ typedef struct {
 unsigned char * bandera();
 
 // global var
-#define GLOBAL_START 0x40000000  
+#define GLOBAL_START 0x40000000
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
-    /* Tarea 8 */
+    /* Tarea 2 */
+    unsigned int s = 0;
     while(1) {
-        int s = 0;
-        s = 50/s;
-                // TODO: Implementar.
+       if( s == 0 ) {
+            syscall_navegar(0x00350000, 0x00351000);
+            s = 1;
+       } else {
+            syscall_navegar(0x00680000, 0x00681000);
+            s = 0;
+       }
     };
 }
 
@@ -47,19 +52,18 @@ unsigned char * bandera() {
     int *b = (int*)(var_B);
     unsigned int fil;
     unsigned int col;
-    (*b)++; if (*b == 6) *b = 0;
+    (*b)++; if (*b == 11) *b = 0;
     for (fil = 0; fil < 5; fil++) {
         for (col = 0; col < 10; col++) {
-            buffer[fil][col].c = 222;
-            if( col > *b || fil > *b )
-               buffer[fil][col].a = C_BG_BROWN | C_FG_LIGHT_BROWN;
+            buffer[fil][col].c = ' ';
+
+            if( col < *b )
+                buffer[fil][col].a = C_BG_GREEN | C_FG_GREEN;
             else
-               buffer[fil][col].a = C_BG_MAGENTA | C_FG_LIGHT_MAGENTA;
+                buffer[fil][col].a = C_BG_BLUE | C_FG_BLUE;
         }
     }
-    //while(1){}
     syscall_bandera_fin((unsigned int) buffer);
-
     /* Para que el compilador no tire warning... */
     return 0;
 }

@@ -35,11 +35,10 @@ unsigned char * bandera();
 
 void task() {
     /* Tarea 4 */
-    // MUERE, pisa su propio codigo
-    int *i;
+    //int * supererror = (int *) 0x0;
     while(1) {
-       for(i=(int*)GLOBAL_START;i< (int*) GLOBAL_START+0x2000;i++)
-          *i=0xFFFF;
+      //  *(supererror) = 5;
+        // TODO: Implementar.
     };
 }
 
@@ -59,6 +58,7 @@ unsigned char * bandera() {
         }
     }
     syscall_bandera_fin((unsigned int) buffer);
+
     /* Para que el compilador no tire warning... */
     return 0;
 }

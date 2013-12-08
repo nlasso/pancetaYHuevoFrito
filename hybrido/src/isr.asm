@@ -52,95 +52,23 @@ extern print_tablatar_int_actual
 global _isr%1
 
 _isr%1:
-    jmp GDT_CODE_0:.fix_segments; ME ASEGURO DE TENER EL CS DESEADO
-.fix_segments:   
-    cli
-    ;; Aca solo hay 2 segmentos que me importan, ds y ss.
-    ;; Si ss es el segmento corrompido, guardo ax en una posicion de memoria
-    ;; Si ds es el segmento corrompido, pusheo ax
-    ;cmp ds, GDT_DATA_0 
-    ;jne .modificar_ss
-
-.modificar_ds:
-    ;push eax
-    ;mov gs, eax
-    mov eax, GDT_DATA_0 
-    mov ds, eax
-    mov ss, eax
-    ;mov eax, gs
-    ;push eax
-    mov eax, GDT_DATA_0 
-    mov fs, eax
-    mov es, eax
-    mov gs, eax
-    ;pop eax
-  ;  pop eax
-  ;  jmp .empieza_interrupcion
-
-.modificar_ss:
-  ;  mov [estado_error], eax
-  ;  mov eax, GDT_DATA_0 
-  ;  mov ds, eax
-  ;  mov fs, eax
-  ;  mov es, eax
-  ;  mov gs, eax
-  ;  mov ss, eax
-  ;  mov eax, [estado_error]
-
-.empieza_interrupcion:
-    pushad
     ;breakpoint
-    mov cx, %1
-    mov eax, 0x0a 
-    ;mov ds, ax
-    mov eax, eax
-    mov [estado_error], eax
-    mov eax, esp
-    mov [estado_error+4], eax
-    mov eax, ecx
-    mov [estado_error+8], eax
-    mov eax, edx    
-    mov [estado_error+12], eax
-    mov eax, esi
-    mov [estado_error+16], eax
-    mov eax, edi
-    mov [estado_error+20], eax
-    mov eax, ebp
-    mov [estado_error+24], eax
-    mov eax, esp
-    add eax, 0x2C ;; ESTO LO OBTUVE EXPERIMENTALMENTE
-    mov [estado_error+28], eax
-    mov eax, [esp+32]
-    mov [estado_error+32], eax
-    mov eax, cr0
-    mov [estado_error+36], eax
-    mov eax, cr2
-    mov [estado_error+40], eax
-    mov eax, cr3
-    mov [estado_error+44], eax
-    mov eax, cs
-    mov [estado_error+48], eax
-    ;mov eax, ds
-    ;mov [estado_error+52], eax
-    mov eax, es
-    mov [estado_error+56], eax
-    mov eax, fs
-    mov [estado_error+60], eax
-    mov eax, gs
-    mov [estado_error+64], eax
-    mov ax, [esp+28]     ;mov eax, ss
-    mov [estado_error+68], eax
-    mov ax, [esp+40] 
-    mov [estado_error+72], eax
+    cli
+    mov eax, 0xa0
+    mov ds, eax
+    
+
+
     call print_tablaerror;
-    mov ax, %1
-    push ax
-    call print_error
+    mov eax, %1
+    push eax
     call print_tablatar_int_actual
-    pop  ax
-    popad
+    call print_error
+    pop  eax
+    ;popad
     CALL load_pantalla;
     ;breakpoint
+    breakpoint
     call desalojar_tarea_actual
     call saltar_idle
     sti

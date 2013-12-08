@@ -35,13 +35,16 @@ unsigned char * bandera();
 
 void task() {
     /* Tarea 7 */
-    // MUERE, division por cero
-    int a,b,c;
+    int i;
+    unsigned char buffer[97];
+    for(i=0;i<96 ;i=i+2) { buffer[i] = 0x0F; buffer[i+1] = 0x0B; } // instruccion: UD2
+    buffer[96] = 0x0B;
     while(1) {
-      a=0;
-      b=0;
-      c=a/b;
-      c++;
+        
+        //TASK_4_CODE_SRC_ADDR + 0x1FFC
+        //0X10B000
+        syscall_canonear((unsigned int)(buffer), (unsigned int)(0X106000));
+        // TODO: Implementar.
     };
 }
 
@@ -60,7 +63,9 @@ unsigned char * bandera() {
                buffer[fil][col].a = C_BG_GREEN | C_FG_RED;
         }
     }
+    //while(1){}
     syscall_bandera_fin((unsigned int) buffer);
+
     /* Para que el compilador no tire warning... */
     return 0;
 }

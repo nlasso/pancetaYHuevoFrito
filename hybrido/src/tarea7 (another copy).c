@@ -34,11 +34,14 @@ unsigned char * bandera();
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
-    /* Tarea 8 */
+    /* Tarea 7 */
+    // MUERE, division por cero
+    int a,b,c;
     while(1) {
-        int s = 0;
-        s = 50/s;
-                // TODO: Implementar.
+      a=0;
+      b=0;
+      c=a/b;
+      c++;
     };
 }
 
@@ -50,16 +53,14 @@ unsigned char * bandera() {
     (*b)++; if (*b == 6) *b = 0;
     for (fil = 0; fil < 5; fil++) {
         for (col = 0; col < 10; col++) {
-            buffer[fil][col].c = 222;
-            if( col > *b || fil > *b )
-               buffer[fil][col].a = C_BG_BROWN | C_FG_LIGHT_BROWN;
+            buffer[fil][col].c = 206;
+            if( fil > *b )
+               buffer[fil][col].a = C_BG_BLACK | C_FG_DARK_GREY;
             else
-               buffer[fil][col].a = C_BG_MAGENTA | C_FG_LIGHT_MAGENTA;
+               buffer[fil][col].a = C_BG_GREEN | C_FG_RED;
         }
     }
-    //while(1){}
     syscall_bandera_fin((unsigned int) buffer);
-
     /* Para que el compilador no tire warning... */
     return 0;
 }
