@@ -38,6 +38,13 @@ int pos( int, int);
 char * nametxt = "Palito Peron Helado/Best Name Ever";
 char * naviotxt = "Navio ?";
 char * errortxt = "Ningun Error ";
+char * banderatxt= "Bandera";
+char * tareatxt= "Tarea";
+char * tareaindtxt1= "Aun Sin";
+char * tareaindtxt2= "Correr";
+char * tarealibtxt1= "ya fue";
+char * tarealibtxt2= "liberada";
+
 //char string_errores[21][10] = {"Error 0", "Error 1","Error 2","Error 3","Error 4","Error 5","Error 6","Error 7","Error 8","Error 9","Error 10",
 char string_errores[21][15] = {"Divide Errror", "Debugger","Nonmask Int","Breakpoint",
 "Overflow","Bounds Check","Invalid Op","No CoPrcssr","Double Fault","Over CoPrcssr",

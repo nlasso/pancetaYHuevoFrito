@@ -182,11 +182,13 @@ void define_pagedir_entry(pagedir_entry * directorio, unsigned char escritura,
 
 void define_pagetab_entry(pagetab_entry * tabla, unsigned char escritura,
 	    unsigned char privilegio, unsigned long base){  
+		//tlbflush();
 	    (*tabla).present = 1;       
 	    //NOTA: NO SE UQE VA EN PAGE_ATTRIBUTE_INDEX NI EN GLOBAL
 	    (*tabla).dirbase_12_31 = (base >> 12);
 	    (*tabla).priviledge = privilegio;             
 	    (*tabla).writable = escritura;
+	    tlbflush();
 }
 
 // [Bleach] = pone todo en blanco 
@@ -225,8 +227,7 @@ pagetab_entry * get_descriptor(unsigned int virtual, unsigned int cr3){
 	return (& tabla[virtual_12_21]);
 };
 
-void mmu_mapear_pagina(unsigned int virtual, unsigned int cr3, unsigned int fisica){
-	unsigned char _writable = 0; 
+void mmu_mapear_pagina(unsigned int virtual, unsigned int cr3, unsigned int fisica, unsigned char _writable){ 
 	unsigned char _priviledge = 1;
 	pagetab_entry * descriptor = get_descriptor(virtual, cr3);
 	define_pagetab_entry(descriptor, _writable, _priviledge, fisica);
@@ -259,7 +260,7 @@ void anclar(unsigned int destino){//DONE
 		int cr3 = TASK_CR3[tarea];
 		unprint_mapa_tarea(tarea);
 		TASK_PAG_3[tarea] = destino;
-		mmu_mapear_pagina(0x40002000, cr3, destino);
+		mmu_mapear_pagina(0x40002000, cr3, destino, 0);
 		print_mapa_tarea(tarea);
 		print_tablatar_tarea(tarea);
 	}else{
@@ -271,34 +272,34 @@ void anclar(unsigned int destino){//DONE
 
 void navegar(unsigned int destino1, unsigned int destino2){ //DONE
 	int tarea_actual = sched.TAREA_ACTUAL;
+
+	int origen1 = TASK_PAG_1[tarea_actual];
+	TASK_PAG_1[tarea_actual] = destino1;
+	int origen2 = TASK_PAG_2[tarea_actual];
+	TASK_PAG_2[tarea_actual] = destino2;
+
 	if((destino1 >= 0x100000) && 
 		(destino2 >= 0x100000) && 
 		(destino1 <= AREA_MAR_FIN) && 
 		(destino2 <= AREA_MAR_FIN))
 	{
+		int cr3 = TASK_CR3[tarea_actual];
+		cr3 = cr3;
+
 		unprint_mapa_tarea(tarea_actual);
-		reubicar_pagina(tarea_actual, 0, destino1);
-		reubicar_pagina(tarea_actual, 1, destino2);
+		
+		clonar_pagina(origen1, destino1);
+		clonar_pagina(origen2, destino2);
+
 		print_mapa_tarea(tarea_actual);
 		print_tablatar_tarea(tarea_actual);
+
+		mmu_mapear_pagina(0x40000000, cr3, destino1, 1);
+		mmu_mapear_pagina(0x40001000, cr3, destino2, 1);
 	}else{
 		desalojar_tarea(tarea_actual);
 		print_tablatar_error(tarea_actual, "Invalid Navegar");
 	}		
-	load_pantalla();
-}
-
-void reubicar_pagina(unsigned int tarea, unsigned int numero_pagina, unsigned int destino){//DONE
-	int origen;
-	if(numero_pagina == 0){
-		origen = TASK_PAG_1[tarea]; 
-		TASK_PAG_1[tarea] = destino;
-	}
-	else{
-		origen = TASK_PAG_2[tarea]; 
-		TASK_PAG_2[tarea] = destino;
-	}
-	clonar_pagina(origen, destino);
 	load_pantalla();
 }
 

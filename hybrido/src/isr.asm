@@ -32,6 +32,8 @@ extern saltar_idle
 extern clock
 extern bandera
 extern saltar_idle
+extern esta_en_flag
+extern servicio_en_flag
 
 ;;SCREEN ERROR RELATED
 extern print_error
@@ -40,6 +42,7 @@ extern estado_error
 extern print_bandera
 extern print_banderines
 extern print_tablatar_int_actual
+
 
 ;;
 ;; Definición de MACROS
@@ -86,7 +89,7 @@ _isr%1:
 
 .empieza_interrupcion:
     pushad
-    breakpoint
+    ;breakpoint
     mov cx, %1
     mov eax, 0x0a 
     ;mov ds, ax
@@ -137,7 +140,7 @@ _isr%1:
     pop  ax
     popad
     CALL load_pantalla;
-    breakpoint
+    ;breakpoint
     call desalojar_tarea_actual
     call saltar_idle
     sti
@@ -221,7 +224,6 @@ screen_proximo_reloj:
     CALL clock 
     cmp eax, 0
     je .fin
-    ;breakpoint
     mov [selector], ax
     ;breakpoint
 
@@ -231,6 +233,7 @@ screen_proximo_reloj:
     ;; NUEVAMENTE. ESTO INCLUYE A LAS INTERRUPCIONES
     popad;;     VER NOTA
     sti;;       VER NOTA
+    breakpoint
     jmp far [offset] ;; REVISAR ESTO
     cli;;       VER NOTA
     pushad;;    VER NOTA
@@ -325,7 +328,12 @@ fin_teclado:
 global int_servicios
 int_servicios:
     cli 
-    push edx
+    pushad
+    push eax
+    call esta_en_flag
+    cmp eax, 1
+    je .ERROR
+    pop eax
     ;breakpoint
     cmp eax, ANCLA
     je .SYSTEM_ANCLA
@@ -340,11 +348,11 @@ int_servicios:
         pop ebx
         jmp .fin
     .SYSTEM_MISIL:
-        push ebx
         push ecx
+        push ebx
         call canionear
-        pop ecx
         pop ebx
+        pop ecx
         jmp .fin
     .SYSTEM_NAVEGAR:
         push ecx
@@ -352,10 +360,17 @@ int_servicios:
         call navegar
         pop ecx
         pop ebx
+        jmp .fin
+    .ERROR:
+        call servicio_en_flag
+        pop eax
+
 .fin: 
+    push edx
     call fin_intr_pic1
     call saltar_idle
     pop edx
+    popad
     sti
     iret
 
@@ -377,22 +392,3 @@ int_bandera:
     pop ecx
     sti
     iret
-
-
-;; Funciones Auxiliares
-;; -------------------------------------------------------------------------- ;;
-;proximo_reloj:
-    ;pushad
-
-    ;inc DWORD [reloj_numero]
-    ;mov ebx, [reloj]
-    ;cmp ebx, 0x4
-    ;jl .ok
-    ;    mov DWORD [reloj_numero], 0x0
-    ;    mov ebx, 0
-    ;.ok:
-    ;    add ebx, reloj
-        ;call load_pantalla;
-    ;    imprimir_texto_mp ebx, 1, 0x0f, 24, 79
-    ;popad
-    ;ret

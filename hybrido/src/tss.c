@@ -17,22 +17,14 @@ tss tarea_idle;
 tss tss_navios[CANT_TAREAS];
 tss tss_banderas[CANT_TAREAS];
 int eip_bandera[] = {0x0,
-                     0x0,
-                     0x0,
-                     0x0,
-                     0x0,
-                     0x0,
-                     0x0,
-                     0x0,
-                     0x0
-                     /*TASK_1_CODE_SRC_ADDR + 0x1FFC,
+                     TASK_1_CODE_SRC_ADDR + 0x1FFC,
                      TASK_2_CODE_SRC_ADDR + 0x1FFC,
                      TASK_3_CODE_SRC_ADDR + 0x1FFC,
                      TASK_4_CODE_SRC_ADDR + 0x1FFC,
                      TASK_5_CODE_SRC_ADDR + 0x1FFC,
                      TASK_6_CODE_SRC_ADDR + 0x1FFC,
                      TASK_7_CODE_SRC_ADDR + 0x1FFC,
-                     TASK_8_CODE_SRC_ADDR + 0x1FFC*/};
+                     TASK_8_CODE_SRC_ADDR + 0x1FFC};
 
 void tss_inicializar() {
     long unsigned int _pila3_idle = POSVIRTUAL_TAREAS + 0x1C00;
@@ -156,14 +148,6 @@ void definir_tss(tss * task, long unsigned int _cr3, long unsigned int _esp0, lo
     (*task).ss = DATA; 
 };
 
-/*void tss_fetch_eip_banderas(){
-    int contador = 1;
-    while(contador <= CANT_TAREAS){
-        tss_fetch_eip_singe_banderas(contador);
-        //eip_bandera[tarea] = TASK_PAG_2[tarea] + 0xFFC;
-       contador++;
-    }
-}*/
 
 void tss_fetch_eip_flag(int tarea){
     eip_bandera[tarea] = TASK_PAG_2[tarea] + 0xFFC;
@@ -171,21 +155,9 @@ void tss_fetch_eip_flag(int tarea){
 
 void tss_reset_eip_flag(int tarea){ //REVISAR
     tss* tss_actual = (tss*) (&tss_banderas[tarea-1]);
-    (* tss_actual).esp = 0x40001FFC;
+    (* tss_actual).esp = 0x40001FF0;
     (* tss_actual).ebp = 0x40001FFC;
     (* tss_actual).eip = 0x40000000;
 
     (* tss_actual).eip += *((int *)eip_bandera[tarea]);
 }
-
-
-/*void tss_reset_flags(){ //necesita schedule
-    tss_reset_eip_flag(1);
-    tss_reset_eip_flag(2);
-    tss_reset_eip_flag(3);
-    tss_reset_eip_flag(4);
-    tss_reset_eip_flag(5);
-    tss_reset_eip_flag(6);
-    tss_reset_eip_flag(7);
-    tss_reset_eip_flag(8);
-}*/
