@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.7)  8 DEC 2013 04:47
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.7)  8 DEC 2013 17:05
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -807,22 +807,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--7
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--22
+Underfull \hbox (badness 10000) in paragraph at lines 2--7
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--44
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--44
+Underfull \hbox (badness 10000) in paragraph at lines 22--23
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 47--49
+Underfull \hbox (badness 10000) in paragraph at lines 43--45
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--45
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--53
 
  []
 
@@ -832,17 +842,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--7
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 14--15
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--17
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 39--40
+Underfull \hbox (badness 10000) in paragraph at lines 42--43
 
  []
 
@@ -873,30 +878,47 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--6
 
  []
 
-) [10] (./ejercicio_7.tex) AED: lastpage setting LastPage [11] (./informe.aux) 
-) 
+) [10] (./ejercicio_7.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--7
+
+ []
+
+<imagenes/cicloBasicoTareas.png, id=55, 365.86688pt x 228.855pt>
+File: imagenes/cicloBasicoTareas.png Graphic file (type png)
+
+<use imagenes/cicloBasicoTareas.png> [11 <./imagenes/cicloBasicoTareas.png (PNG
+ copy)>] <imagenes/corridaFlags.png, id=59, 341.77687pt x 188.95593pt>
+File: imagenes/corridaFlags.png Graphic file (type png)
+
+<use imagenes/corridaFlags.png>
+Underfull \hbox (badness 10000) in paragraph at lines 54--57
+
+ []
+
+) AED: lastpage setting LastPage [12 <./imagenes/corridaFlags.png (PNG copy)>]
+(./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 12094 strings out of 495061
- 219955 string characters out of 1182621
- 268617 words of memory out of 3000000
- 14974 multiletter control sequences out of 15000+50000
+ 12104 strings out of 495061
+ 220250 string characters out of 1182621
+ 268618 words of memory out of 3000000
+ 14982 multiletter control sequences out of 15000+50000
  10955 words of font info for 42 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 56i,12n,57p,419b,400s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/shar
-e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-tex
-live/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
-/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></
-usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/tex
-mf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fo
-nts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmti10.pfb>
-Output written on informe.pdf (11 pages, 979230 bytes).
+ 56i,12n,57p,419b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx1
+0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb
+></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/
+texmf-texlive/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/public/amsfonts/cm/cmti10.pfb>
+Output written on informe.pdf (12 pages, 999377 bytes).
 PDF statistics:
- 96 PDF objects out of 1000 (max. 8388607)
+ 101 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 48 words of extra memory for PDF output out of 10000 (max. 10000000)
 

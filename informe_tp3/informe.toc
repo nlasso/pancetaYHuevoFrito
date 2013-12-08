@@ -14,4 +14,4 @@
 \contentsline {subsubsection}{\numberline {2.4.1}Paginaci\'on de las tareas}{8}
 \contentsline {subsection}{\numberline {2.5}Ejercicio 5 IDT / Clocks, Teclados, Syscalls y Banderas}{9}
 \contentsline {subsection}{\numberline {2.6}Ejercicio 6. TSS}{10}
-\contentsline {subsection}{\numberline {2.7}Ejercicio 7. Scheduller}{11}
+\contentsline {subsection}{\numberline {2.7}Ejercicio 7. Scheduler}{11}
