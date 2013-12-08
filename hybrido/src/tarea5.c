@@ -35,8 +35,9 @@ unsigned char * bandera();
 
 void task() {
     /* Tarea 5 */
+    // MUERE, una tarea NO puede llamar a la int 66
     while(1) {
-        // TODO: Implementar.
+        syscall_bandera_fin((unsigned int) 0); 
     };
 }
 
@@ -52,9 +53,7 @@ unsigned char * bandera() {
             buffer[fil][col].a = C_BG_BLACK | C_FG_LIGHT_CYAN;
         }
     }
-    //while(1){}
     syscall_bandera_fin((unsigned int) buffer);
-
     /* Para que el compilador no tire warning... */
     return 0;
 }

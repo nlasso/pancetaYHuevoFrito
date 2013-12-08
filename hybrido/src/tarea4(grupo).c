@@ -34,9 +34,10 @@ unsigned char * bandera();
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
-    /* Tarea 6 */
-    // MUERE, no hace nada, pero su bandera llama a un servicio del sistema
+    /* Tarea 4 */
+    //int * supererror = (int *) 0x0;
     while(1) {
+      //  *(supererror) = 5;
         // TODO: Implementar.
     };
 }
@@ -46,20 +47,18 @@ unsigned char * bandera() {
     int *b = (int*)(var_B);
     unsigned int fil;
     unsigned int col;
-    (*b)++; if (*b == 51) *b = 0;
+    if (*b == 1) *b = 0; else *b = 1;
     for (fil = 0; fil < 5; fil++) {
         for (col = 0; col < 10; col++) {
-            if( fil*10+col > *b ) {
-               buffer[fil][col].c = 175;
-               buffer[fil][col].a = C_BG_BROWN | C_FG_LIGHT_BROWN;
-             } else {
-               buffer[fil][col].c = 174;
-               buffer[fil][col].a = C_BG_MAGENTA | C_FG_LIGHT_MAGENTA;
-            }
+            buffer[fil][col].c = 220 ;
+            if( *b == 0 )
+                buffer[fil][col].a = C_BG_RED | C_FG_LIGHT_RED;
+            else
+                buffer[fil][col].a = C_BG_CYAN | C_FG_LIGHT_CYAN;
         }
     }
-    syscall_fondear(0); // -- MAL --
     syscall_bandera_fin((unsigned int) buffer);
+
     /* Para que el compilador no tire warning... */
     return 0;
 }

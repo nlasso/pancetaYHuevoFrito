@@ -221,9 +221,9 @@ screen_proximo_reloj:
     CALL clock 
     cmp eax, 0
     je .fin
-    ;breakpoint
-    mov [selector], ax
     breakpoint
+    mov [selector], ax
+    ;breakpoint
 
     ;; NOTA: LOS POPAD Y LOS STI SE DEBEN A QUE LAS BANDERAS
     ;; NO VAN A VOLVER A LA INTERUPCION DE RELOJ, LES RESETEAMOS EL

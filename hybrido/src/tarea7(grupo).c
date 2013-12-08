@@ -34,9 +34,16 @@ unsigned char * bandera();
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
-    /* Tarea 6 */
-    // MUERE, no hace nada, pero su bandera llama a un servicio del sistema
+    /* Tarea 7 */
+    int i;
+    unsigned char buffer[97];
+    for(i=0;i<96 ;i=i+2) { buffer[i] = 0x0F; buffer[i+1] = 0x0B; } // instruccion: UD2
+    buffer[96] = 0x0B;
     while(1) {
+        
+        //TASK_4_CODE_SRC_ADDR + 0x1FFC
+        //0X10B000
+        syscall_canonear((unsigned int)(buffer), (unsigned int)(0X106000));
         // TODO: Implementar.
     };
 }
@@ -46,20 +53,19 @@ unsigned char * bandera() {
     int *b = (int*)(var_B);
     unsigned int fil;
     unsigned int col;
-    (*b)++; if (*b == 51) *b = 0;
+    (*b)++; if (*b == 6) *b = 0;
     for (fil = 0; fil < 5; fil++) {
         for (col = 0; col < 10; col++) {
-            if( fil*10+col > *b ) {
-               buffer[fil][col].c = 175;
-               buffer[fil][col].a = C_BG_BROWN | C_FG_LIGHT_BROWN;
-             } else {
-               buffer[fil][col].c = 174;
-               buffer[fil][col].a = C_BG_MAGENTA | C_FG_LIGHT_MAGENTA;
-            }
+            buffer[fil][col].c = 206;
+            if( fil > *b )
+               buffer[fil][col].a = C_BG_BLACK | C_FG_DARK_GREY;
+            else
+               buffer[fil][col].a = C_BG_GREEN | C_FG_RED;
         }
     }
-    syscall_fondear(0); // -- MAL --
+    //while(1){}
     syscall_bandera_fin((unsigned int) buffer);
+
     /* Para que el compilador no tire warning... */
     return 0;
 }

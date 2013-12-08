@@ -30,16 +30,16 @@ typedef struct {
 unsigned char * bandera();
 
 // global var
-#define GLOBAL_START 0x40000000  
+#define GLOBAL_START 0x40000000
 #define var_B GLOBAL_START+0x2000-0x200
 
 void task() {
     /* Tarea 1 */
-    unsigned int i=0;
+    unsigned int i = 0;    
     while(1) {
-      for(i=0;i<0x000FF000;i=i+0x1000){
-        syscall_fondear(i);
-      }
+        for(i = 0; i < 0x000FF000; i = i + 0x1000){
+            syscall_fondear(i);
+        }
     };
 }
 
@@ -56,7 +56,6 @@ unsigned char * bandera() {
         }
     }
     syscall_bandera_fin((unsigned int) buffer);
-    //while(1){};
     /* Para que el compilador no tire warning... */
     return 0;
 }
