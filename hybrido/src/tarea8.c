@@ -35,11 +35,13 @@ unsigned char * bandera();
 
 void task() {
     /* Tarea 8 */
-    while(1) {
+    /*while(1) {
         int s = 0;
         s = 50/s;
                 // TODO: Implementar.
-    };
+    };*/
+        ca (*buffer)[10] = (ca (*)[10]) (BANDERA_BUFFER);
+        syscall_bandera_fin((unsigned int) buffer);
 }
 
 unsigned char * bandera() {

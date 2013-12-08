@@ -44,6 +44,8 @@ void task() {
         //TASK_4_CODE_SRC_ADDR + 0x1FFC
         //0X10B000
         syscall_canonear((unsigned int)(buffer), (unsigned int)(0X106000));
+        int d = 0;
+        d = d/d;
         // TODO: Implementar.
     };
 }
