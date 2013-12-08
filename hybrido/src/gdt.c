@@ -146,7 +146,6 @@ void gdt_set_tss(){//esto se tiene que correr una vez creadas las tss de las tar
     gdt[GDT_TSS_FG7] = generate_gdt_tss((long unsigned int)&tss_banderas[6]);
     gdt[GDT_TSS_TS8] = generate_gdt_tss((long unsigned int)&tss_navios[7]);
     gdt[GDT_TSS_FG8] = generate_gdt_tss((long unsigned int)&tss_banderas[7]);
-
 };
 
 gdt_entry generate_gdt_tss(long unsigned int dir_tss){
