@@ -18,14 +18,16 @@ sea v\'alida. Al momento de inicializar estos segmentos, cada tarea y su flag te
 Como selectores de segmentos de GDT usamos los que definimos para las tareas (es decir, los de nivel 3), y seteamos el RPL en 0x03 para 
 evitar un GPE.\\
 
-Una de las grandes ventajas de estar trabajando con direcciones virtuales es que no tenemos que saber la direcci\'on f\'isica exacta de +
+Una de las grandes ventajas de estar trabajando con direcciones virtuales es que no tenemos que saber la direcci\'on f\'isica exacta de
 cada tarea para inicializarlas. Sabemos que todas las tareas comparten ciertas direcciones virtuales, asi que seteamos el directorio de 
-p\'agina (CR3) correspondiente a esa tarea y podemos usar direcciones id\'enticas para todas las tareas. Como mencionamos antes, las 
-banderas recibir\'an datos parecidos, con excepci\'on de las pilas que estar\'an corridas. (El eip que reciban ser\'a indiferente por lo 
+p\'agina (CR3) correspondiente a esa tarea y podemos usar direcciones virtuales id\'enticas para todas las tareas (0x4000 0000 para la primer hoja, 0x4000 1FFC para la pila, etc.). 
+
+Como mencionamos antes, las banderas recibir\'an datos parecidos, con excepci\'on de las pilas que estar\'an corridas. (El eip que reciban ser\'a indiferente por lo 
 que explicamos m\'as abajo).
+
 La pila de nivel 0 ser\'ia un caso especial, pero como es acordado en la secci\'on de paginaci\'on, la mapeamos en la direcci\'on virtual
  0x4000 3000 con el fin de evitar tener que buscarla ahora.
-
+\\
 Las TSS de las flags son un caso particular por dos razones. La primera es que el eip no es un valor que sepamos de antemano, sino que 
 depende de cada tarea. Al final de cada tarea hay un offset guardado, que sum\'andolo a 0x4000 0000 nos da la direcci\'on virtual 
 de la funcion flag. La segunda es que queremos que flag se comporte como una funcion tradicional, es decir, que corra siempre del 
