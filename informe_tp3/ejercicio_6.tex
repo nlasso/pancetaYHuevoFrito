@@ -4,14 +4,21 @@ Una tarea est\'a identificada por el selector de segmento de su TSS. Y a su vez 
 
 Tenemos 8 tareas y definimos un total de 18 TSS, uno para cada tarea, uno para cada bandera de tarea, uno para la tarea Idle, y otro lo dejamos en blanco para la tarea inicial donde se hace el primer salto.\\
 Las entradas de tss idle y la que est\'a en blanco tienen privilegio de kernel, mientras que las dem\'as est\'an configuradas con privilegios de usuario.\\
+\\
+Las TSS se actualizan solas con cada JUMP Far, permiti\'endonos as\'i volver m\'as tarde a esa tarea y no perder la informaci\'on de la misma. Por esto mismo es necesario "incializar" una TSS para que cuando entremos por primera vez la informacion
+sea valida. Al momento de inicializar estos segmentos, cada tarea y su flag tendran TSS virtualmente identicas, con la excepcion del eip y pequenios cambios con respecto a las posiciones de las pilas.\\
 
-La tarea y la de su flag tienen TSS muy similares, exceptuando por cosas como el eip o donde empiezan las pilas, pero en el resto son iguales ya que comparten casi todo.\\
+Como selectores de segmentos de GDT usamos los que definimos para las tareas (es decir, los de nivel 3), y seteamos el RPL en 0x03 para evitar un GPE. 
 
+Una de las grandes ventajas de estar trabajando con direcciones virtuales es que no tenemos que saber la direccion fisica exacta de cada tarea para inicializarlas. 
+Sabemos que todas las tareas comparten ciertas direcciones virtuales, asi que implemente seteamos el directorio de pagina (CR3) correspondiente a esa tarea y podemos usar direcciones identicas para todas las tareas.
+Como mencionamos antes, las banderas recibiran datos parecidos, con excepcion de las pilas que estaran corridas. (El eip que reciban sera indiferente por lo que explicamos mas abajo)
+La pila de nivel 0 seria un caso especial, pero como se acordan de la seccion de paginacion, la mapeamos en la direccion virtual 0x4000 3000 con el fin de evitar tener que buscarla ahora.
 
-Las TSS se actualizan solas con cada JUMP Far, permiti\'endonos as\'i volver m\'as tarde a esa tarea y no perder la informaci\'on de la misma. Las TSS de las flags son un caso particular, ya que nosotros queremos que siempre que llamo a la funci\'on flag se empiece por la misma posici\'on apuntada por la estructura. Es decir, no queremos que vuelva a la ultima posici\'on que estuvo.\\
-
-Para esto, tenemos la funci\'on fetch\_eip, que se encarga de averiguar d\'onde est\'a el puntero al comienzo de la funci\'on en el mapa (recordar que las funciones se mueven y en teor\'ia podrian mutar), y la funci\'on reset\_eip, que escribe este dato dentro de la TSS del flag antes de saltar a ella.\\
-
-Vale la pena aclarar que el eip de las banderas no es un valor absoluto, sino que es particular de cada tarea y est\'a marcado al final de la misma.\\
-
-Por esto mismo,  
+Las TSS de las flags son un caso particular por dos razones. La primera es que el eip no es un valor que sepamos de antemano, sino que depende de cada tarea. Al final de cada tarea hay un offset guardado, que sumandolo a 0x4000 0000 nos da la direccion virtual 
+de la funcion flag. La segunda es que queremos que flag se comporte como una funcion tradicional, es decir, que corra siempre del principio hasta el final (o ser interrumpida). En pocas palabras, no nos interesa la posicion donde estuvo la ultima corrida, sino
+que nos intereseria volver siempre al comienzo.
+\\
+Para resolver esto generamos dos funciones que definen el eip del TSS de un flag forma dinamica, y que deben ser corridas antes de saltar a un flag. Por un lado tenemos la funci\'on fetch\_eip, que se encarga de averiguar
+el offset de la bandera buscando la tarea en la memoria (recordar que las tareas "navegan" y en teor\'ia podrian mutar), y la funci\'on reset\_eip, que escribe este dato dentro de la TSS.\\
+\\
