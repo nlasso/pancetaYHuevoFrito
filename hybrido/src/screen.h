@@ -35,7 +35,7 @@ int pos( int, int);
 
 ////Prints en pantalla
 //ESTADO
-char * nametxt = "Palito Peron Helado/Best Name Ever";
+char * nametxt = "Frambuesa a la crema/Fredo";
 char * naviotxt = "Navio ?";
 char * errortxt = "Ningun Error ";
 char * banderatxt= "Bandera";
