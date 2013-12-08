@@ -1,10 +1,11 @@
 \subsubsection{Global Descriptor Table}
 Como ya sabemos, el procesador inicia en ''modo real'', el cual direcciona a 1 MB de memoria y no posee niveles de protecci\'on ni privilegios.\\
-Por eso necesitamos que el procesador pase a ''modo protegido'', para direccionar a m\'as memoria y manejar niveles de protecci\'on. El kernel se encargar\'a de hacer esto.\\
-Antes de iniciar en modo protegido, es imprescindible tener bien configurado la Tabla de Descriptores Globales, la cual es una tabla que contiene descriptores de segmento, con la finalidad de definir caracter\'isticas de varias \'areas de la memoria.\\
-En el enunciado se piden 4 segmentos que deben direccionar a 1.75 GB: 2 para c\'odigo de nivel 0 y 3 respectivamente, y 2 para datos, de nivel 0 y 3 tambi\'en.\\
-La estructura de un descriptor de segmento es la siguiente:\\
+Por eso necesitamos que el procesador pase a ''modo protegido'', para direccionar a m\'as memoria y poder manejar distintos niveles de protecci\'on. Nuestro kernel se encargar\'a de hacer esto.\\
+\\
+Antes de iniciar en modo protegido, es imprescindible tener bien configurado la Tabla de Descriptores Globales, la cual contiene a los descriptores de segmento, con el fin de definir caracter\'isticas de varias \'areas de la memoria.\\
+En el enunciado se piden una segmentacion flat, con 4 segmentos que deben direccionar a 1.75 GB: 2 para c\'odigo de nivel 0 y 3 respectivamente, y 2 para datos, de nivel 0 y 3 tambi\'en.\\
 
+La estructura de un descriptor de segmento es la siguiente:\\
 \begin{itemize}
   \item L — 64-bit code segment (IA-32e mode only)
   \item AVL — Available for use by system software
@@ -38,18 +39,28 @@ que es ''Execute only''. para el segmento de c\'odigo de nivel 3 se usa 0x0A, \e
 ponemos el valor de 0x02, indicando que son de Read/Write.
 \end{itemize}
 
-
 Tambi\'en se define un segmento que reservado para el \'area de la pantalla en la memoria. Sabemos que empieza en la direcci\'on base
 0x000B8000, con un tamaño de 0x0F9F. Dado que se utilizar\'a como un segmemto de datos, su tipo es de Lectura/ Escritura.\\\\
+\\
+Tambi\'en necesitamos entradas para cada una de las tareas y sus banderas. Es decir, selectores de 
+TSS. Estos ser\'an definidos de forma din\'amica y no hardcodeados, bas\'andose en la posici\'on de su respectivo TSS. B\'asicamente cada
+una de estas entradas de la GDT para las TSS fue inicada de la siguiente manera:
+\begin{itemize}
+ \item 
+\end{itemize}
+
+
 
 \subsubsection{Pasaje a modo protegido}
 
-En funci\'on de pasar a ejecutar en modo protegido el manual de \emph{Intel} explicita una serie de pasos que se deben seguir para complir
-con esto.\footnote{Ver Intel 64 and IA-32 Architectures Software Developer's Manual, Volume 3 System Programming Guide}
-
-Una vez que tenemos configurada la gdt, guardamos su ubicacion en una variable gdt\_desc. Para que luego la instrucci\'on lgdt pueda 
-cargar la gdt.\\
-Ya podemos pasar a modo protegido, poniendo en 1 el bit menos significativo del registro CR0, que indica ''Protected Envirnoment''.
- 
-
- 
+En funci\'on de pasar a ejecutar en modo protegido el manual de \emph{Intel}\footnote{Ver Intel 64 and IA-32 Architectures Software 
+Developer's Manual, Volume 3 System Programming Guide} explicita una serie de pasos que se deben seguir para complir con esto.\\
+\begin{itemize}
+ \item Habilitar A20. al realizar esto habilitamos el acceso a direcciones superiores a 1 Mb de memoria.
+ \item Una vez que tenemos configurada la gdt, guardamos su ubicacion en una variable gdt\_desc. Para que luego la instrucci\'on lgdt 
+pueda cargar la direccion de comienzo de la GDT.
+ \item Seteamos el flag PE del registro CR0, que indica ''Protected Envirnoment''.
+ \item Por \'ultimo para pasar a modo protegido hacemos un jmp al comienzo del segmento de c\'odigo de nivel 0.
+ \item Una vez ah\'i acomodamos todos los segmentos apuntando a datos de nivel 0 y seteamos la pila del Kernel en 0x27000 seg\'un lo
+indicado por el enunciado.
+\end{itemize}

@@ -42,7 +42,20 @@ ponemos el valor de 0x02, indicando que son de Read/Write.
 Tambi\'en se define un segmento que reservado para el \'area de la pantalla en la memoria. Sabemos que empieza en la direcci\'on base
 0x000B8000, con un tamaño de 0x0F9F. Dado que se utilizar\'a como un segmemto de datos, su tipo es de Lectura/ Escritura.\\\\
 \\
-Como se explicar\'a m\'as adelante, tambi\'en necesitamos entradas para cada una de las tareas y sus banderas. Es decir, selectores de TSS. Estos ser\'an definidos de forma din\'amica y no hardcodeados, bas\'andose en la posici\'on de su respectivo TSS.
+Tambi\'en necesitamos entradas para cada una de las tareas y sus banderas. Es decir, selectores de 
+TSS. Estos ser\'an definidos de forma din\'amica y no hardcodeados, bas\'andose en la posici\'on de su respectivo TSS. B\'asicamente cada
+una de estas entradas de la GDT para las TSS fue inicada de la siguiente manera:
+\begin{itemize}
+ \item BASE: Direcci\'on donde fue definido el comienzo de la TSS para cada respectiva tarea.
+ \item P: Present. Este flag debe ir seteado para todas las TSS.
+ \item DPL: las tareas corren en nivel 3, por lo tanto, el DPL = 3 salvo para las tareas INICIAL e IDLE que deben correr en nivel 0.
+ \item limit: Como m\'inimo las TSS tienen un tamaño de 104 bytes es decir 0x67. Esto es como m\'inimo ya que existe la posibilidad de
+extender el IO Map Base Address.
+ \item type: este es particular. dado que es un tipo de descriptor de segmento, el valor tiene que ser 0x09.
+ \item S: este flag determina si el descriptor se refiere a un segmento de c\'odigo o datos o si es de sistema. En este caso como los
+descriptores de TSS son de sistema S = 0.
+\end{itemize}
+
 
 
 \subsubsection{Pasaje a modo protegido}
