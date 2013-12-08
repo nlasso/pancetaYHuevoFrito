@@ -120,7 +120,7 @@ Modo_protegido:
 
     call screen_en_negro
     call inicializar_pantalla
-    breakpoint
+    ;breakpoint
     
 
     ;; ---------------------------------------------------------------------- ;;

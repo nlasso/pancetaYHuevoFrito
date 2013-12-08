@@ -123,7 +123,7 @@ _isr%1:
     call print_error
     pop  eax
     CALL load_pantalla;
-    breakpoint
+    ;breakpoint
     call desalojar_tarea_actual
     call saltar_idle
     sti
