@@ -1,0 +1,36 @@
+El Scheduller es la estructura mas grande y quizas mas compleja de nuestro trabajo. Su funcion es simple, coordinar en 
+que orden ocurren los eventos en nuestro OS y determinar ciertas acciones como si una bandera excedio el tiempo que le es dado.\\
+\\
+Conceptualmente nos imaginamos al Scheduler dividido en dos etapas o dos corridas: una corrida de tareas que es interrumpida por una corrida de banderas.
+Hay un timer llamado quantum que dictamina cuantos ciclos le queda a la corrida de tareas hasta que sea interrumpido por la corrida de banderas.
+La corrida de banderas se ejecuta y una vez terminada vuelve a la corrida de tareas con el quantum reiniciado.
+\\
+Corrida tarea:
+\\
+Task 1 -> Task 2 -> Task  3 ->/corrida bandera/ -> Task 4 -> ...
+\\
+Corrida bandera:
+\\
+/venir de corrida tarea/ -> Flag 1 -> Flag 2 -> Flag 3 -> Flag 4 -> Flag 5 -> Flag 6 -> Flag 7 -> Flag 8 -> /volver a corrida tarea/
+\\
+Ademas, separamos los estados del scheduler (llamado contexto en nuestro codigo) en 5 instancias distintas, EN_IDLE, EN_IDLE_TAREA, EN_IDLE_BANDERA, 
+EN_TAREA y EN_BANDERA. Para los fines del trabajo, los dos primeros estados son precindibles, (EN_IDLE solo se usa cuando empieza la maquina o nos quedamos,
+quedamos sin tareas / EN_IDLE_TAREA tiene las mismas funciones de EN_TAREA) pero decidimos agregarlos para mantener la coherencia de la estructura. De esta 
+manera, hay 3 estados cuyas propiedas nos importan resaltar.
+\\
+EN_TAREA: indica que se esta/estaba corriendo una tarea. Si vuelve al scheduler, se debera continuar con la corrida de tareas o inicializar la corrida de banderas 
+dependiendo del quantum.
+
+EN_IDLE_BANDERA: indica que se esta en un idle despues de haber hecho una bandera y usado la interrupcion 66. Al volver al scheduler esta bandera no debe borrarse,
+simplemente debe continuarse con la corrida de banderas. (o de haber terminado, volver a la corrida de tareas)
+
+EN_BANDERA: indica que se esta corriendo una bandera. Si vuelve al scheduler, quiere decir que la bandera no termino de ejecutarse (A.k.a no llamo a la int 66), por lo cual 
+debe ser desalojada y luego se debe continuar con la corrida de bandera. (o de tareas de haber terminado)
+
+\\
+La interrupcion de clock se encarga de realizar todos los saltos y cambios de tareas, exceptuando el salto a idle (que puede ser hecho en cualquier momento). El scheduller
+es la structura que le informa hacia donde ir, siguiendo . De esta forma, mantenemos el codigo facilmente segmentado.
+
+Una excepcion interesante es el caso en el que no querramos saltar a ningun lado sino seguir en la tarea actual. Por ejemplo, si me queda una sola tarea y estoy en la corrida
+de tareas aun con quantum me gustaria pertenecer en esa tarea. Para esto el scheduller devuelve el selector de segmento 0, el cual es reconocido por el clock como una
+instruccion para volver a la tarea anterior (iret) y no realizar ningun salto. (tratar de saltar a una tarea en uso daria error)

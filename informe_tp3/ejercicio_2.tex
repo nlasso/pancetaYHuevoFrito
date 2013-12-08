@@ -11,7 +11,10 @@ de alguna forma todas las interrupciones posibles. Algunas de estas son definida
  \item Interrupci\'on 0x66: Handlers de las banderas.
 \end{itemize}
 
-En isr.asm se encuentra el c\'odigo donde atendemos estas interrupciones. Por ahora de la 0 a la 19 s\'olo se imprime el c\'odigo de error en pantalla.\\
+En isr.asm se encuentra el c\'odigo donde atendemos estas interrupciones. Saliendo de las 4 interrupciones mencionadas arriba (clock, teclado, syscall, bandera),
+todas las interrupciones seran atendidas de una forma similar (para esto usamos un macro). Se realizan las escrituras pertinentes en pantalla y despues se desalojara la 
+tarea que la causo. Es importante notar que no todas las interrupciones se imprimen igual, pues algunas traen opcode, asi que en pantalla tenemos un array que nos indica
+cuales instrucciones tienen opcode y cuales no.
 
 La estructura de una entrada de la idt, definida en idt.h, es la siguiente:\\
 \begin{itemize}
@@ -41,8 +44,3 @@ Para poder activar todas estas interrupciones y sus respectivos handlers se sigu
  \item Mediante el uso de la instrucci\'on LIDT [IDT\_DESC], cargamos el principio del array donde tenemos cargados todas las interrupciones
  \item Por \'ultimo se deshabilita, se resetea y se vuelve a habilitar el pic que obtiene las interrupciones.
 \end{itemize}
-
-
-
-
-

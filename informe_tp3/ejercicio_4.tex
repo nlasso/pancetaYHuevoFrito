@@ -2,11 +2,15 @@
 
 Para la paginaci\'on de tareas se necesitaron los siguientes m\'odulos por cada tarea:
 \begin{itemize}
- \item Inicializar un directorio de p\'aginas con 3 entradas, 2 para el Kernel iguales a las descriptas en el ejercicio 3 y una para 
-direccionar a las p\'aginas de c\'odigo y pilas de cada tarea. Este Page directory est\'a definido en la direccion 0x40000000
+ \item Inicializar un directorio de p\'aginas con 3 entradas, 2 para el Kernel iguales a las descriptas en el ejercicio 3 (es decir, identity mapping) 
+ y una para direccionar a las p\'aginas de c\'odigo y pilas de cada tarea. Este Page directory est\'a definido en la direccion 0x40000000
  \item Dentro de la Page Table de las tareas se encuentran definidas las entradas de cada p\'agina de la tarea. Estas son, 2 entradas para
-el c\'odigo de la tarea, 1 para el ancla y 1 para la pila nivel 0.
+el c\'odigo de la tarea, 1 para el ancla y (cosa que no fue necesaria pero nos simplifico a la hora de codear) 1 para la pila nivel 0.
 \end{itemize}
+
+Con el fin de simplificar la cantidad de pasos, las direcciones fisicas de las paginas cada tarea estaran mapeadas en arrays externos. De esta forma no
+tendremos que buscar dentro de la GDT para buscar una direccion fisica a la hora de hacer otras operaciones, que puede ser costoso en cuestiones de tiempo
+y dejar un codigo poco claro.
 
 A diferencia del ejercicio anterior, como en este caso estamos mapeando tareas, estas se diferencian de las p\'aginas de Kernel en que
 los attributos que utilizan son diferentes, es decir, las tareas al correr en nivel 3 requieren que sus Page Directory entries y sus
