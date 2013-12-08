@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.7)  8 DEC 2013 18:18
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.7)  8 DEC 2013 18:51
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -920,30 +920,54 @@ Underfull \hbox (badness 10000) in paragraph at lines 54--57
 
  []
 
-) AED: lastpage setting LastPage [12 <./imagenes/corridaFlags.png (PNG copy)>]
-(./informe.aux) ) 
+) [12 <./imagenes/corridaFlags.png (PNG copy)>] (./screen.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 1--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--288
+
+ []
+
+[13] AED: lastpage setting LastPage (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 12108 strings out of 495061
- 220301 string characters out of 1182621
+ 12115 strings out of 495061
+ 220382 string characters out of 1182621
  268618 words of memory out of 3000000
- 14986 multiletter control sequences out of 15000+50000
+ 14990 multiletter control sequences out of 15000+50000
  10955 words of font info for 42 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 56i,12n,57p,419b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx1
-0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fo
-nts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/pu
-blic/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
-s/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb
-></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/
-texmf-texlive/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmti10.pfb>
-Output written on informe.pdf (12 pages, 1002594 bytes).
+ 56i,12n,57p,656b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
+fonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+r10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
+r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
+m/cmsl10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on informe.pdf (13 pages, 1005839 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
+ 105 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
