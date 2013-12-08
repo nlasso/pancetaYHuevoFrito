@@ -223,7 +223,7 @@ unsigned short clock(){
 	};
 	//DESACTIVAR PARA TESTEAR
 	print_banderines();
-	direccion_salto = revisar_no_GPF(direccion_salto);
+	//direccion_salto = revisar_no_GPF(direccion_salto);
 	return direccion_salto;
 }
 
@@ -231,29 +231,10 @@ void bandera(unsigned char* dir_buffer){
 	if(sched.CONTEXTO == EN_TAREA){
 		desalojar_tarea(sched.TAREA_ACTUAL);
 		//DESACTIVAR PARA TESTEAR
-		//
 		print_tablatar_error(sched.BANDERA_ACTUAL, "Int66 in task");
 		load_pantalla();
 	}else{
 		print_bandera(sched.BANDERA_ACTUAL, dir_buffer);
 	}
-	//DESACTIVAR PARA TESTEAR
-	//print_tablatar_error(sched.BANDERA_ACTUAL, "Llamo bandera");
-	//load_pantalla();
 	saltar_idle();
-}
-
-unsigned short revisar_no_GPF(unsigned short dir){
-	//if ((dir < 0x100000) || (dir > AREA_MAR_FIN)){
-		// BORRO TAREA
-		//int borrar;
-		//if(sched.CONTEXTO == EN_TAREA){ borrar = sched.TAREA_ACTUAL;}
-		//						else{ borrar = sched.BANDERA_ACTUAL;}
-		//desalojar_tarea(borrar);
-		//print_tablatar_error(sched.BANDERA_ACTUAL, "TSS corrupted");
-		// CAMBIO A IDLE
-		//dir = (GDT_TSS_IDLE << 3) + 0x00;
-		//cambiar_contexto_idle();
-	//}
-	return dir;
 }
