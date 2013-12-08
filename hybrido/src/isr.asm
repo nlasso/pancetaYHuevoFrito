@@ -221,7 +221,7 @@ screen_proximo_reloj:
     CALL clock 
     cmp eax, 0
     je .fin
-    breakpoint
+    ;breakpoint
     mov [selector], ax
     ;breakpoint
 

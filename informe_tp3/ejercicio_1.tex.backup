@@ -44,21 +44,12 @@ Tambi\'en se define un segmento que reservado para el \'area de la pantalla en l
 
 \subsubsection{Pasaje a modo protegido}
 
-En funci\'on de pasar a ejecutar en modo protegido el manual de \emph{Intel}\footnote{Ver Intel 64 and IA-32 Architectures Software 
-Developer's Manual, Volume 3 System Programming Guide} explicita una serie de pasos que se deben seguir para complir con esto.\\
-\begin{itemize}
- \item Habilitar A20. al realizar esto habilitamos el acceso a direcciones superiores a 1 Mb de memoria.
- \item Una vez que tenemos configurada la gdt, guardamos su ubicacion en una variable gdt\_desc. Para que luego la instrucci\'on lgdt 
-pueda cargar la direccion de comienzo de la GDT.
- \item Seteamos el flag PE del registro CR0, que indica ''Protected Envirnoment''.
- \item Por \'ultimo para pasar a modo protegido hacemos un jmp al comienzo del segmento de c\'odigo de nivel 0.
- \item Una vez ah\'i acomodamos todos los segmentos apuntando a datos de nivel 0 y seteamos la pila del Kernel en 0x27000 seg\'un lo
-indicado por el enunciado.
-\end{itemize}
+En funci\'on de pasar a ejecutar en modo protegido el manual de \emph{Intel} explicita una serie de pasos que se deben seguir para complir
+con esto.\footnote{Ver Intel 64 and IA-32 Architectures Software Developer's Manual, Volume 3 System Programming Guide}
 
-
-
-
+Una vez que tenemos configurada la gdt, guardamos su ubicacion en una variable gdt\_desc. Para que luego la instrucci\'on lgdt pueda 
+cargar la gdt.\\
+Ya podemos pasar a modo protegido, poniendo en 1 el bit menos significativo del registro CR0, que indica ''Protected Envirnoment''.
  
 
  

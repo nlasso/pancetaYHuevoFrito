@@ -34,15 +34,6 @@ Indice & Descripcion & P & DPL & D\\
 102 & Banderas & 1 & 3 & 1\\
 \end{tabular}
 
-\subsubsection{Proceso para activar interrupciones}
-
-Para poder activar todas estas interrupciones y sus respectivos handlers se siguen los siguientes pasos:\\
-\begin{itemize}
- \item Mediante el uso de la instrucci\'on LIDT [IDT\_DESC], cargamos el principio del array donde tenemos cargados todas las interrupciones
- \item Por \'ultimo se deshabilita, se resetea y se vuelve a habilitar el pic que obtiene las interrupciones.
-\end{itemize}
-
-
 
 
 

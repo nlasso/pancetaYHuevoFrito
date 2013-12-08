@@ -28,7 +28,6 @@ A continuaci\'on se detalla un esquema para una mejor comprensi\'on de lo explic
 
 \includegraphics[scale=0.6]{imagenes/tablasDePaginasEj3.png}
 
-\subsubsection{Activaci\'on de paginaci\'on}
 
 Luego de armar el directorio de p\'aginas podemos habilitar la paginaci\'on. Para esto seguimo los siguientes pasos:
 \begin{itemize}

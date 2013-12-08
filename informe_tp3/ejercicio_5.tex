@@ -1,0 +1,31 @@
+La siguiente secci\'on est\'a dedicada a los \emph{Handlers} o manejadores de las interrupciones. Estos son los c\'odigos que se ejecutan
+cuando alguna porci\'on del systema produce un error o llama a una interrupci\'on mejor conocida como syscall o servicios del sistema.\\
+Nuestro Kernel cuenta con 4 interrupciones que poseen handlers. Estas fueron mencionadas en el punto 3. Procederemos a explicar cada una de
+ellas:
+\begin{itemize}
+ \item Clock: El clock es una interrupci\'on que se ejecuta cada ciertos ticks de reloj. La misma se encarga de buscar el siguiente selector
+de segmento según es especificado en la secci\'on 7. y realizar el salto a dicho selector que puede corresponder a una tarea, una bandera o 
+la tarea IDLE.
+ \item Teclado: La interrupci\'on de teclado cumple la funci\'on de cambiar el estado de la pantalla entre el mapa si la ''m'' es presionada
+y el estado de las banderas y las tareas corriendo si la ''e'' es presionada.
+ \item Servicios o Syscalls: Esta interrupci\'on brinda al systema una serie de servicios o funciones a las tareas:
+  \begin{itemize}
+   \item Fondear: Se accede pasando por par\'ametro el n\'umero 0x923.Esta funci\'on permite a la tarea mover por tierra el ancla permitiendole 
+mirar de a una p\'agina por vez en tierra. Esta llama a la funci\'on implementada en C anclar() ubicada en mmu.c.
+   \item Cañonear: Se accede pasando por par\'ametro el n\'umero 0x83A, la direccion virtual donde voy a disparar y el buffer de 97 bytes
+que funciona como misil. B\'asicamente este servicio nos permite escribir en cualquier lugar del mar un buffer de 97 bytes haciendo que
+en caso de que en esa direcci\'on se encontrara una tarea enemiga, sus p\'aginas sean corrompidas. Esta llama a la funci\'on canionear()
+implementada en mmu.c
+   \item Navegar: bajo el n\'umero 0xAEF, recibe las nuevas direcciones de las primer y segunda p\'aginas de c\'odigo de la tarea. Generando
+que mi tarea se pueda mover por el mar sin ser atrapada por una tarea enemiga. Esta syscall llama a navegar() implementada en C en mmu.c.
+  \end{itemize}
+En este caso hemos añadido un handler de error extra que verifica que no sean llamadas por una bandera haciendo nuestro c\'odigo mas seguro.
+
+ \item Bandera: Esta interrupci\'on se encarga de imprimir la bandera y dar la impresi\'on de movimiento como si una bandera flameara. Cabe 
+destacar que solo puede ser llamada por una bandera. Si llega a ser llamada por una tarea la misma debe ser desalojada. Esta llama a Bandera()
+implementada en sched.c
+\end{itemize}
+
+Cabe destacar que las funciones implementadas en C para las syscalls, navegar, canionear y anclar, se encuentran allí dado que manejan p\'aginas
+de memoria haciendo que ubicarlas en mmu.c sea lo m\'as conveniente para aprovechar todas las funciones y estructuras utilizadas. En el 
+caso de Bandera() se encuentra en sched.c por un raz\'on similar.

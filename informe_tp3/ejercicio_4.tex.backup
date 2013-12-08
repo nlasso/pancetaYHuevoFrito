@@ -8,10 +8,7 @@ direccionar a las p\'aginas de c\'odigo y pilas de cada tarea. Este Page directo
 el c\'odigo de la tarea, 1 para el ancla y 1 para la pila nivel 0.
 \end{itemize}
 
-A diferencia del ejercicio anterior, como en este caso estamos mapeando tareas, estas se diferencian de las p\'aginas de Kernel en que
-los attributos que utilizan son diferentes, es decir, las tareas al correr en nivel 3 requieren que sus Page Directory entries y sus
-Page table entries posean U/S = 1. De lo contrario no puedo acceder a esas p\'aginas como nos lo demostro\'o nustra experiencia en la
-implementaci\'on.
+A diferencia del ejercicio anterior, como en este caso estamos mapean
 
 El siguiente esquema explica mas simplemente lo nombrado anteriormente. Tener en cuenta que esto debe realizarse por cada tarea y que si
 bien cada una est\'a mapeada al mismo lugar, la base del Page Directory es distinto para cada tarea, provocando que cada una tenga su
@@ -24,7 +21,7 @@ la tenemos que decodificar como
 
 Y Luego de esto el esquema de paginaci\'on nos quedar\'ia algo as\'i:
 
-\includegraphics[scale=0.6]{imagenes/paginacionTareas.png}
+\includegraphics[scale=0.6]{imagenes/paginacion_tareas.png}
 
 Cabe destacar que para poder cumplir con los ejercicios siguientes, una tarea IDLE va a tener que ser mapeada al comienzo de la paginaci\'on
 de lo contrario, no tener una tarea mapeada me imposibilita arrancar el sistema de scheduling que ser\'a introducido mas adelante.\footnote{Ver
