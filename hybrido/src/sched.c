@@ -17,6 +17,7 @@ extern void print_tablatar_error(int, char*);
 //extern void tss_fetch_eip_banderas();
 extern void tss_fetch_eip_flag(int);
 extern void tss_reset_eip_flag(int);
+extern void print_dead_bandera(int);
 
 // Indice de tareas.
 unsigned int indices_tareas[] = {GDT_TSS_TS1, GDT_TSS_TS2, GDT_TSS_TS3, GDT_TSS_TS4, GDT_TSS_TS5, GDT_TSS_TS6, GDT_TSS_TS7, 
@@ -52,7 +53,7 @@ void sched_inicializar() {
 	//sched.IDLE_ON = 1;
 	//DESACTIVAR PARA TESTEAR
 	//tss_reset_flags();
-}
+  }
 
 void desalojar_tarea_actual(){
 	int actual;
@@ -63,14 +64,20 @@ void desalojar_tarea_actual(){
 
 void desalojar_tarea(int tarea){
 	sched.tareas[tarea].estado = 0;
+	print_dead_bandera(tarea-1);
+	load_pantalla();
 	sched.TASKS_UP--;
 }
 
 void saltar_idle(){
+	int a = 0;
 	cambiar_contexto_idle();	
+	a = 27;
 	print_banderines();
-	//DESACTIVAR PARA TESTEAR
+	a = 28;
 	jump_idle();
+	a = 29;
+	a = a;
 }
 
 unsigned int sched_proxima_tarea(){
@@ -146,9 +153,7 @@ unsigned short continuo_corrida_flags(){
 	unsigned int NEXT_INDEX = sched_proxima_bandera();
 	sched.BANDERA_ACTUAL = NEXT_INDEX;
 	if(NEXT_INDEX == 0){
-		// Si no quedan banderas, salto a una tarea 
-		//tss_fetch_eip_bandera();
-		//tss_reset_flags();//DESACTIVAR PARA TESTEAR
+		// Si no quedan banderas, salto a una tarea ;
 		sched.QUANTUM_RESTANTE = 3;
 		respuesta = continuo_corrida_tareas();
 	}else{
@@ -231,10 +236,24 @@ void bandera(unsigned char* dir_buffer){
 	if(sched.CONTEXTO == EN_TAREA){
 		desalojar_tarea(sched.TAREA_ACTUAL);
 		//DESACTIVAR PARA TESTEAR
-		print_tablatar_error(sched.BANDERA_ACTUAL, "Int66 in task");
+		print_tablatar_error(sched.TAREA_ACTUAL, "Int66 in task");
 		load_pantalla();
 	}else{
 		print_bandera(sched.BANDERA_ACTUAL, dir_buffer);
 	}
+	saltar_idle();
+}
+
+unsigned short esta_en_flag(){
+	unsigned short answer = 0;
+	answer = (sched.CONTEXTO == EN_FLAG);
+	return answer;
+}
+
+void servicio_en_flag(){
+	desalojar_tarea(sched.BANDERA_ACTUAL);
+	//DESACTIVAR PARA TESTEAR
+	print_tablatar_error(sched.BANDERA_ACTUAL, "Int50 in flag");
+	load_pantalla();
 	saltar_idle();
 }

@@ -47,7 +47,11 @@ void inicializar_pantalla(){
 	while(x < CANT_TAREAS ){
 		x1 = bandera_x[x]; x2 = bandera_long_x + x1 -1;
 		y1 = bandera_y[x]; y2 = bandera_long_y + y1 -1;
-		print_cuadrado(buffer, (C_FG_BLACK | C_BG_RED ), x1, y1, x2, y2);	
+		print_cuadrado(buffer, (C_FG_RED | C_BG_BLACK ), x1, y1, x2, y2);	
+
+		print_texto(buffer, banderatxt, x1+2, y1+1);
+		print_texto(buffer, tareaindtxt1, x1+2, y1+2);
+		print_texto(buffer, tareaindtxt2, x1+2, y1+3);
 
 		y1 -= 1; x1 += 3; naviotxt[6] = ASCII_first_num + x + 1;
 		print_texto(buffer, naviotxt, x1, y1);
@@ -410,13 +414,7 @@ void print_missil_cord(int cordenada){
 };
 
 void print_bandera(int tarea, unsigned char* dir_buffer){
-	//tarea = sched.TAREA_ACTUAL;
 	unsigned char * origen = dir_buffer;//(char *) (0x40001000);
-	////char:char* origen = &ejemplo_bandera2[0];
-	/*pix*/	//char* origen = (char *) &ejemplo_bandera[0];
-	//char: no iria nada
-	/*pix*///
-	//origen ++;
 	pixel pix;
 	pix.letra = *(char *)" ";
 	int y = 0; int x;
@@ -438,6 +436,18 @@ void print_bandera(int tarea, unsigned char* dir_buffer){
 		y++;
 	};
 	load_pantalla();
+}
+
+void print_dead_bandera(int tarea){
+	screen* buffer = ESTADO;
+	int x1, y1, x2; //y2;
+	x1 = bandera_x[tarea]; x2 = bandera_long_x + x1 -1;
+	y1 = bandera_y[tarea]; //y2 = bandera_long_y + y1 -1;
+	print_cuadrado(buffer, (C_FG_BLACK | C_BG_RED ), x1+1, y1+1, x2-1, y1+3);	
+
+	print_texto(buffer, tareatxt, x1+2, y1+1);
+	print_texto(buffer, tarealibtxt1, x1+2, y1+2);
+	print_texto(buffer, tarealibtxt2, x1+1, y1+3);
 }
 
 void print_banderines(){

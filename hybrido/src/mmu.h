@@ -10,6 +10,7 @@
 
 #include "defines.h"
 #include "schedule_structure.h"
+#include "i386.h"
 
 typedef struct str_pagedir_entry {
     unsigned char   present:1;
@@ -66,10 +67,11 @@ void anclar(unsigned int);
 void reubicar_pagina(unsigned int, unsigned int, unsigned int);
 void clonar_pagina(unsigned int, unsigned int);
 
-void mmu_mapear_pagina(unsigned int, unsigned int, unsigned int);
+void mmu_mapear_pagina(unsigned int, unsigned int, unsigned int, unsigned char);
 void mmu_unmapear_pagina(unsigned int, unsigned int);
 void mmu_backdoor_mapping_task(unsigned int, int);
 void mmu_backdoor_unmapping(unsigned int, int);
+void flush_tables();
 
 //NECESITO REPETIR LA ESTRUCTURA DEL SCHEDULE_T PARA QUE ME PERMITA TRAER LA VARIALBE DE OTRO LADO
 
