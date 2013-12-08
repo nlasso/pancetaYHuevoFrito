@@ -1,13 +1,17 @@
 Para que el procesador pueda despachar, ejecutar o suspender multiples tareas, es necesario salvar el estado de las mismas. La arquitectura provee mecanismos para esto. El segmento de estado (TSS, Task State Segment), es el que se encarga de almacenar la informaci\'on del estado de una tarea.\\
+
 Una tarea est\'a identificada por el selector de segmento de su TSS. Y a su vez la TSS es un segmento, por lo tanto debe estar descripto en la GDT junto con los descriptores de segmento de c\'odigo y datos.\\
+
 Tenemos 8 tareas y definimos un total de 18 TSS, uno para cada tarea, uno para cada bandera de tarea, uno para la tarea Idle, y otro lo dejamos en blanco para la tarea inicial donde se hace el primer salto.\\
 Las entradas de tss idle y la que est\'a en blanco tienen privilegio de kernel, mientras que las dem\'as est\'an configuradas con privilegios de usuario.\\
+
 La tarea y la de su flag tienen TSS muy similares, exceptuando por cosas como el eip o donde empiezan las pilas, pero en el resto son iguales ya que comparten casi todo.\\
 
-Las TSS se actualizan solas con cada JUMP Far, permitiendonos asi volver mas tarde a esa tarea y no perder la informacion de la misma. Las TSS de las flags son 
-un caso particular, ya que nosotros queremos que siempre que llamo a la funcion flag se empieze por la misma posicion apuntada por la estructura, es decir no queremos 
-que vuelva a la ultima posicion que estuvo. Para esto tenemos la funcion fetch\_eip, que se gasta en averiguar donde esta el puntero al comienzo de la funcion en el mapa 
-(recordar que las funciones se mueven y en teoria podrian mutar), y la funcion reset\_eip, que escribe este dato dentro de la TSS del flag antes de saltar a ella.
 
-Vale la pena aclarar que el eip de las banderas no es un valor absoluto, sino que es particular de cada tarea y esta marcado al final de la misma. (como un puntero)
+Las TSS se actualizan solas con cada JUMP Far, permiti\'endonos as\'i volver m\'as tarde a esa tarea y no perder la informaci\'on de la misma. Las TSS de las flags son un caso particular, ya que nosotros queremos que siempre que llamo a la funci\'on flag se empiece por la misma posici\'on apuntada por la estructura. Es decir, no queremos que vuelva a la ultima posici\'on que estuvo.\\
+
+Para esto, tenemos la funci\'on fetch\_eip, que se encarga de averiguar d\'onde est\'a el puntero al comienzo de la funci\'on en el mapa (recordar que las funciones se mueven y en teor\'ia podrian mutar), y la funci\'on reset\_eip, que escribe este dato dentro de la TSS del flag antes de saltar a ella.\\
+
+Vale la pena aclarar que el eip de las banderas no es un valor absoluto, sino que es particular de cada tarea y est\'a marcado al final de la misma.\\
+
 Por esto mismo,  
