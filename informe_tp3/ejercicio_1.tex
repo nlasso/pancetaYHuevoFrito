@@ -39,12 +39,10 @@ que es ''Execute only''. para el segmento de c\'odigo de nivel 3 se usa 0x0A, \e
 ponemos el valor de 0x02, indicando que son de Read/Write.
 \end{itemize}
 
-\\
 Tambi\'en se define un segmento que reservado para el \'area de la pantalla en la memoria. Sabemos que empieza en la direcci\'on base
 0x000B8000, con un tamaño de 0x0F9F. Dado que se utilizar\'a como un segmemto de datos, su tipo es de Lectura/ Escritura.\\\\
 \\
-Como se explicara mas adelante, tambien necesitamos entradas para cada una de las tareas y sus banderas .(es decir, selectores de TSS) Estos
-seran definidos de forma dinamica y no hardcodeados, basandose en la posicion de su respectivo TSS.
+Como se explicar\'a m\'as adelante, tambi\'en necesitamos entradas para cada una de las tareas y sus banderas. Es decir, selectores de TSS. Estos ser\'an definidos de forma din\'amica y no hardcodeados, bas\'andose en la posici\'on de su respectivo TSS.
 
 \subsubsection{Pasaje a modo protegido}
 
