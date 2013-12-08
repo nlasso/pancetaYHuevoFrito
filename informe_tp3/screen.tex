@@ -1,0 +1,14 @@
+La estructura screen tambi\'en es una parte integral del trabajo porque no solo se ocupa de mostrarle
+la informaci\'on al usuario, en ella tambi\'en se guardan ciertos datos y se interpreta cierta informaci\'on.
+Por esto mismo nos pareci\'o importante agregarle una secci\'on.\\
+\\
+Como dice el enunciado, nosotros creamos dos buffers, uno para el screen de mapa y otro para el screen 
+de estado. Adem\'as agregamos un tercer buffer que indica que banderas hay en una misma posici\'on del mapa. De esta forma, si antes hab\'ia muchas p\'aginas en una misma posici\'on, cuando cambio de posici\'on se vallan todas menos uno sabremos qu\'e bandera qued\'o y nos ahorraremos tiempo de proceso.\\
+\\
+Nuestra pantalla de estado est\'a separada en 4 gr\'aficos distintos, la bandera, la tabla de errores (que se encuentra a la derecha), la tabla de p\'aginas de tareas (que se encuentra en la parte inferior) y los banderines (columna inferior con numeros). Todas tienen su propias funciones, y la ventaja que tienen es que solo se imprimen mientras una tarea este ocurriendo o cuando hay un error. De esta forma, sabemos que si una impresi\'on est\'a corriendo es por que esa tarea todavia no fue despejada, por lo que no nos hace falta revisarlo todo el tiempo.\\
+\\
+Tabla errores es una estructura que imprime el estado de una tarea al momento de romperse, es decir los registros. Esto excluye a las instancias en donde una tarea es despejada pero no cay\'o en una interrupci\'on de intel, es decir "cuando pasa malos par\'ametros a la interrupci\'on de servicios", "cuando llama a int 50 desde una bandera", "cuando llama a int 66 desde una tarea" y "cuando una bandera no llama a la int 66". Es importante resaltar que a pesar que seguimos las instrucci\'on de la catedra y usamos el manual de Intel, eflags parec\'ia estar imprimiendo informaci\'on erronea o "sucia".\\
+\\
+Tabla de paginas de tareas nos muestra la direcci\'on f\'sica de las 3 p\'aginas principales de cada tarea (P\'agina de c\'odigo 1, P\'agina de c\'odigo 2, y a donde esta anclada). Tambi\'en acumular\'a los errores de cada tarea, sirvi\'endonos como gu\'ia para saber por qu\'e fue liberada cada estructura.\\
+\\
+Los banderines son una lista de numeros en el fondo que nos indica la tarea actual si estamos en una corrida de tareas, y la bandera actual si estamos en una corrida de banderas. Si una tarea ya fue despejada, esta aparecer\'a como una letra color gris para representar que no esta disponible.
